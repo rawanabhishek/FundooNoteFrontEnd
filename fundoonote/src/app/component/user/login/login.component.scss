@@ -1,0 +1,57 @@
+
+
+
+
+#backgroundImage{
+    background-image: url("/home/admin1/Desktop/rickmorty.jpg");
+}
+
+#info3{
+    font-size:15px;
+	font-family: 'Open Sans', sans-serif;
+	color:#498af2;
+    font-weight:bold;
+}
+
+#div1{
+    border-style: outset;
+    border-color: black;
+    display: flexbox;
+    justify-content: center;
+    max-width: px;
+    padding-right: 35%;
+    padding-left: 35%;
+    margin: 5rem auto;
+   
+}
+#headers{
+    display: flex;
+    justify-content: center;
+
+}
+
+mat-form-feild{
+    display: flex;
+    flex-direction: column;
+  }
+
+
+
+#div2{
+    
+  
+        display: flexbox;
+        justify-content: center;
+        max-width: 300px;
+        
+        margin: 2rem auto;
+        border-style: groove;
+        border-color: rgb(161, 161, 160);
+        border-radius: 2%;
+      
+
+      
+        
+    
+}
+

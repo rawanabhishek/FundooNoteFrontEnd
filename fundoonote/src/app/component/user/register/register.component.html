@@ -1,0 +1,74 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <mat-icon> table_chart </mat-icon>
+            </div>
+            <mat-card-title>FundooNote </mat-card-title>
+        </mat-card-header>
+
+        <h4>Create your FundooNote account</h4>
+
+        <mat-card-content >
+        <mat-form-field floatLabel="auto" appearance="outline">
+            <mat-label>first name</mat-label>
+            <input matInput placeholder="first-name"   name="firstName" 
+            [formControl]="firstName">
+            <mat-error *ngIf="firstName.invalid">{{getErrorFirstName()}}</mat-error>
+            
+        </mat-form-field>
+        <mat-form-field floatLabel="auto" appearance="outline">
+            <mat-label>last name</mat-label>
+            <input matInput placeholder="last-name"  name="lastName" 
+            [formControl]="lastName">
+        <mat-error *ngIf="lastName.invalid">{{getErrorLastName()}}</mat-error>
+  
+        </mat-form-field>
+
+        <mat-form-field floatLabel="auto" appearance="outline">
+                <mat-label>email-id</mat-label>
+                <input matInput placeholder="email-id"   name="email" 
+                [formControl]="email">
+             <mat-error *ngIf="email.invalid">{{getErrorEmail()}}</mat-error>
+            
+    
+            </mat-form-field>
+
+        <mat-form-field floatLabel="auto" appearance="outline">
+            <mat-label>contact</mat-label>
+            <input matInput placeholder="contact"   name="contact" 
+            [formControl]="contact" >
+            <mat-error *ngIf="contact.invalid">{{getErrorContact()}}</mat-error>
+        </mat-form-field>
+
+
+   
+
+
+        <mat-form-field floatLabel="auto" appearance="outline">
+            <mat-label>password</mat-label>
+            <input matInput placeholder="password"  name="password" type="password" 
+            [formControl]="password">
+            <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
+
+        </mat-form-field>
+
+
+        <mat-form-field floatLabel="auto" appearance="outline">
+            <mat-label>confirm-password</mat-label>
+            <input matInput placeholder="confirm-password" name="confirmpassword"  type="password" 
+            [formControl]="confirmpassword">
+            <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
+        </mat-form-field>
+</mat-card-content>
+
+        <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="registerUser()">Register</button>
+                <button mat-raised-button  (click)="loginRedirect()">Login if already register</button>
+                 
+            </mat-card-actions>
+
+
+
+    </mat-card>
+</div>

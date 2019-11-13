@@ -1,0 +1,38 @@
+
+<mat-card  fxLayout="column " fxLayoutAlign="center center"id=div2>
+    
+        <mat-card-title>FundooNote</mat-card-title>
+        <h4 style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Login</h4>
+
+        <mat-form-field floatLabel="auto" appearance="outline"  >
+                <mat-label>email-id</mat-label> 
+                <input matInput placeholder="email-id"    
+                name="email"  type="email"  class="form-control" 
+                [formControl]="email">
+               
+                    <mat-error *ngIf="email.invalid">{{getErrorEmail()}}</mat-error>
+                
+        </mat-form-field>
+
+            <mat-form-field floatLabel="auto" appearance="outline">
+                    <mat-label>password</mat-label> 
+                   <input matInput placeholder="Password"  name="password" type="password" 
+                   [formControl]="password">
+                 
+                   <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
+                  
+               </mat-form-field>
+
+               <div fxLayout="row" fxLayoutAlign="start center" >
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary" (click)="loginUser()" fxLayoutGap="20px">Login</button>
+                        <button mat-raised-button color="primary" (click)="registerRedirect()">Register</button>
+                     </mat-card-actions>
+                </div>
+              <div >
+                <small id=info3 (click)="forgotpasswordRedirect()">Forgot Password?</small>
+              </div>
+
+
+</mat-card>
+
