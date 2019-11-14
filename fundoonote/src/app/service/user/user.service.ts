@@ -13,32 +13,36 @@ export class UserService {
   private setPasswordUrl = 'http://localhost:8080/user/setpassword';
   private verifyUrl = 'http://localhost:8080/user/verify';
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-loginUser(login): Observable < any > {
-  return this.http.put(this.loginUrl, login);
-}
+  loginUser(login): Observable<any> {
+    return this.http.put(this.loginUrl, login);
+  }
 
-registerUser(register): Observable < any> {
-  return this.http.post(this.registerUrl, register);
-}
+  registerUser(register): Observable<any> {
+    return this.http.post(this.registerUrl, register);
+  }
 
-forgotPassword(email): Observable < any> {
-  return this.http.put<any>(this.forgotPasswordUrl, null,
-    { headers: new HttpHeaders().append('email', email)});
+  forgotPassword(email): Observable<any> {
+    return this.http.put<any>(this.forgotPasswordUrl, null,
+      { headers: new HttpHeaders().append('email', email) });
 
-}
+  }
+  setPasswordNew(password, token): Observable<any> {
 
-setPasswordNew(password , token): Observable<any> {
-  return this.http.put(this.setPasswordUrl, password, {headers: new HttpHeaders().
-    append('token', token)});
-}
+    return this.http.put(this.setPasswordUrl, password, {
+      headers: new HttpHeaders().
+        append('token', token)
+    });
+  }
 
 
-verifyUser(token): Observable <any> {
-  return this.http.put(this.verifyUrl, null, {headers: new HttpHeaders().
-    append('token', token)});
-}
+  verifyUser(token): Observable<any> {
+    return this.http.put(this.verifyUrl, null, {
+      headers: new HttpHeaders().
+        append('token', token)
+    });
+  }
 
 
 }

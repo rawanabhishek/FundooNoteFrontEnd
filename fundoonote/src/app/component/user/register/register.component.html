@@ -1,15 +1,31 @@
-<div fxLayout="row" fxLayoutAlign="center center">
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar>
-                <mat-icon> table_chart </mat-icon>
-            </div>
-            <mat-card-title>FundooNote </mat-card-title>
-        </mat-card-header>
+<div class="body">
+    <mat-card class="mat-card"   fxFlex="35" fxFlex.xs="95" fxFlex.md="90" fxFlex.sm="80" >
+            <div  fxLayout="row" fxLayoutAlign="center"   >
+                    <div class="img" fxLayout="row" fxLayoutAlign="center" >
+                   <img src="/assets/img/note.svg" alt="FundooNote">
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="center">
+                   <h2 style="color: indigo;">F</h2>
+                   <h2 style="color: blue">u</h2>
+                   <h2 style="color: rgb(184, 6, 35);">n</h2>
+                   <h2 style="color: rgb(8, 85, 185);">d</h2>
+                   <h2 style="color: palevioletred;">o</h2>
+                   <h2 style="color: blueviolet;">o</h2>
+                   <h2 style="color: rgb(69, 7, 121);">N</h2>
+                   <h2 style="color: rgb(25, 202, 179);">o</h2>
+                   <h2 style="color: rgb(158, 94, 204);">t</h2>
+                   <h2 style="color: rgb(29, 27, 99);">e</h2>
+                  </div>
+                  </div>
+                  <div class="heading">
+                       <h4>Register</h4>
+                  </div>
 
-        <h4>Create your FundooNote account</h4>
+        
 
-        <mat-card-content >
+        <div  fxLayout="column" fxLayoutAlign="start start"  class="form-fields" >
+            <div fxLayout="row" fxLayout.xs="row wrap"   fxLayout.sm="column wrap"  
+            class="form-fields">
         <mat-form-field floatLabel="auto" appearance="outline">
             <mat-label>first name</mat-label>
             <input matInput placeholder="first-name"   name="firstName" 
@@ -22,8 +38,9 @@
             <input matInput placeholder="last-name"  name="lastName" 
             [formControl]="lastName">
         <mat-error *ngIf="lastName.invalid">{{getErrorLastName()}}</mat-error>
-  
+        
         </mat-form-field>
+    </div>
 
         <mat-form-field floatLabel="auto" appearance="outline">
                 <mat-label>email-id</mat-label>
@@ -43,7 +60,7 @@
 
 
    
-
+        <div  fxLayout.xs="row wrap"    class="form-fields">
 
         <mat-form-field floatLabel="auto" appearance="outline">
             <mat-label>password</mat-label>
@@ -60,15 +77,16 @@
             [formControl]="confirmpassword">
             <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
         </mat-form-field>
-</mat-card-content>
+    </div>
+</div>
 
+<div fxLayout="column" fxLayoutAlign="start stretch">
         <mat-card-actions>
                 <button mat-raised-button color="primary" (click)="registerUser()">Register</button>
-                <button mat-raised-button  (click)="loginRedirect()">Login if already register</button>
-                 
-            </mat-card-actions>
+                <button mat-raised-button color="primary" (click)="loginRedirect()">Login if already register</button>
+    </mat-card-actions>
+</div>
+</mat-card>
 
-
-
-    </mat-card>
+  
 </div>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/service/user/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-forgotpassword',
@@ -10,26 +11,42 @@ import { UserService } from 'src/app/service/user/user.service';
 })
 export class ForgotpasswordComponent implements OnInit {
 
-  form = new FormGroup({
 
-    email: new FormControl('', [Validators.required, Validators.email]),
-   });
+  email = new FormControl('', [Validators.required, Validators.email]);
 
-  email: any;
-  constructor(private routes: Router , private userService: UserService) { }
-  loginRedirect() {
-    this.routes.navigate(['/login']);
-  }
+  data: any;
+  constructor(private routes: Router, private userService: UserService, private snackBar: MatSnackBar) { }
 
 
   ngOnInit() {
   }
 
+
+  getErrorEmail() {
+    return this.email.hasError('required') ? 'email required' :
+      this.email.hasError('email') ? 'email format worng ' :
+        '';
+
+  }
+
+  loginRedirect() {
+    this.routes.navigate(['/login']);
+  }
+
   forgotPasswordUser() {
 
-    this.userService.forgotPassword(this.email).subscribe(response => {
-          console.log(response );
-    }
+
+    console.log(this.email);
+
+    this.data = this.email.value;
+
+    this.userService.forgotPassword(this.data).subscribe(response => {
+      this.snackBar.open('email send success', 'close')._dismissAfter(2000);
+
+    },
+      error => {
+        return this.snackBar.open('email send failed', 'close')._dismissAfter(2000);
+      }
     );
 
   }

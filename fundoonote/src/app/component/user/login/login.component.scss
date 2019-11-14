@@ -1,10 +1,38 @@
 
 
-
-
-#backgroundImage{
-    background-image: url("/home/admin1/Desktop/rickmorty.jpg");
+.body{
+   
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
 }
+
+
+
+
+
+
+  .img img{
+    width: 60px;
+    display: block;
+   }
+
+
+.mat-card {
+    
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border : 1px rgb(9, 1, 17) solid;
+    border-radius: 9px;
+  
+    
+}
+
+
+
 
 #info3{
     font-size:15px;
@@ -13,45 +41,52 @@
     font-weight:bold;
 }
 
-#div1{
-    border-style: outset;
-    border-color: black;
-    display: flexbox;
-    justify-content: center;
-    max-width: px;
-    padding-right: 35%;
-    padding-left: 35%;
-    margin: 5rem auto;
-   
+ .heading h4{
+    color: #3F51B5;
+    font-size: 22px;
+    text-align: left;
+    margin: 15px 0px 10px;
+    border-bottom: 1px solid;
+    padding-bottom: 3px;
+    display: inline-block;
 }
-#headers{
-    display: flex;
-    justify-content: center;
-
-}
-
-mat-form-feild{
+ .form-fields{
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+}
+
+mat-form-field{
+    width: 100%;
+   
   }
 
 
-
-#div2{
+.mat-card-actions{
+   
+   
+    padding-left: 2.5%;
+    padding-right: 2.5%;
     
-  
-        display: flexbox;
-        justify-content: center;
-        max-width: 300px;
-        
-        margin: 2rem auto;
-        border-style: groove;
-        border-color: rgb(161, 161, 160);
-        border-radius: 2%;
-      
-
-      
-        
-    
+   
 }
+
+input{
+    display: flex;
+    flex-direction: column;
+    height: 30px;
+}
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+
+
+
+
 
