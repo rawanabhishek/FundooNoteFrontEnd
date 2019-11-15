@@ -14,11 +14,13 @@ export class RegisterComponent implements OnInit {
   firstName = new FormControl('', [Validators.required]);
   lastName = new FormControl('', [Validators.required]);
   email = new FormControl('', [Validators.required, Validators.email]);
-  contact = new FormControl('', [Validators.required, Validators.pattern('^[6-9]\d{9}$')]);
+  contact = new FormControl('', [Validators.required, Validators.minLength(10)]);
   password = new FormControl('', [Validators.required]);
   confirmpassword = new FormControl('', [Validators.required]);
 
   data: any;
+  hide = true;
+  hide1 = true;
 
 
   ngOnInit() {

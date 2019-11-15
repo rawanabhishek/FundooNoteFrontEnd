@@ -1,10 +1,10 @@
-<div class="body">
-    <mat-card class="mat-card"   fxFlex="35" fxFlex.xs="95" fxFlex.md="90" fxFlex.sm="80" >
-            <div  fxLayout="row" fxLayoutAlign="center"   >
-                    <div class="img" fxLayout="row" fxLayoutAlign="center" >
-                   <img src="/assets/img/note.svg" alt="FundooNote">
+<div class="body"  >
+    <mat-card class="mat-card"   fxFlex="35" fxFlex.xs="100" fxFlex.md="90" fxFlex.sm="80" >
+            <div  fxLayout="row" fxLayoutAlign="center">
+                    <div class="img" fxLayout="row" fxLayoutAlign="center" fxHide.xs="true" >
+                   <img src="/assets/img/note.svg" alt="FundooNote" >
                     </div>
-                    <div fxLayout="row" fxLayoutAlign="center">
+                    <div fxLayout="row" fxLayoutAlign="center" >
                    <h2 style="color: indigo;">F</h2>
                    <h2 style="color: blue">u</h2>
                    <h2 style="color: rgb(184, 6, 35);">n</h2>
@@ -17,7 +17,7 @@
                    <h2 style="color: rgb(29, 27, 99);">e</h2>
                   </div>
                   </div>
-                  <div class="heading">
+                  <div class="heading" fxHide.xs="true">
                        <h4>Register</h4>
                   </div>
 
@@ -26,7 +26,7 @@
         <div  fxLayout="column" fxLayoutAlign="start start"  class="form-fields" >
             <div fxLayout="row" fxLayout.xs="row wrap"   fxLayout.sm="column wrap"  
             class="form-fields">
-        <mat-form-field floatLabel="auto" appearance="outline">
+        <mat-form-field floatLabel="auto" appearance="outline"  >
             <mat-label>first name</mat-label>
             <input matInput placeholder="first-name"   name="firstName" 
             [formControl]="firstName">
@@ -60,12 +60,16 @@
 
 
    
-        <div  fxLayout.xs="row wrap"    class="form-fields">
+        <div  fxLayout.xs="cloumn wrap"   fxLayout.lg="row wrap"  fxLayout.sm="row wrap"  
+        class="form-fields">
 
         <mat-form-field floatLabel="auto" appearance="outline">
             <mat-label>password</mat-label>
-            <input matInput placeholder="password"  name="password" type="password" 
+            <input matInput placeholder="password"  name="password" [type]="hide ? 'password':'text' " 
             [formControl]="password">
+            <button mat-icon-button matSuffix (click)="hide=!hide">
+                    <mat-icon>{{hide ? 'visibility_off':'visibility'}}</mat-icon>
+                  </button>
             <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
 
         </mat-form-field>
@@ -73,17 +77,21 @@
 
         <mat-form-field floatLabel="auto" appearance="outline">
             <mat-label>confirm-password</mat-label>
-            <input matInput placeholder="confirm-password" name="confirmpassword"  type="password" 
+            <input matInput placeholder="confirm-password" name="confirmpassword" 
+             [type]="hide1 ? 'password':'text' " 
             [formControl]="confirmpassword">
+            <button mat-icon-button matSuffix (click)="hide1=!hide1">
+                <mat-icon>{{hide1 ? 'visibility_off':'visibility'}}</mat-icon>
+                </button>
             <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
         </mat-form-field>
     </div>
 </div>
 
-<div fxLayout="column" fxLayoutAlign="start stretch">
-        <mat-card-actions>
-                <button mat-raised-button color="primary" (click)="registerUser()">Register</button>
-                <button mat-raised-button color="primary" (click)="loginRedirect()">Login if already register</button>
+<div fxLayout="column" fxLayoutAlign="start stretch" >
+        <mat-card-actions fxLayout.xs="row wrap">
+                <button mat-raised-button color="primary" (click)="registerUser()"  >Register</button>
+                <button mat-raised-button color="primary" (click)="loginRedirect()" >Login if already register</button>
     </mat-card-actions>
 </div>
 </mat-card>

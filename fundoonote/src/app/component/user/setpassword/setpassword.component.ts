@@ -17,6 +17,8 @@ export class SetpasswordComponent implements OnInit {
   confirmPassword = new FormControl('', [Validators.required, Validators.minLength(3)]);
   token: any;
   data: any;
+  hide = true;
+  hide1 = true;
 
 
 
@@ -40,7 +42,7 @@ export class SetpasswordComponent implements OnInit {
       confirmPassword: this.confirmPassword.value
     };
 
-   
+
 
     console.log(this.data, this.token);
     this.userService.setPasswordNew(this.data, this.token).subscribe(

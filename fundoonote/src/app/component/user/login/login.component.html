@@ -35,8 +35,11 @@
         
               <mat-form-field floatLabel="auto" appearance="outline"  fxLayout="column" fxLayoutAlign="start stretch" >
                       <mat-label>password</mat-label> 
-                     <input matInput   name="password" type="password" 
+                     <input matInput   name="password" [type]="hide ? 'password':'text' "
                      [formControl]="password">
+                     <button mat-icon-button matSuffix (click)="hide=!hide">
+                       <mat-icon>{{hide ? 'visibility_off':'visibility'}}</mat-icon>
+                     </button>
                    
                      <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
                     
@@ -47,6 +50,7 @@
               <mat-card-actions>
                   <button mat-raised-button color="primary" (click)="loginUser()" fxLayoutGap="20px">Login</button>
                   <button mat-raised-button color="primary" (click)="registerRedirect()">Register
+        
                   </button>
                   <small id=info3 (click)="forgotpasswordRedirect()">Forgot Password?</small>
                </mat-card-actions>
