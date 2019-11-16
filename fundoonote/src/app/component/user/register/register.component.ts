@@ -16,7 +16,7 @@ export class RegisterComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   contact = new FormControl('', [Validators.required, Validators.minLength(10)]);
   password = new FormControl('', [Validators.required]);
-  confirmpassword = new FormControl('', [Validators.required]);
+  confirmpassword = new FormControl('', [Validators.required , this.passwordMatcher.bind(this) ]);
 
   data: any;
   hide = true;
@@ -51,16 +51,33 @@ export class RegisterComponent implements OnInit {
       '';
   }
 
-  getErrorContact() {
-    return this.contact.hasError('required') ? 'contact required' :
-      this.contact.hasError('pattern') ? 'invalid contact' :
+  getErrorConfirmPassword() {
+    return this.confirmpassword.hasError('required') ? 'confrim password required' :
+      this.confirmpassword.hasError ? 'password and confirm password not match' :
         '';
   }
+
+  getErrorContact() {
+    return this.contact.hasError('required') ? 'contact required' :
+      this.contact.hasError('minlength') ? 'invalid contact' :
+        '';
+  }
+
+
 
   constructor(private routes: Router, private userService: UserService, private snackBar: MatSnackBar) { }
   loginRedirect() {
     this.routes.navigate(['/login']);
   }
+
+  private passwordMatcher(control: FormControl): { [s: string]: boolean } {
+    if (
+        (control.value !== this.password.value)
+    ) {
+        return { passwordNotMatch: true };
+    }
+    return null;
+}
 
 
   registerUser() {

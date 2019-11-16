@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   data: any;
   hide = true;
 
+
   ngOnInit() {
   }
 
@@ -33,12 +34,12 @@ export class LoginComponent implements OnInit {
         '';
   }
 
-  constructor(private routes: Router, private userService: UserService, private snackBar: MatSnackBar) { }
+  constructor(private router: Router, private userService: UserService, private snackBar: MatSnackBar) { }
   registerRedirect() {
-    this.routes.navigate(['/register']);
+    this.router.navigate(['/register']);
   }
   forgotpasswordRedirect() {
-    this.routes.navigate(['/forgot']);
+    this.router.navigate(['/forgot']);
   }
   loginUser() {
     this.data = {
@@ -47,16 +48,19 @@ export class LoginComponent implements OnInit {
     };
 
     console.log(this.data);
-
     this.userService.loginUser(this.data)
       .subscribe(
 
         response => {
           this.snackBar.open('login successful', 'close')._dismissAfter(2000);
 
+          console.log(response);
+          localStorage.setItem('token', response.data);
+          this.router.navigate(['/dashboard']);
+
         },
         error => {
-          return this.snackBar.open('login failed', 'close')._dismissAfter(2000);
+          this.snackBar.open('login failed', 'close')._dismissAfter(2000);
         }
       );
   }

@@ -32,14 +32,41 @@
 
 
 
-   .mat-sidenav{
-       height: 100%;
-       width:43.5%;
+ mat-sidenav{
+       display: flex;
+       flex-direction: column;
+       
+        width:22%;
        
 
    }
 
+mat-sidenav-container {
+    height: 100%;
+    background-color: rgba(192, 192, 235, 0);
+}
 
+
+mat-sidenav svg{
+    padding-right: 10%;
+}
+
+
+.notediv{
+    margin: 20px auto;
+    width: 800px;
+    border: 1px solid rgb(233, 226, 226);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+  
+}
+
+
+.small{
+    margin-left: 20px;
+}
 
 
    .search
@@ -57,4 +84,17 @@
         font-size: 20px;
          border: none !important;
          background-color: rgba(255, 248, 248, 0.856); 
+         
+}
+
+
+.h2{
+    color: rgb(112, 110, 110);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+}
+
+
+mat-menu{
+  padding :100px;
 }

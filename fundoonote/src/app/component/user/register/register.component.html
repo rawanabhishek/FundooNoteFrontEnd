@@ -83,7 +83,7 @@
             <button mat-icon-button matSuffix (click)="hide1=!hide1">
                 <mat-icon>{{hide1 ? 'visibility_off':'visibility'}}</mat-icon>
                 </button>
-            <mat-error *ngIf="password.invalid">{{getErrorPassword()}}</mat-error>
+            <mat-error *ngIf="password.invalid">{{getErrorConfirmPassword()}}</mat-error>
         </mat-form-field>
     </div>
 </div>
