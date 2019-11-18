@@ -17,6 +17,8 @@ import { ForgotpasswordComponent } from './component/user/forgotpassword/forgotp
 import { VerifyComponent } from './component/user/verify/verify.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './component/note/dashboard/dashboard.component';
+import { AddnoteComponent } from './component/note/addnote/addnote.component';
+import { IconComponent } from './component/note/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { DashboardComponent } from './component/note/dashboard/dashboard.compone
     SetpasswordComponent,
     ForgotpasswordComponent,
     VerifyComponent,
-    DashboardComponent
+    DashboardComponent,
+    AddnoteComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,

@@ -25,9 +25,27 @@
 
 
 .img img{
-    width: 50px;
+    width: 40px;
+    
     display: block;
    }
+
+
+.imgMenu img{
+    width: 70px;
+    
+    display: block;
+   }
+
+.icon{
+    img{
+        width: 25px;
+        height: 25px;
+        }
+  
+    
+    
+}   
 
 
 
@@ -46,8 +64,7 @@ mat-sidenav-container {
     background-color: rgba(192, 192, 235, 0);
 }
 
-
-mat-sidenav svg{
+a img{
     padding-right: 10%;
 }
 
@@ -78,12 +95,14 @@ mat-sidenav svg{
      margin-left: 45px;
     
 }
+
 .input
 {
-    width: 85%; 
-        font-size: 20px;
+         width: 85%; 
+         font-size: 20px;
          border: none !important;
          background-color: rgba(255, 248, 248, 0.856); 
+         outline: none;
          
 }
 
@@ -94,7 +113,38 @@ mat-sidenav svg{
     font-size: 20px;
 }
 
-
-mat-menu{
-  padding :100px;
+.h4{
+    color: rgb(112, 110, 110);
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 15px;
+    justify-content: center;
+    
 }
+
+
+
+
+  .mat-menu-panel.notifications-dropdown {
+    max-width:none;
+    width: 22vw; 
+    margin-left: -8px;
+    margin-top: 24px;
+    overflow: visible;
+}
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+

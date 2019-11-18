@@ -6,16 +6,18 @@ import { ForgotpasswordComponent } from './component/user/forgotpassword/forgotp
 import { SetpasswordComponent } from './component/user/setpassword/setpassword.component';
 import { VerifyComponent } from './component/user/verify/verify.component';
 import { DashboardComponent } from './component/note/dashboard/dashboard.component';
+import { AddnoteComponent } from './component/note/addnote/addnote.component';
 
 
 const routes: Routes = [
-  {path: 'login' , component: LoginComponent},
-  {path: 'register', component: RegisterComponent},
-  {path: 'forgot', component: ForgotpasswordComponent},
-  {path: 'setpassword', component: SetpasswordComponent},
-  {path: 'verify', component: VerifyComponent},
-  {path: 'dashboard' , component: DashboardComponent},
-  {path: '', redirectTo: '/login' , pathMatch: 'full'}
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'forgot', component: ForgotpasswordComponent },
+  { path: 'setpassword', component: SetpasswordComponent },
+  { path: 'verify', component: VerifyComponent },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'addnote', component: AddnoteComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 ];
 

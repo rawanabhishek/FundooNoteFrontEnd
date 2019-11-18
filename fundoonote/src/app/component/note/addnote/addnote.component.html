@@ -1,0 +1,20 @@
+<mat-sidenav-content   fxLayout="row"  fxLayoutAlign="center start" >
+<mat-card fxLayout="row"  fxLayoutAlign=" center" class="create-note"  *ngIf="showContent" >
+        <input  (click)="showHidddenContent()" placeholder="Take a note..." > 
+     </mat-card>
+
+
+     <mat-card *ngIf="!showContent" class="create-note" >
+         
+         <div><input  type="text" placeholder="Title" [formControl]="title"></div>
+         <div><input  type="text" placeholder="Take a note..." [formControl]="description"></div>
+     
+
+         <app-icon></app-icon>
+
+     
+         <div  class="create-note-close-button">
+             <span (click)="showHidddenContent()"  (click)="createNote()"><button mat-button>Close</button></span>
+         </div>
+     </mat-card>
+    </mat-sidenav-content>
