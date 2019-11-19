@@ -15,6 +15,7 @@ export class AddnoteComponent implements OnInit {
   description = new FormControl();
   emailIdToken = localStorage.getItem('token');
   data: any;
+  createNotePath = 'note';
 
 
   constructor(private snackBar: MatSnackBar, private noteService: NoteService) { }
@@ -27,13 +28,13 @@ export class AddnoteComponent implements OnInit {
   }
 
   createNote() {
-    
+
     this.data = {
       title: this.title.value,
       description: this.description.value
     };
 
-    this.noteService.createNote(this.data, this.emailIdToken)
+    this.noteService.createNote(this.createNotePath, this.data, this.emailIdToken)
       .subscribe(
         response => {
           this.snackBar.open('note created success', 'close')._dismissAfter(2000);

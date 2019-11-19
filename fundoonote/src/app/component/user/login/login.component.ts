@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
   password = new FormControl('', [Validators.required, Validators.minLength(3)]);
   data: any;
   hide = true;
+  loginPath = '/login';
 
 
   ngOnInit() {
@@ -48,7 +49,7 @@ export class LoginComponent implements OnInit {
     };
 
     console.log(this.data);
-    this.userService.loginUser(this.data)
+    this.userService.loginUser(this.loginPath, this.data)
       .subscribe(
 
         response => {

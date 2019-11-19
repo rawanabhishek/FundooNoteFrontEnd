@@ -7,38 +7,34 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  private loginUrl = 'http://localhost:8080/user/login';
-  private registerUrl = 'http://localhost:8080/user/register';
-  private forgotPasswordUrl = 'http://localhost:8080/user/forgotpassword';
-  private setPasswordUrl = 'http://localhost:8080/user/setpassword';
-  private verifyUrl = 'http://localhost:8080/user/verify';
+  private baseUrl = 'http://localhost:8080/user';
 
   constructor(private http: HttpClient) { }
 
-  loginUser(login): Observable<any> {
-    return this.http.put(this.loginUrl, login);
+  loginUser(loginPath,login): Observable<any> {
+    return this.http.put(this.baseUrl + loginPath, login);
   }
 
-  registerUser(register): Observable<any> {
-    return this.http.post(this.registerUrl, register);
+  registerUser(registerPath,register): Observable<any> {
+    return this.http.post(this.baseUrl + registerPath, register);
   }
 
-  forgotPassword(email): Observable<any> {
-    return this.http.put<any>(this.forgotPasswordUrl, null,
+  forgotPassword(forgotPasswordPath, email): Observable<any> {
+    return this.http.put<any>(this.baseUrl + forgotPasswordPath, null,
       { headers: new HttpHeaders().append('email', email) });
 
   }
-  setPasswordNew(password, token): Observable<any> {
+  setPasswordNew(setPasswordPath ,password, token): Observable<any> {
 
-    return this.http.put(this.setPasswordUrl, password, {
+    return this.http.put(this.baseUrl + setPasswordPath, password, {
       headers: new HttpHeaders().
         append('token', token)
     });
   }
 
 
-  verifyUser(token): Observable<any> {
-    return this.http.put(this.verifyUrl, null, {
+  verifyUser(verifyPath,token): Observable<any> {
+    return this.http.put(this.baseUrl + verifyPath, null, {
       headers: new HttpHeaders().
         append('token', token)
     });

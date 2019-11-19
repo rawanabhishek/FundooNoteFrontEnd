@@ -16,11 +16,12 @@ export class RegisterComponent implements OnInit {
   email = new FormControl('', [Validators.required, Validators.email]);
   contact = new FormControl('', [Validators.required, Validators.minLength(10)]);
   password = new FormControl('', [Validators.required]);
-  confirmpassword = new FormControl('', [Validators.required , this.passwordMatcher.bind(this) ]);
+  confirmpassword = new FormControl('', [Validators.required, this.passwordMatcher.bind(this)]);
 
   data: any;
   hide = true;
   hide1 = true;
+  registerPath = '/register';
 
 
   ngOnInit() {
@@ -72,12 +73,12 @@ export class RegisterComponent implements OnInit {
 
   private passwordMatcher(control: FormControl): { [s: string]: boolean } {
     if (
-        (control.value !== this.password.value)
+      (control.value !== this.password.value)
     ) {
-        return { passwordNotMatch: true };
+      return { passwordNotMatch: true };
     }
     return null;
-}
+  }
 
 
   registerUser() {
@@ -90,7 +91,7 @@ export class RegisterComponent implements OnInit {
     };
 
 
-    this.userService.registerUser(this.data)
+    this.userService.registerUser(this.registerPath, this.data)
       .subscribe(
         response => {
           this.snackBar.open('registration successful', 'close')._dismissAfter(2000);

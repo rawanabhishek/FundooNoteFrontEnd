@@ -13,6 +13,7 @@ export class ForgotpasswordComponent implements OnInit {
 
 
   email = new FormControl('', [Validators.required, Validators.email]);
+  forgotPasswordPath = '/forgotpassword';
 
   data: any;
   constructor(private routes: Router, private userService: UserService, private snackBar: MatSnackBar) { }
@@ -40,7 +41,7 @@ export class ForgotpasswordComponent implements OnInit {
 
     this.data = this.email.value;
 
-    this.userService.forgotPassword(this.data).subscribe(response => {
+    this.userService.forgotPassword(this.forgotPasswordPath, this.data).subscribe(response => {
       this.snackBar.open('email send success', 'close')._dismissAfter(2000);
 
     },

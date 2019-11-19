@@ -19,6 +19,7 @@ export class SetpasswordComponent implements OnInit {
   data: any;
   hide = true;
   hide1 = true;
+  setPasswordPath = '/setPasswordPath';
 
 
 
@@ -45,7 +46,7 @@ export class SetpasswordComponent implements OnInit {
 
 
     console.log(this.data, this.token);
-    this.userService.setPasswordNew(this.data, this.token).subscribe(
+    this.userService.setPasswordNew(this.setPasswordPath, this.data, this.token).subscribe(
       response => {
         this.snackBar.open('your password has been set successfully', 'close')._dismissAfter(2000);
 

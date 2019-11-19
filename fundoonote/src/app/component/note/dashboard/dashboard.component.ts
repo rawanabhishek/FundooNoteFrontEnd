@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   showContent = true;
   showClear = true;
   labels;
+  getLabelsPath = 'label';
 
   constructor(private router: Router, private noteService: NoteService) { }
 
@@ -25,7 +26,7 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.noteService.getLabels(this.token).subscribe(
+    this.noteService.getLabels(this.labels, this.token).subscribe(
       result => {
         this.labels = result.data;
       },

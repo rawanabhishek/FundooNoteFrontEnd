@@ -11,8 +11,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class VerifyComponent implements OnInit {
 
   token;
+  verifyPath = '/verify';
 
-  constructor(private userService: UserService , private activatedRoute: ActivatedRoute , private snackBar: MatSnackBar) { }
+  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.token = this.activatedRoute.snapshot.queryParamMap.get('token');
@@ -20,15 +21,15 @@ export class VerifyComponent implements OnInit {
   }
 
   verify() {
-    console.log( this.token);
-    this.userService.verifyUser( this.token).subscribe(   response => {
+    console.log(this.token);
+    this.userService.verifyUser(this.verifyPath, this.token).subscribe(response => {
       this.snackBar.open('your email has been verified', 'close')._dismissAfter(2000);
 
     },
-    error => {
-      return this.snackBar.open('email verification failed', 'close')._dismissAfter(2000);
-    }
-      );
-    }
+      error => {
+        return this.snackBar.open('email verification failed', 'close')._dismissAfter(2000);
+      }
+    );
+  }
 
 }
