@@ -11,11 +11,11 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  loginUser(loginPath,login): Observable<any> {
+  loginUser(loginPath, login): Observable<any> {
     return this.http.put(this.baseUrl + loginPath, login);
   }
 
-  registerUser(registerPath,register): Observable<any> {
+  registerUser(registerPath, register): Observable<any> {
     return this.http.post(this.baseUrl + registerPath, register);
   }
 
@@ -24,7 +24,7 @@ export class UserService {
       { headers: new HttpHeaders().append('email', email) });
 
   }
-  setPasswordNew(setPasswordPath ,password, token): Observable<any> {
+  setPasswordNew(setPasswordPath, password, token): Observable<any> {
 
     return this.http.put(this.baseUrl + setPasswordPath, password, {
       headers: new HttpHeaders().
@@ -33,7 +33,7 @@ export class UserService {
   }
 
 
-  verifyUser(verifyPath,token): Observable<any> {
+  verifyUser(verifyPath, token): Observable<any> {
     return this.http.put(this.baseUrl + verifyPath, null, {
       headers: new HttpHeaders().
         append('token', token)

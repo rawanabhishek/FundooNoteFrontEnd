@@ -8,11 +8,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class NoteService {
 
   private baseUrl = 'http://localhost:8081/user/';
- 
+
 
   constructor(private http: HttpClient) { }
 
-  createNote(createNotePath ,note, emailIdToken): Observable<any> {
+  createNote(createNotePath, note, emailIdToken): Observable<any> {
 
     return this.http.post(this.baseUrl + createNotePath, note, {
       headers: new HttpHeaders().
@@ -22,8 +22,14 @@ export class NoteService {
 
 
   getLabels(getLabelPath, emailIdToken): Observable<any> {
-    return this.http.get<any>(this.baseUrl + getLabelPath,  {
-      headers: new HttpHeaders().append('emailIdToken' , emailIdToken)
+    return this.http.get<any>(this.baseUrl + getLabelPath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+    });
+  }
+
+  getNotes(getNotePath, emailIdToken): Observable<any> {
+    return this.http.get<any>(this.baseUrl + getNotePath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
     });
   }
 }

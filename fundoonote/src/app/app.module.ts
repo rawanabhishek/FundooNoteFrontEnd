@@ -19,6 +19,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './component/note/dashboard/dashboard.component';
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { IconComponent } from './component/note/icon/icon.component';
+import { NotesComponent } from './component/note/notes/notes.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { IconComponent } from './component/note/icon/icon.component';
     VerifyComponent,
     DashboardComponent,
     AddnoteComponent,
-    IconComponent
+    IconComponent,
+    NotesComponent
   ],
   imports: [
     BrowserModule,

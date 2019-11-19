@@ -7,6 +7,7 @@ import { SetpasswordComponent } from './component/user/setpassword/setpassword.c
 import { VerifyComponent } from './component/user/verify/verify.component';
 import { DashboardComponent } from './component/note/dashboard/dashboard.component';
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
+import { NotesComponent } from './component/note/notes/notes.component';
 
 
 const routes: Routes = [
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'verify', component: VerifyComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'addnote', component: AddnoteComponent },
+  {path: 'notes' , component: NotesComponent},
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 ];

@@ -21,6 +21,7 @@ export class AddnoteComponent implements OnInit {
   constructor(private snackBar: MatSnackBar, private noteService: NoteService) { }
 
   ngOnInit() {
+
   }
 
   showHidddenContent() {
@@ -38,12 +39,13 @@ export class AddnoteComponent implements OnInit {
       .subscribe(
         response => {
           this.snackBar.open('note created success', 'close')._dismissAfter(2000);
-
         },
         error => {
           return this.snackBar.open('note creation failed', 'close')._dismissAfter(2000);
         }
       );
+
+
   }
 
 

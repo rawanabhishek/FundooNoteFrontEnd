@@ -1,0 +1,28 @@
+<div fxLayoutAlign="space-evenly center">
+<div class="notes-container" >
+    <mat-grid-list cols="3" rowHeight="150px" gutterSize="10px" >
+        <mat-grid-tile *ngFor="let note of notes" class="mat-grid-tile">
+            <mat-card class="single-note hoverWrapper">
+                <div style="padding-bottom: 10px;">
+                    {{note.title}}
+                </div>
+                <div style="padding-bottom: 10px;">
+                    {{note.description}}
+                </div>
+               
+
+               
+                    <app-icon id="hoverShow"></app-icon>
+                
+            
+                
+
+
+
+
+            </mat-card>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+</div>
+</div>

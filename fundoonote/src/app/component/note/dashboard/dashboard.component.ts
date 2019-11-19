@@ -26,11 +26,11 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/login']);
     }
 
-    this.noteService.getLabels(this.labels, this.token).subscribe(
+    this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
       result => {
         this.labels = result.data;
       },
-      err => { console.log('failed to load labels') }
+      err => { console.log('failed to load labels'); }
 
     );
   }
