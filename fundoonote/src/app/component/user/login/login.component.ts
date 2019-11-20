@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
 
         response => {
-          this.snackBar.open('login successful', 'close')._dismissAfter(2000);
+          this.snackBar.open('You have been logged successfully', 'close')._dismissAfter(2000);
 
           console.log(response);
           localStorage.setItem('token', response.data);
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
 
         },
         error => {
-          this.snackBar.open('login failed', 'close')._dismissAfter(2000);
+          this.snackBar.open('Wrong credentials', 'close')._dismissAfter(2000);
         }
       );
   }

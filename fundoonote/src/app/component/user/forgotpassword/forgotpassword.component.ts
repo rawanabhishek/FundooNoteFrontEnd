@@ -42,11 +42,11 @@ export class ForgotpasswordComponent implements OnInit {
     this.data = this.email.value;
 
     this.userService.forgotPassword(this.forgotPasswordPath, this.data).subscribe(response => {
-      this.snackBar.open('email send success', 'close')._dismissAfter(2000);
+      this.snackBar.open('Email send success', 'close')._dismissAfter(2000);
 
     },
       error => {
-        return this.snackBar.open('email send failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open('Email send failed', 'close')._dismissAfter(2000);
       }
     );
 

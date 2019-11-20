@@ -38,10 +38,10 @@ export class AddnoteComponent implements OnInit {
     this.noteService.createNote(this.createNotePath, this.data, this.emailIdToken)
       .subscribe(
         response => {
-          this.snackBar.open('note created success', 'close')._dismissAfter(2000);
+          this.snackBar.open('Note created successfully', 'close')._dismissAfter(2000);
         },
         error => {
-          return this.snackBar.open('note creation failed', 'close')._dismissAfter(2000);
+          return this.snackBar.open('Note creation failed', 'close')._dismissAfter(2000);
         }
       );
 

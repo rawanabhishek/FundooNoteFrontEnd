@@ -48,11 +48,11 @@ export class SetpasswordComponent implements OnInit {
     console.log(this.data, this.token);
     this.userService.setPasswordNew(this.setPasswordPath, this.data, this.token).subscribe(
       response => {
-        this.snackBar.open('your password has been set successfully', 'close')._dismissAfter(2000);
+        this.snackBar.open('Your password has been set successfully', 'close')._dismissAfter(2000);
 
       },
       error => {
-        return this.snackBar.open('setting password failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open('Setting password failed', 'close')._dismissAfter(2000);
       });
   }
 }

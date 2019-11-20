@@ -2,9 +2,10 @@
 <div class="notes-container" >
     <mat-grid-list cols="3" rowHeight="150px" gutterSize="10px" >
         <mat-grid-tile *ngFor="let note of notes" class="mat-grid-tile">
-            <mat-card class="single-note hoverWrapper">
+            <mat-card class="note hoverWrapper">
                 <div style="padding-bottom: 10px;">
-                    {{note.title}}
+
+                  {{note.title}} 
                 </div>
                 <div style="padding-bottom: 10px;">
                     {{note.description}}

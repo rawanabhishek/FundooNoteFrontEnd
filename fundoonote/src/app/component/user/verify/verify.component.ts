@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/service/user/user.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -13,7 +13,8 @@ export class VerifyComponent implements OnInit {
   token;
   verifyPath = '/verify';
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar) { }
+  constructor(private routes: Router, private userService: UserService,
+              private activatedRoute: ActivatedRoute, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.token = this.activatedRoute.snapshot.queryParamMap.get('token');
@@ -23,11 +24,11 @@ export class VerifyComponent implements OnInit {
   verify() {
     console.log(this.token);
     this.userService.verifyUser(this.verifyPath, this.token).subscribe(response => {
-      this.snackBar.open('your email has been verified', 'close')._dismissAfter(2000);
-
+      this.snackBar.open('Your email has been verified', 'close')._dismissAfter(2000);
+      this.routes.navigate(['/login']);
     },
       error => {
-        return this.snackBar.open('email verification failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open('Email verification failed', 'close')._dismissAfter(2000);
       }
     );
   }

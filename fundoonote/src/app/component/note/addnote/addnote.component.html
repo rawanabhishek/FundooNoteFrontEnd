@@ -1,14 +1,28 @@
 <div >
 <div fxLayout="column" fxLayoutAlign="start center"  >
     <mat-card fxLayout="row" fxLayoutAlign=" center" class="create-note" *ngIf="showContent">
-        <input (click)="showHidddenContent()" placeholder="Take a note...">
+        <textarea cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1" (click)="showHidddenContent()" placeholder="Take a note..."></textarea>
     </mat-card>
 
 
     <mat-card *ngIf="!showContent" class="create-note" fxLayout="column">
 
-        <div><input type="text" placeholder="Title" [formControl]="title"></div>
-        <div><input type="text" placeholder="Take a note..." [formControl]="description"></div>
+        <div fxLayout="row"><textarea  cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            placeholder="Title"  style="font-size: 18px;"[formControl]="title">
+           
+        </textarea>
+        <button mat-icon-button matTooltip="Pin note">
+            <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
+        </button>
+          
+        </div>
+        <div><textarea  cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description"></textarea></div>
 
 
         <app-icon></app-icon>

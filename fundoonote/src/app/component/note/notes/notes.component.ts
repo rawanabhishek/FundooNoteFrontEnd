@@ -22,7 +22,7 @@ export class NotesComponent implements OnInit {
       result => {
         this.notes = result.data;
       },
-      err => { console.log('failed to load notes'); }
+      err => { console.log('Failed to fetch notes'); }
 
     );
   }

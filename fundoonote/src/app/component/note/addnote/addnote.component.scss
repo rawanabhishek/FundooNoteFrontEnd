@@ -21,13 +21,14 @@
     border-radius: 10px;
     color: rgb(151, 151, 151);
     
-    input{
+    textarea{
     border: none;
     padding-top: 8px;
     margin: 5px ;
-    font-size: 18px;
+    
     font-style: normal;
     outline: none;
+    overflow: hidden;
     
     
     width: 96%; 
@@ -52,9 +53,8 @@
     }
     
 
-
-
-
-
+  
+ 
+    
 
 

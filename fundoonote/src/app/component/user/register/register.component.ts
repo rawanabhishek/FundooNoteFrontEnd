@@ -94,11 +94,11 @@ export class RegisterComponent implements OnInit {
     this.userService.registerUser(this.registerPath, this.data)
       .subscribe(
         response => {
-          this.snackBar.open('registration successful', 'close')._dismissAfter(2000);
+          this.snackBar.open('You have been register successfully', 'close')._dismissAfter(2000);
 
         },
         error => {
-          return this.snackBar.open('registration failed', 'close')._dismissAfter(2000);
+          return this.snackBar.open('Registration failed', 'close')._dismissAfter(2000);
         }
       );
   }

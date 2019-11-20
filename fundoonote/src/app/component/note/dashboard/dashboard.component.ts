@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
 
   showContent = true;
   showClear = true;
+  showView = true;
   labels;
   getLabelsPath = 'label';
 
@@ -54,6 +55,11 @@ export class DashboardComponent implements OnInit {
   clear() {
     this.showClear = this.showClear ? false : true;
 
+  }
+
+
+  view() {
+    this.showView = this.showView ? false : true;
   }
 
 }
