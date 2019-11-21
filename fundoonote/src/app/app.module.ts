@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { UserService } from './service/user/user.service';
-import {FlexLayoutModule} from '@angular/flex-layout';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoMaterialModule } from './material';
@@ -20,6 +20,7 @@ import { DashboardComponent } from './component/note/dashboard/dashboard.compone
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { IconComponent } from './component/note/icon/icon.component';
 import { NotesComponent } from './component/note/notes/notes.component';
+import { DialogComponent } from './component/note/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NotesComponent } from './component/note/notes/notes.component';
     DashboardComponent,
     AddnoteComponent,
     IconComponent,
-    NotesComponent
+    NotesComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,7 @@ import { NotesComponent } from './component/note/notes/notes.component';
     DemoMaterialModule,
     FlexLayoutModule
   ],
+  entryComponents: [DialogComponent],
   providers: [UserService],
   bootstrap: [AppComponent]
 })

@@ -1,21 +1,5 @@
-.body{
-   
-    display: flex;
-    height: 10vh;
-    justify-content: center;
-    
-}
 
-.dashboard-div {
-    
 
- 
-   // border-bottom : 1px rgb(9, 1, 17) solid;
-
-    width: 100%;
-  
-    
-}
 
 
 .icon{
@@ -52,7 +36,7 @@
 
  mat-sidenav{
        display: flex;
-       flex-direction: column;
+       flex-direction: row;
        
         width:22%;
        
@@ -62,6 +46,7 @@
 mat-sidenav-container {
     height: 100%;
     background-color: rgba(192, 192, 235, 0);
+    flex: 1;
 }
 
 a img{

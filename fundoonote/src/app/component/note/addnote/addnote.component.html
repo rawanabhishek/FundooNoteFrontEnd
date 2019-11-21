@@ -7,7 +7,7 @@
     </mat-card>
 
 
-    <mat-card *ngIf="!showContent" class="create-note" fxLayout="column">
+    <mat-card *ngIf="!showContent" class="create-note" fxLayout="column" >
 
         <div fxLayout="row"><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
@@ -24,21 +24,24 @@
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description"></textarea></div>
 
+<div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
 
-        <app-icon></app-icon>
+        <div style="width: 60%;" >
+        <app-icon ></app-icon>
+        </div>
 
 
-
-        <div class="create-note-close-button">
+        <div class="create-note-close-button"  >
             <span (click)="showHidddenContent()" (click)="createNote()"><button mat-button>Close</button></span>
         </div>
+    </div>
     </mat-card>
 </div>
 
 
         <app-notes></app-notes>
 
-    </div>
+</div>
 
 
 

@@ -1,19 +1,21 @@
-<div fxLayoutAlign="space-evenly center">
-<div class="notes-container" >
+<div fxLayoutAlign="space-evenly center" >
+<div class="notes-container"   >
     <mat-grid-list cols="3" rowHeight="150px" gutterSize="10px" >
         <mat-grid-tile *ngFor="let note of notes" class="mat-grid-tile">
             <mat-card class="note hoverWrapper">
-                <div style="padding-bottom: 10px;">
+                <div style="padding-bottom: 10px;" (click)="openDialog(note)">
 
                   {{note.title}} 
                 </div>
-                <div style="padding-bottom: 10px;">
+                <div style="padding-bottom: 10px;"  (click)="openDialog(note)" >
                     {{note.description}}
                 </div>
                
 
-               
-                    <app-icon id="hoverShow"></app-icon>
+               <div id="hoverShow">
+                <app-icon  ></app-icon>
+               </div>
+                    
                 
             
                 
@@ -27,3 +29,5 @@
 
 </div>
 </div>
+
+

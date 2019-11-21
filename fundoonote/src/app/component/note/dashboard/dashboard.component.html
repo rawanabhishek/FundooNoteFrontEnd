@@ -1,90 +1,90 @@
-<div class="body" >
-  <div class class="dashboard-div" fxLayout="row" fxLayoutAlign="start center">
+<mat-toolbar>
 
 
+ 
 
 
-    <div style="padding: 15px; " fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-      <button mat-icon-button matTooltip="Main menu">
-        <mat-icon class="icon" (click)="sidenav.toggle()" style="color: rgb(75, 72, 72);">menu</mat-icon>
-      </button>
-      <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <div class="img" fxLayout="row" fxLayoutAlign="center" fxHide.xs="true">
-          <img src="/assets/img/keepnote.svg" alt="FundooNote">
-        </div>
-        <div fxLayout="row" fxLayoutAlign="center">
-          <h2 class="h2">Fundoo</h2>
-        </div>
+  <div  fxLayout="row"   fxFlex.xs="30">
+    <button mat-icon-button matTooltip="Main menu">
+      <mat-icon class="icon" (click)="sidenav.toggle()" style="color: rgb(75, 72, 72);">menu</mat-icon>
+    </button>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
+      <div class="img" fxLayout="row" fxLayoutAlign="center" fxHide.xs="true">
+        <img src="/assets/img/keepnote.svg" alt="FundooNote">
+      </div>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <h2 class="h2">Fundoo</h2>
       </div>
     </div>
+  </div>
 
 
 
-    <div fxLayout="row" fxLayoutAlign="center center" fxFlex.xs="40" fxFlex="60" class="search">
+  <div fxLayout="row" fxFlex.xs="20" fxFlex="70" class="search">
 
-      <button mat-icon-button matTooltip="Search" fxHide.xs="true">
-        <mat-icon>search</mat-icon>
-      </button>
-      <input matTooltip="Search bar" class="input" placeholder="Search" name="search" (click)="clear()">
-      <button mat-icon-button *ngIf="!showClear" matTooltip="Clear search" fxHide.xs="true">
-        <mat-icon>clear</mat-icon>
-      </button>
+    <button mat-icon-button matTooltip="Search" >
+      <mat-icon>search</mat-icon>
+    </button>
+    <input matTooltip="Search bar" class="input" placeholder="Search" name="search" fxHide.xs="true" (click)="clear()">
+    <button mat-icon-button *ngIf="!showClear" matTooltip="Clear search" fxHide.xs="true">
+      <mat-icon>clear</mat-icon>
+    </button>
 
-
-    </div>
-
-
-    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="8px" style="padding: 15px;  ">
-      <div fxHide.xs="true">
-        <button mat-icon-button matTooltip="Refresh">
-          <mat-icon>refresh</mat-icon>
-        </button>
-      </div>
-      <div class="icon" *ngIf="showView">
-        <button mat-icon-button matTooltip="Grid view" (click)="view()">
-          <img src="/assets/img/listview.svg" alt="List view">
-        </button>
-      </div>
-
-      <div class="icon" *ngIf="!showView">
-        <button mat-icon-button matTooltip="List view" (click)="view()">
-          <img src="/assets/img/gridview.svg" alt="Grid view">
-        </button>
-      </div>
-
-
-
-      <div class="icon">
-        <button mat-icon-button matTooltip="Settings">
-          <img src="/assets/img/setting.svg" alt="settings">
-        </button>
-      </div>
-    </div>
-
-
-
-    <div fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="20px" style="margin-left: 2%;">
-
-
-      <div class="img">
-        <img src="/assets/img/user.svg" alt="user" [matMenuTriggerFor]="menu" matTooltip="Profile">
-
-      </div>
-    </div>
 
   </div>
 
 
-</div>
+  <div fxLayout="row" fxFlex.xs="20" fxLayoutAlign="center" >
+    <div >
+      <button mat-icon-button matTooltip="Refresh">
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </div>
+    <div class="icon" *ngIf="showView" fxHide.xs="true">
+      <button mat-icon-button matTooltip="Grid view" (click)="view()">
+        <img src="/assets/img/listview.svg" alt="List view">
+      </button>
+    </div>
+
+    <div class="icon" *ngIf="!showView" fxHide.xs="true">
+      <button mat-icon-button matTooltip="List view" (click)="view()">
+        <img src="/assets/img/gridview.svg" alt="Grid view">
+      </button>
+    </div>
+
+
+
+    <div class="icon">
+      <button mat-icon-button matTooltip="Settings">
+        <img src="/assets/img/setting.svg" alt="settings">
+      </button>
+    </div>
+  </div>
+
+
+
+  <div fxLayout="row" fxLayoutAlign=" center"  style="margin-left: 2%;">
+
+
+    <div class="img">
+      <img src="/assets/img/user.svg" alt="user" [matMenuTriggerFor]="menu" matTooltip="Profile">
+
+    </div>
+  </div>
+
+
+
+
+</mat-toolbar>
 <mat-divider></mat-divider>
 
 
 
 <mat-sidenav-container class="mat-sidenav">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column"  >
-    <mat-nav-list >
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column">
+    <mat-nav-list>
 
-      <a mat-list-item href="/dashboard" routerLinkActive="active" >
+      <a mat-list-item href="/dashboard" routerLinkActive="active">
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</a>
       <a mat-list-item href="#" routerLinkActive="active">
@@ -123,13 +123,18 @@
   </mat-sidenav>
 
 
+  <mat-sidenav-content>
+    <app-addnote></app-addnote>
+  </mat-sidenav-content>
 
-  <app-addnote></app-addnote>
+
+
 
 
 
 
 </mat-sidenav-container>
+
 
 
 <mat-menu #menu="matMenu" class="notifications-dropdown">

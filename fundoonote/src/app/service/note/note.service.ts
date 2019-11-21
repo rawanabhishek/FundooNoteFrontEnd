@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +31,12 @@ export class NoteService {
     return this.http.get<any>(this.baseUrl + getNotePath, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
     });
+  }
+
+
+  updateNote(getNotePath, updateData , emailIdToken , noteId): Observable<any> {
+    return this.http.put<any>(this.baseUrl + getNotePath, updateData, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+      , params: new HttpParams().append('noteId' , noteId) });
   }
 }
