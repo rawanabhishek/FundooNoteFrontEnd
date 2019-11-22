@@ -7,7 +7,8 @@
 
                         <textarea cdkTextareaAutosize
                         #autosize="cdkTextareaAutosize"
-                        cdkAutosizeMinRows="1"  ([formControl])="title">{{data.title}}</textarea>
+                        cdkAutosizeMinRows="1"  [formControl]="title"  value="{{data.title}}"></textarea>
+                   
                         <button mat-icon-button matTooltip="Pin note">
                             <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
                         </button>
@@ -15,7 +16,8 @@
                     <div >
                         <textarea cdkTextareaAutosize
                         #autosize="cdkTextareaAutosize"
-                        cdkAutosizeMinRows="1"  ([formControl])="description">{{data.description}}</textarea>
+                        cdkAutosizeMinRows="1"   [formControl]="description" value="{{data.description}}">
+                        </textarea>
                     </div>
 
 

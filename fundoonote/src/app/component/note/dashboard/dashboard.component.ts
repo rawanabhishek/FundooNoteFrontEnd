@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { NoteService } from 'src/app/service/note/note.service';
+import { DataService } from 'src/app/service/data/data.service';
+import { MatDialog } from '@angular/material';
+import { LabeldialogComponent } from '../labeldialog/labeldialog.component';
 
 
 @Component({
@@ -19,14 +22,26 @@ export class DashboardComponent implements OnInit {
   showView = true;
   labels;
   getLabelsPath = 'label';
+  message: any;
 
-  constructor(private router: Router, private noteService: NoteService) { }
+  constructor(
+    private router: Router,
+    private noteService: NoteService,
+    private data: DataService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
-    if (this.token == null) {
-      this.router.navigate(['/login']);
-    }
 
+
+    this.getLabels();
+    this.data.changeLabel(this.labels);
+    this.data.currentLabel.subscribe(label => this.labels = label);
+
+
+
+  }
+
+  getLabels() {
     this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
       result => {
         this.labels = result.data;
@@ -35,8 +50,6 @@ export class DashboardComponent implements OnInit {
 
     );
   }
-
-
 
 
 
@@ -60,6 +73,15 @@ export class DashboardComponent implements OnInit {
 
   view() {
     this.showView = this.showView ? false : true;
+  }
+
+
+  openDialogLabel() {
+    this.dialog.open(LabeldialogComponent,
+      {
+        width: '300px'
+      });
+
   }
 
 }

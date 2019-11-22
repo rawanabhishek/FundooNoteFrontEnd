@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NoteService } from 'src/app/service/note/note.service';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
+import { DataService } from 'src/app/service/data/data.service';
+import { log } from 'util';
 
 @Component({
   selector: 'app-notes',
@@ -14,13 +15,20 @@ export class NotesComponent implements OnInit {
   getNotePath = 'note';
   token = localStorage.getItem('token');
   notes;
-  note;
 
-  constructor(private router: Router, private noteService: NoteService, private dialog: MatDialog) { }
+  constructor(
+    private noteService: NoteService,
+    private dialog: MatDialog,
+    private data: DataService
+  ) { }
 
   ngOnInit() {
+    this.getNotes();
+    this.data.changeNotes(this.notes);
+    this.data.currentNote.subscribe(note => this.notes = note);
+  }
 
-
+  getNotes() {
     this.noteService.getNotes(this.getNotePath, this.token).subscribe(
       result => {
         this.notes = result.data;
@@ -37,9 +45,10 @@ export class NotesComponent implements OnInit {
   // }
 
   openDialog(note) {
+    console.log(note);
     this.dialog.open(DialogComponent,
       {
-        panelClass: 'myapp-no-padding-dialog', width: '600px',
+         width: '600px',
         data: note,
       });
 

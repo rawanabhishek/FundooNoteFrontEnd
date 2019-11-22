@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { NoteService } from 'src/app/service/note/note.service';
+
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -11,11 +12,13 @@ import { FormControl } from '@angular/forms';
 export class DialogComponent implements OnInit {
 
   title = new FormControl();
+
   description = new FormControl();
   updateNotePath = 'note';
   emailIdToken = localStorage.getItem('token');
   noteId: any;
   updateData: any;
+
 
 
 
@@ -26,6 +29,7 @@ export class DialogComponent implements OnInit {
   ngOnInit() {
 
     this.noteId = this.data.noteId;
+    console.log('data->' , this.data.title);
   }
 
   onNoClick(): void {
@@ -33,14 +37,15 @@ export class DialogComponent implements OnInit {
   }
 
   updateNote() {
+    console.log('this', this.title);
+    console.log('description', this.updateData);
 
     this.updateData = {
-      title: this.data.title,
-      description: this.data.description
+      title: this.title.value,
+      description: this.description.value
     };
 
     console.log(this.updateData);
-    console.log(this.title);
 
     this.noteService.updateNote(this.updateNotePath, this.updateData, this.emailIdToken, this.noteId)
       .subscribe(

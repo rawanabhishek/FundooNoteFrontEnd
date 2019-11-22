@@ -21,6 +21,8 @@ import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { IconComponent } from './component/note/icon/icon.component';
 import { NotesComponent } from './component/note/notes/notes.component';
 import { DialogComponent } from './component/note/dialog/dialog.component';
+import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
+import { DataService } from './service/data/data.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,8 @@ import { DialogComponent } from './component/note/dialog/dialog.component';
     AddnoteComponent,
     IconComponent,
     NotesComponent,
-    DialogComponent
+    DialogComponent,
+    LabeldialogComponent
   ],
   imports: [
     BrowserModule,
@@ -46,8 +49,8 @@ import { DialogComponent } from './component/note/dialog/dialog.component';
     DemoMaterialModule,
     FlexLayoutModule
   ],
-  entryComponents: [DialogComponent],
-  providers: [UserService],
+  entryComponents: [DialogComponent, LabeldialogComponent],
+  providers: [UserService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

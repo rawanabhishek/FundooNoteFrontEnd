@@ -27,6 +27,13 @@ export class NoteService {
     });
   }
 
+
+  createLabels(getLabelPath, name, emailIdToken): Observable<any> {
+    return this.http.post<any>(this.baseUrl + getLabelPath, name, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+    });
+  }
+
   getNotes(getNotePath, emailIdToken): Observable<any> {
     return this.http.get<any>(this.baseUrl + getNotePath, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
@@ -34,9 +41,12 @@ export class NoteService {
   }
 
 
-  updateNote(getNotePath, updateData , emailIdToken , noteId): Observable<any> {
+  updateNote(getNotePath, updateData, emailIdToken, noteId): Observable<any> {
     return this.http.put<any>(this.baseUrl + getNotePath, updateData, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
-      , params: new HttpParams().append('noteId' , noteId) });
+      , params: new HttpParams().append('noteId', noteId)
+    });
   }
+
+
 }

@@ -1,0 +1,52 @@
+<div class="conatiner">
+    <div>
+        <p>Edit labels</p>
+    </div>
+
+
+    <div fxLayout="row">
+        <div>
+            <button mat-icon-button matTooltip="Cancel">
+                <mat-icon>clear</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <input [formControl]="name">
+        </div>
+        <div>
+            <button mat-icon-button matTooltip="Create label" (click)="createLabel()">
+                <mat-icon>done</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div fxLayout="row" *ngFor="let label of labels">
+        <div>
+            <button mat-icon-button >
+
+                    <img src="/assets/img/sidenav/label.svg"    
+                    onmouseover="this.src='/assets/img/sidenav/delete.svg'" 
+                    onmouseout="this.src='/assets/img/sidenav/label.svg'" alt="Delete label" >
+                   
+            </button>
+          
+
+
+        </div>
+        <div style="align-items: center;">
+            <input value="{{label.name}}">
+        </div>
+        <div>
+            <button mat-icon-button matTooltip="Rename label">
+                <mat-icon>create</mat-icon>
+            </button>
+        </div>
+
+    </div>
+
+    <hr>
+    <div>
+        <p style="float: right;">Done</p>
+    </div>
+</div>

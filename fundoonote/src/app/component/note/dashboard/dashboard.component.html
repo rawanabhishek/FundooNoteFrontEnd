@@ -96,13 +96,13 @@
       <hr>
       <small class="small">LABELS</small>
 
-      <a mat-list-item href="#" routerLinkActive="active" *ngFor="let label of labels">
+      <a mat-list-item   *ngFor="let label of labels">
         <img src="/assets/img/label.svg" alt="Label">
         {{label.name}}
       </a>
 
-      <a mat-list-item href="#" routerLinkActive="active"><img src="/assets/img/editlabels.svg" alt="Label">Edit
-        labels</a>
+      <a mat-list-item  routerLinkActive="active" (click)="openDialogLabel()"><img src="/assets/img/editlabels.svg" alt="Label">
+        Edit labels</a>
 
 
 
