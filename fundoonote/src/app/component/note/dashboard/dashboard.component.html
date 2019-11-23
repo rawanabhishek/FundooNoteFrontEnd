@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar style="position: inherit;">
 
 
  
@@ -101,8 +101,12 @@
         {{label.name}}
       </a>
 
-      <a mat-list-item  routerLinkActive="active" (click)="openDialogLabel()"><img src="/assets/img/editlabels.svg" alt="Label">
-        Edit labels</a>
+    
+
+
+    <a mat-list-item [routerLink]="" (click)="openDialogLabel()">
+    <img src="assets/img/editlabels.svg" alt="">
+    <span >Edit labels</span></a>
 
 
 

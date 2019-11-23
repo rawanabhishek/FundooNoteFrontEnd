@@ -11,6 +11,7 @@ import { NotesComponent } from './component/note/notes/notes.component';
 import { LoginComponent } from './component/user/login/login.component';
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { AuthGuard } from './auth.guard';
+import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
 
 
 const routes: Routes = [

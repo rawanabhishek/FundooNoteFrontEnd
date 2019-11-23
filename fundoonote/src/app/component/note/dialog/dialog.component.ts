@@ -11,9 +11,9 @@ import { FormControl } from '@angular/forms';
 })
 export class DialogComponent implements OnInit {
 
-  title = new FormControl();
+  title = new FormControl(this.data.title);
 
-  description = new FormControl();
+  description = new FormControl(this.data.description);
   updateNotePath = 'note';
   emailIdToken = localStorage.getItem('token');
   noteId: any;

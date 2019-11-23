@@ -24,6 +24,7 @@ import { DialogComponent } from './component/note/dialog/dialog.component';
 import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
 import { DataService } from './service/data/data.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,

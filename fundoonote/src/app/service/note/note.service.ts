@@ -49,4 +49,20 @@ export class NoteService {
   }
 
 
+  deleteLabel(getLabelPath , emailIdToken , labelId): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + getLabelPath ,  {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('labelId' , labelId)
+    } );
+  }
+
+
+  updateLabel(getLabelPath , name , labelId , emailIdToken): Observable<any> {
+    return this.http.put<any> (this.baseUrl + getLabelPath , name , {
+      headers: new HttpHeaders().append('emailIdToken' , emailIdToken),
+      params: new HttpParams().append('labelId' , labelId)
+    });
+  }
+
+
 }

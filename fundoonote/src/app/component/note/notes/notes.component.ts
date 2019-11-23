@@ -3,7 +3,7 @@ import { NoteService } from 'src/app/service/note/note.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { DataService } from 'src/app/service/data/data.service';
-import { log } from 'util';
+
 
 @Component({
   selector: 'app-notes',

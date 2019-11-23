@@ -1,34 +1,42 @@
-.notes-container{
-    width: 75%;
+.notes-container {
     margin-top: 30px;
-   
-    .mat-grid-tile{
-        .note{
-            border-top : 1px solid rgb(145, 145, 145);
-            border-left : 1px solid rgb(145, 145, 145);
-            border-right : 1px solid rgb(145, 145, 145);
-            margin: 5px;
-            word-break: break-all;
-            width: 100%;
-            box-shadow: 0px 2px 5px grey;
-            
-        }
-        .hoverWrapper #hoverShow{
-            display: none;
-            
-            
-        }
-
-        .hoverWrapper:hover #hoverShow{
-           display: block;
-           justify-content: space-around;
-
-            
-        }
-       
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-bottom: 100px;
     }
+    
+    .notes #hoverIcons{
+    display: none;
+    }
+    
+    .notes:hover #hoverIcons{
+    
+    display: block;
+    justify-content: space-around;
+    
+    }
+    
+    .notes {
+    margin: 5px;
+    }
+    
+    mat-card {
+    width: 300px;
+    border-radius: 10px;
+    border-top: 1px solid rgb(145 ,145 , 145);
+    border-left: 1px solid rgb(145 ,145 , 145);
+    border-right: 1px solid rgb(145 ,145 , 145);
 
-}
+    }
+    
+    p {
+    font-weight: 100;
+    word-break: break-all;
+    }
+    
+    #card-title {
+    padding-bottom : 10px;
+    }
 
 
 

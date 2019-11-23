@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NoteService } from 'src/app/service/note/note.service';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { DataService } from 'src/app/service/data/data.service';
 
 
@@ -17,10 +17,15 @@ export class LabeldialogComponent implements OnInit {
   data: any;
   getLabelsPath = 'label';
   showDelete = false;
-
+  labelId;
   name = new FormControl();
+  updatedName = new FormControl();
 
-  constructor(private noteService: NoteService, private snackBar: MatSnackBar , private dataService: DataService) { }
+  constructor(private noteService: NoteService,
+              private snackBar: MatSnackBar,
+              private dataService: DataService,
+              public dialogRef: MatDialogRef<LabeldialogComponent>
+  ) { }
 
   ngOnInit() {
 
@@ -64,5 +69,35 @@ export class LabeldialogComponent implements OnInit {
     );
 
 
-    }
   }
+
+
+  deleteLabel(labelId) {
+
+    this.noteService.deleteLabel(this.getLabelsPath, this.token, labelId).subscribe(
+      result => {
+        this.snackBar.open('Label deleted successfully', 'close')._dismissAfter(2000);
+      },
+      error => { this.snackBar.open('Label deletion failed', 'close')._dismissAfter(2000); }
+
+    );
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+  updateLabel(labelId) {
+    this.data = {
+      name: this.updatedName.value
+    };
+
+    this.noteService.updateLabel(this.getLabelsPath, this.data, labelId, this.token).subscribe(
+      result => {
+        this.snackBar.open('Label updated successfully', 'close')._dismissAfter(2000);
+      },
+      error => { this.snackBar.open('Label updation failed', 'close')._dismissAfter(2000); }
+    );
+  }
+}

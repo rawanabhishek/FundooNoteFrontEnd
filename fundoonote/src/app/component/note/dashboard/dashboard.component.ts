@@ -27,16 +27,13 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     private noteService: NoteService,
-    private data: DataService,
     private dialog: MatDialog) { }
 
   ngOnInit() {
 
 
-    this.getLabels();
-    this.data.changeLabel(this.labels);
-    this.data.currentLabel.subscribe(label => this.labels = label);
 
+this.getLabels();
 
 
   }
@@ -79,7 +76,7 @@ export class DashboardComponent implements OnInit {
   openDialogLabel() {
     this.dialog.open(LabeldialogComponent,
       {
-        width: '300px'
+        width: '22vw'
       });
 
   }

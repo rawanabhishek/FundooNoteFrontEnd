@@ -23,7 +23,7 @@
 
     <div fxLayout="row" *ngFor="let label of labels">
         <div>
-            <button mat-icon-button >
+            <button mat-icon-button  (click)="deleteLabel(label.labelId)">
 
                     <img src="/assets/img/sidenav/label.svg"    
                     onmouseover="this.src='/assets/img/sidenav/delete.svg'" 
@@ -35,10 +35,10 @@
 
         </div>
         <div style="align-items: center;">
-            <input value="{{label.name}}">
+            <input value="{{label.name}}" [formControl]="updatedName" name="updatedName">
         </div>
         <div>
-            <button mat-icon-button matTooltip="Rename label">
+            <button mat-icon-button matTooltip="Rename label" (click)="updateLabel(label.labelId)">
                 <mat-icon>create</mat-icon>
             </button>
         </div>
@@ -47,6 +47,6 @@
 
     <hr>
     <div>
-        <p style="float: right;">Done</p>
+        <button mat-button  style="float: right;" (click)="onNoClick()">Done</button>
     </div>
 </div>
