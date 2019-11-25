@@ -23,13 +23,16 @@ export class DialogComponent implements OnInit {
 
 
 
+
+
+
   constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any,
               private noteService: NoteService, private snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
     this.noteId = this.data.noteId;
-    console.log('data->' , this.data.title);
+    console.log('data->', this.data.title);
   }
 
   onNoClick(): void {
@@ -59,5 +62,6 @@ export class DialogComponent implements OnInit {
 
 
   }
+
 
 }

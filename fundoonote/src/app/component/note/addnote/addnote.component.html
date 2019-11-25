@@ -7,7 +7,7 @@
     </mat-card>
 
 
-    <mat-card *ngIf="!showContent" class="create-note" fxLayout="column" >
+    <mat-card *ngIf="!showContent" class="create-note" fxLayout="column"  [ngStyle]="{'background-color': noteColor}">
 
         <div fxLayout="row"><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
@@ -27,12 +27,12 @@
 <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
 
         <div style="width: 60%;" >
-        <app-icon ></app-icon>
+        <app-icon (messageEvent)="receiveColor($event)" ></app-icon>
         </div>
 
-
-        <div class="create-note-close-button"  >
-            <span (click)="showHidddenContent()" (click)="createNote()"><button mat-button>Close</button></span>
+       
+        <div class="create-note-close-button" style="margin-top: 10px;" >
+            <button mat-button (click)="showHidddenContent()" (click)="createNote()">Close</button>
         </div>
     </div>
     </mat-card>

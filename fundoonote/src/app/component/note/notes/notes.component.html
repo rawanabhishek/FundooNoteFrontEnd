@@ -1,6 +1,6 @@
 <div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center center">
     <div class="notes" *ngFor="let note of notes">
-        <mat-card>
+        <mat-card  [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">
                 <p> {{ note.title }}</p>
             </div>
@@ -8,8 +8,10 @@
                 <p> {{ note.description }}</p>
             </div>
             <div id="hoverIcons">
-                <app-icon></app-icon>
+                <app-icon  (messageEvent)="receiveColor($event,note.noteId)" ></app-icon>
             </div>
+            
         </mat-card>
+
     </div>
 </div>

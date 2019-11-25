@@ -20,6 +20,7 @@
     border: rgb(175, 175, 175) 1px solid;
     border-radius: 10px;
     color: rgb(151, 151, 151);
+    overflow: visible;
     
     textarea{
     border: none;
@@ -28,7 +29,7 @@
     
     font-style: normal;
     outline: none;
-    overflow: hidden;
+    background-color: transparent;
     
     
     width: 96%; 

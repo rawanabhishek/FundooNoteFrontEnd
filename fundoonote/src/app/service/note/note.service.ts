@@ -48,19 +48,37 @@ export class NoteService {
     });
   }
 
+  deleteNotes(getNotePath, emailIdToken, noteId): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + getNotePath,  {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+      , params: new HttpParams().append('noteId', noteId)
+    });
+  }
 
-  deleteLabel(getLabelPath , emailIdToken , labelId): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + getLabelPath ,  {
-      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
-      params: new HttpParams().append('labelId' , labelId)
-    } );
+  updateColor(getNotePath, color, emailIdToken, noteId): Observable<any> {
+    console.log(color);
+    return this.http.put<any>(this.baseUrl + getNotePath, null, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+      , params: new HttpParams().append('noteId', noteId).append('color', color)
+    });
+
   }
 
 
-  updateLabel(getLabelPath , name , labelId , emailIdToken): Observable<any> {
-    return this.http.put<any> (this.baseUrl + getLabelPath , name , {
-      headers: new HttpHeaders().append('emailIdToken' , emailIdToken),
-      params: new HttpParams().append('labelId' , labelId)
+
+
+  deleteLabel(getLabelPath, emailIdToken, labelId): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + getLabelPath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('labelId', labelId)
+    });
+  }
+
+
+  updateLabel(getLabelPath, name, labelId, emailIdToken): Observable<any> {
+    return this.http.put<any>(this.baseUrl + getLabelPath, name, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('labelId', labelId)
     });
   }
 

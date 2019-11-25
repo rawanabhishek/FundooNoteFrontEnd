@@ -19,6 +19,7 @@ export class AddnoteComponent implements OnInit {
   noteData: any;
   createNotePath = 'note';
   private notes;
+  private noteColor: string;
 
 
   constructor(
@@ -30,6 +31,10 @@ export class AddnoteComponent implements OnInit {
   ngOnInit() {
 
 
+  }
+
+  receiveColor($event) {
+    this.noteColor = $event;
   }
 
   showHidddenContent() {
