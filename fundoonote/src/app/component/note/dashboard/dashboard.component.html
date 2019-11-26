@@ -80,46 +80,46 @@
 
 
 
-<mat-sidenav-container class="mat-sidenav">
-  <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column">
-    <mat-nav-list>
+<mat-sidenav-container class="mat-sidenav ">
+  <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
+    <mat-nav-list class="button1">
 
-      <a mat-list-item href="/dashboard" routerLinkActive="active">
+      <button  mat-list-item >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
-        Notes</a>
-      <a mat-list-item href="#" routerLinkActive="active">
+        Notes</button>
+      <button mat-list-item >
         <img src="/assets/img/remindersidenav.svg" alt="Reminders">
 
-        Reminders</a>
+        Reminders</button>
 
 
       <hr>
       <small class="small">LABELS</small>
 
-      <a mat-list-item   *ngFor="let label of labels">
+      <button mat-list-item   *ngFor="let label of labels">
         <img src="/assets/img/label.svg" alt="Label">
         {{label.name}}
-      </a>
+      </button>
 
     
 
 
-    <a mat-list-item [routerLink]="" (click)="openDialogLabel()">
+    <button mat-list-item  (click)="openDialogLabel()"  >
     <img src="assets/img/editlabels.svg" alt="">
-    <span >Edit labels</span></a>
+    <span >Edit labels</span></button>
 
 
 
 
       <hr>
-      <a mat-list-item href="#" routerLinkActive="active">
+      <button mat-list-item >
         <img src="/assets/img/archivenav.svg" alt="Archive">
-        Archive</a>
+        Archive</button>
 
 
-      <a mat-list-item href="#" routerLinkActive="active" fxLayoutGap="20px">
+      <button mat-list-item  fxLayoutGap="20px">
         <img src="/assets/img/trash.svg" alt="Trash">
-        Trash</a>
+        Trash</button>
 
     </mat-nav-list>
 

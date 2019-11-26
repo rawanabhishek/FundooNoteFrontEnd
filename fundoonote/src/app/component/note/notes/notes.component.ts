@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { DataService } from 'src/app/service/data/data.service';
 import { MatSnackBar } from '@angular/material';
+import { log } from 'util';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class NotesComponent implements OnInit {
 
   getNotePathColor = 'note/updatecolor';
   private noteColor: string;
+  noteId: any;
 
 
 
@@ -34,31 +36,27 @@ export class NotesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+
     this.getNotes();
-    this.data.changeNotes(this.notes);
     this.data.currentNote.subscribe(note => this.notes = note);
   }
 
   getNotes() {
-    this.noteService.getNotes(this.getNotePath, this.token).subscribe(
+    this.noteService.getNotes().subscribe(
       result => {
         this.notes = result.data;
+        this.data.changeNotes(this.notes);
       },
-      err => { console.log('Failed to fetch notes'); }
-
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
     );
   }
-
-  // noteSelect(event) {
-  //   this.note = event;
-  //   console.log('note selected--->', event);
-
-  // }
 
 
   receiveColor($event, noteId) {
     this.noteColor = $event;
-
     console.log(this.noteColor, noteId);
     this.updateColor(this.noteColor, noteId);
   }
@@ -84,6 +82,7 @@ export class NotesComponent implements OnInit {
       .subscribe(
         response => {
           this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
+          this.getNotes();
         },
         error => {
           return this.snackBar.open('Note color updation failed', 'close')._dismissAfter(2000);

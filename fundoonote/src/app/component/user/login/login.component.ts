@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   data: any;
   hide = true;
   loginPath = '/login';
+  responseData: any;
 
 
   ngOnInit() {
@@ -53,6 +54,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
 
         response => {
+
           this.snackBar.open('You have been logged successfully', 'close')._dismissAfter(2000);
 
           console.log(response);

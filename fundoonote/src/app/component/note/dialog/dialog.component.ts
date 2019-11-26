@@ -18,6 +18,8 @@ export class DialogComponent implements OnInit {
   emailIdToken = localStorage.getItem('token');
   noteId: any;
   updateData: any;
+  private noteColor: string;
+  getNotePathColor = 'note/updatecolor';
 
 
 
@@ -26,8 +28,11 @@ export class DialogComponent implements OnInit {
 
 
 
-  constructor(public dialogRef: MatDialogRef<DialogComponent>, @Inject(MAT_DIALOG_DATA) private data: any,
-              private noteService: NoteService, private snackBar: MatSnackBar) { }
+  constructor(public dialogRef: MatDialogRef<DialogComponent>,
+              @Inject(MAT_DIALOG_DATA) private data: any,
+
+              private noteService: NoteService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
 
@@ -39,6 +44,13 @@ export class DialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  receiveColor($event, noteId) {
+    this.noteColor = $event;
+
+    console.log(this.noteColor, noteId);
+    this.updateColor(this.noteColor, noteId);
+  }
+
   updateNote() {
     console.log('this', this.title);
     console.log('description', this.updateData);
@@ -48,18 +60,26 @@ export class DialogComponent implements OnInit {
       description: this.description.value
     };
 
-    console.log(this.updateData);
+    this.noteService.updateNote(this.updateData, this.noteId);
 
-    this.noteService.updateNote(this.updateNotePath, this.updateData, this.emailIdToken, this.noteId)
+
+
+
+  }
+
+
+  updateColor(noteColor, noteId) {
+    console.log(noteId);
+
+    this.noteService.updateColor(this.getNotePathColor, noteColor, this.emailIdToken, noteId)
       .subscribe(
         response => {
-          this.snackBar.open('Note updated successfully', 'close')._dismissAfter(2000);
+          this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
         },
         error => {
-          return this.snackBar.open('Note updation failed', 'close')._dismissAfter(2000);
+          return this.snackBar.open('Note color updation failed', 'close')._dismissAfter(2000);
         }
       );
-
 
   }
 

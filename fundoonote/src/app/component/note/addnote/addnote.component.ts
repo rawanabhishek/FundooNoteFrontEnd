@@ -30,7 +30,6 @@ export class AddnoteComponent implements OnInit {
 
   ngOnInit() {
 
-
   }
 
   receiveColor($event) {
@@ -45,29 +44,33 @@ export class AddnoteComponent implements OnInit {
 
     this.noteData = {
       title: this.title.value,
-      description: this.description.value
+      description: this.description.value,
+      noteColor: this.noteColor
+
     };
 
-    this.noteService.createNote(this.createNotePath, this.noteData, this.emailIdToken)
-      .subscribe(
-        response => {
-          this.snackBar.open('Note created successfully', 'close')._dismissAfter(2000);
-          this.getNotes();
-        },
-        error => {
-          return this.snackBar.open('Note creation failed', 'close')._dismissAfter(2000);
-        }
-      );
+    this.noteService.createNote( this.noteData) .subscribe(
+      response => {
+       this.snackBar.open('Note created successfully', 'close')._dismissAfter(2000);
+       this.getNotes();
+      },
+      error => {
+        return this.snackBar.open('Note creation failed', 'close')._dismissAfter(2000);
+      }
+    );
   }
+
   getNotes() {
-    this.noteService.getNotes(this.createNotePath, this.emailIdToken).subscribe(
+    this.noteService.getNotes().subscribe(
       result => {
         this.notes = result.data;
         this.data.changeNotes(this.notes);
       },
-      err => { console.log('Failed to fetch notes'); }
-
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
     );
+
   }
 
 

@@ -21,22 +21,17 @@ export class LabeldialogComponent implements OnInit {
   name = new FormControl();
   updatedName = new FormControl();
 
-  constructor(private noteService: NoteService,
-              private snackBar: MatSnackBar,
-              private dataService: DataService,
-              public dialogRef: MatDialogRef<LabeldialogComponent>
+  constructor(
+    private noteService: NoteService,
+    private snackBar: MatSnackBar,
+    private dataService: DataService,
+    public dialogRef: MatDialogRef<LabeldialogComponent>
   ) { }
 
   ngOnInit() {
 
-    this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
-      result => {
-        this.labels = result.data;
-      },
-      err => { console.log('failed to load labels'); }
-
-    );
-
+    this.getLabels();
+    this.dataService.currentLabel.subscribe(label => this.labels = label);
   }
 
 
@@ -49,8 +44,6 @@ export class LabeldialogComponent implements OnInit {
       result => {
         this.snackBar.open('Label created successfully', 'close')._dismissAfter(2000);
         this.getLabels();
-        this.dataService.changeLabel(this.labels);
-        this.dataService.currentLabel.subscribe(label => this.labels = label);
       },
       error => { this.snackBar.open('Label creation failed', 'close')._dismissAfter(2000); }
 
@@ -63,6 +56,7 @@ export class LabeldialogComponent implements OnInit {
     this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
       result => {
         this.labels = result.data;
+        this.dataService.changeLabel(this.labels);
       },
       err => { console.log('failed to load labels'); }
 
@@ -77,6 +71,8 @@ export class LabeldialogComponent implements OnInit {
     this.noteService.deleteLabel(this.getLabelsPath, this.token, labelId).subscribe(
       result => {
         this.snackBar.open('Label deleted successfully', 'close')._dismissAfter(2000);
+        this.getLabels();
+
       },
       error => { this.snackBar.open('Label deletion failed', 'close')._dismissAfter(2000); }
 
@@ -96,6 +92,8 @@ export class LabeldialogComponent implements OnInit {
     this.noteService.updateLabel(this.getLabelsPath, this.data, labelId, this.token).subscribe(
       result => {
         this.snackBar.open('Label updated successfully', 'close')._dismissAfter(2000);
+        this.getLabels();
+
       },
       error => { this.snackBar.open('Label updation failed', 'close')._dismissAfter(2000); }
     );

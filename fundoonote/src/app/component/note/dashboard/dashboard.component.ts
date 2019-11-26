@@ -23,25 +23,27 @@ export class DashboardComponent implements OnInit {
   labels;
   getLabelsPath = 'label';
   message: any;
+  toggle = true;
+  status = 'Enable';
 
   constructor(
     private router: Router,
     private noteService: NoteService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private data: DataService) { }
 
   ngOnInit() {
+    this.data.currentLabel.subscribe(label => this.labels = label);
+    this.getLabels();
 
-
-
-this.getLabels();
-
-
+    this.data.changeLabel(this.labels);
   }
 
   getLabels() {
     this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
       result => {
         this.labels = result.data;
+
       },
       err => { console.log('failed to load labels'); }
 
@@ -80,5 +82,6 @@ this.getLabels();
       });
 
   }
+
 
 }

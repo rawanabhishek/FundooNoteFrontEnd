@@ -17,7 +17,7 @@ export class IconComponent implements OnInit {
 
   emailIdToken = localStorage.getItem('token');
 
-
+  @Input() noteId: any;
 
 
 
@@ -29,37 +29,28 @@ export class IconComponent implements OnInit {
   }
 
 
-
+  deleteNote() {
+    this.noteService.trashNote(this.noteId);
+  }
 
   changeColor(color: string): void {
     this.messageEvent.emit(color);
 
   }
-  deleteNote() {
-    this.noteService.deleteNotes(this.getNotePathTrash, this.token, 2).subscribe(
+
+
+  archiveNote() {
+    this.noteService.archiveNotes(this.getNotePathArchive, this.token, this.noteId).subscribe(
       response => {
-        this.snackBar.open('Note deleted successfully', 'close')._dismissAfter(2000);
+        this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
       },
       error => {
-        return this.snackBar.open('Note deletion failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
       }
     );
 
-   }
-
-  //  archiveNote() {
-  //   this.noteService.deleteNotes(this.getNotePathArchive, this.token, this.noteId).subscribe(
-  //     response => {
-  //       this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
-  //     },
-  //     error => {
-  //       return this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-  //     }
-  //   );
 
 
 
-
+  }
 }
-
-

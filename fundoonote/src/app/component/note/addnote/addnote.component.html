@@ -7,7 +7,7 @@
     </mat-card>
 
 
-    <mat-card *ngIf="!showContent" class="create-note" fxLayout="column"  [ngStyle]="{'background-color': noteColor}">
+    <mat-card *ngIf="!showContent" class="create-note" fxFlex.xs="30" fxLayout="column"  [ngStyle]="{'background-color': noteColor}">
 
         <div fxLayout="row"><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
@@ -22,9 +22,9 @@
         </div>
         <div><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description"></textarea></div>
+            cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description" ></textarea></div>
 
-<div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
+<div fxLayout="row" fxLayoutAlign="space-between" >
 
         <div style="width: 60%;" >
         <app-icon (messageEvent)="receiveColor($event)" ></app-icon>

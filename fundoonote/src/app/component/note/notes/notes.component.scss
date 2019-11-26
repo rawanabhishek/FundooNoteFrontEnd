@@ -1,19 +1,20 @@
+$border-color: rgb(175,175,175);
 .notes-container {
     margin-top: 30px;
-    margin-left: 30px;
-    margin-right: 30px;
+  
     margin-bottom: 100px;
    
     }
     
     .notes #hoverIcons{
     display: none;
+    position: absolute;
     }
     
     .notes:hover #hoverIcons{
-    
-    display: block;
-    justify-content: space-around;
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
     
     
     }
@@ -23,15 +24,7 @@
     
     }
     
-    mat-card {
-    width: 300px;
-    border-radius: 10px;
-    border-top: 1px solid rgb(145 ,145 , 145);
-    border-left: 1px solid rgb(145 ,145 , 145);
-    border-right: 1px solid rgb(145 ,145 , 145);
     
-
-    }
     
     p {
     font-weight: 100;
@@ -44,3 +37,25 @@
 
 
    
+.div-container{
+   
+    border-radius: 10px;
+    margin-left: 60px;
+    margin-right: 60px;
+    border-top: 1px solid #919191;
+    border-left: 1px solid #919191;
+    border-right: 1px solid #919191;
+
+    div{
+        margin:10px;
+    }
+
+   
+}
+
+.small-card{
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    margin: 5px;
+    word-break: break-all;
+}
