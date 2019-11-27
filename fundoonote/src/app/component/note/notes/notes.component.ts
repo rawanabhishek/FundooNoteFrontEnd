@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { DataService } from 'src/app/service/data/data.service';
 import { MatSnackBar } from '@angular/material';
-import { log } from 'util';
+
 
 
 @Component({
@@ -23,6 +23,10 @@ export class NotesComponent implements OnInit {
   getNotePathColor = 'note/updatecolor';
   private noteColor: string;
   noteId: any;
+  pin = false;
+  archive = false;
+  trash = false;
+
 
 
 
@@ -43,7 +47,7 @@ export class NotesComponent implements OnInit {
   }
 
   getNotes() {
-    this.noteService.getNotes().subscribe(
+    this.noteService.getNotes(this.pin , this.archive , this.trash).subscribe(
       result => {
         this.notes = result.data;
         this.data.changeNotes(this.notes);

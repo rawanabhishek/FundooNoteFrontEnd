@@ -22,7 +22,10 @@ import { IconComponent } from './component/note/icon/icon.component';
 import { NotesComponent } from './component/note/notes/notes.component';
 import { DialogComponent } from './component/note/dialog/dialog.component';
 import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
-import { DataService } from './service/data/data.service';
+
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
+
+
 
 
 @NgModule({
@@ -38,7 +41,8 @@ import { DataService } from './service/data/data.service';
     IconComponent,
     NotesComponent,
     DialogComponent,
-    LabeldialogComponent
+    LabeldialogComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -48,10 +52,12 @@ import { DataService } from './service/data/data.service';
     HttpClientModule,
     BrowserAnimationsModule,
     DemoMaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule
   ],
   entryComponents: [DialogComponent, LabeldialogComponent],
-  providers: [UserService ],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

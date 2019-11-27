@@ -1,40 +1,39 @@
-
-    <div mat-dialog-container class="notes-container" [ngStyle]="{'background-color': data.noteColor}">
+<div mat-dialog-container class="notes-container" [ngStyle]="{'background-color': data.noteColor}">
 
            
-                <div>
-                    <div fxlayout="row"  fxLayoutAlign="space-between">
+    <div>
+        <div fxlayout="row"  fxLayoutAlign="space-between">
 
-                        <textarea cdkTextareaAutosize
-                        #autosize="cdkTextareaAutosize"
-                        cdkAutosizeMinRows="1"  [formControl]="title"  value="{{data.title}}"  ></textarea>
-                   
-                        <button mat-icon-button matTooltip="Pin note">
-                            <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
-                        </button>
-                    </div>
-                    <div >
-                        <textarea cdkTextareaAutosize
-                        #autosize="cdkTextareaAutosize"
-                        cdkAutosizeMinRows="1"   [formControl]="description" value="{{data.description}}">
-                        </textarea>
-                    </div>
+            <textarea cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"  [formControl]="title"  value="{{data.title}}"  ></textarea>
+       
+            <button mat-icon-button matTooltip="Pin note">
+                <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
+            </button>
+        </div>
+        <div >
+            <textarea cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"   [formControl]="description" value="{{data.description}}">
+            </textarea>
+        </div>
 
 
-                    <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
-                        
-                        <div style="width: 60%;">
-                        <app-icon (messageEvent)="receiveColor($event,data.noteId)"  [noteId]="noteId"></app-icon>
-                    </div>
-                
-                
-                        <div class="create-note-close-button"  style="margin-top: 10px;">
-                          <button mat-button (click)="onNoClick()" (click)="updateNote()">Close</button>
-                        </div>
-                    </div>
-                   
-                </div>
-
-      
-
+        <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
+            
+            <div style="width: 60%;">
+            <app-icon (messageEvent)="receiveColor($event,data.noteId)"  [noteId]="noteId"></app-icon>
+        </div>
+    
+    
+            <div class="create-note-close-button"  style="margin-top: 10px;">
+              <button mat-button (click)="onNoClick()" (click)="updateNote()">Close</button>
+            </div>
+        </div>
+       
     </div>
+
+
+
+</div>

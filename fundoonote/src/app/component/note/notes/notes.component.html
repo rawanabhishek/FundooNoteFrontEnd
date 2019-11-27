@@ -1,4 +1,4 @@
-<div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center center" >
+<div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center start" >
     <div class="notes" *ngFor="let note of notes">
         <mat-card  [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">

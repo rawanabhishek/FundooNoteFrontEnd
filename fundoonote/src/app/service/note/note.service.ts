@@ -14,9 +14,10 @@ export class NoteService {
   emailIdToken = localStorage.getItem('token');
   notes;
 
-  constructor(private http: HttpClient,
-              private httpService: HttpService,
-              private snackBar: MatSnackBar) { }
+  constructor(
+    private http: HttpClient,
+    private httpService: HttpService,
+    private snackBar: MatSnackBar) { }
 
 
 
@@ -75,24 +76,22 @@ export class NoteService {
 
 
 
-  getNotes() {
+  getNotes(pin, archive, trash) {
 
 
-    return this.httpService.get({ path: 'note', emailIdToken: this.emailIdToken });
+    return this.httpService.get('note', this.emailIdToken, pin, archive, trash);
   }
 
 
   deleteNote(id) {
     this.httpService.delete({ path: 'note', emailIdToken: this.emailIdToken, id }).subscribe(
       response => {
-        this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
-        return this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
-
-
   }
 
 
@@ -101,21 +100,27 @@ export class NoteService {
     this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id })
       .subscribe(
         response => {
-          this.snackBar.open('Note updated successfully', 'close')._dismissAfter(2000);
+          this.snackBar.open(response.message, 'close')._dismissAfter(2000);
         },
         error => {
-          return this.snackBar.open('Note updation failed', 'close')._dismissAfter(2000);
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
         }
       );
   }
 
   createNote(data) {
-   return  this.httpService.post({ path: 'note', data, emailIdToken: this.emailIdToken });
+    return this.httpService.post({ path: 'note', data, emailIdToken: this.emailIdToken });
   }
 
   trashNote(id) {
 
-    this.httpService.put({ path: 'note/trash', data: {} , emailIdToken: this.emailIdToken, id })
+    return this.httpService.put({ path: 'note/trash', data: {}, emailIdToken: this.emailIdToken, id });
+
+  }
+
+  pinNote(id) {
+
+    this.httpService.put({ path: 'note/pin', data: {}, emailIdToken: this.emailIdToken, id })
       .subscribe(
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
@@ -124,5 +129,15 @@ export class NoteService {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
         }
       );
+  }
+
+  addReminder(reminder, id) {
+    this.httpService.updateReminder('note/addreminder', reminder, this.emailIdToken, id
+    ).subscribe(
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
+
   }
 }

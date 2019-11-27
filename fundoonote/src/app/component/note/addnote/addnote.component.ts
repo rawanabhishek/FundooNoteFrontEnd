@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
 
+
 @Component({
   selector: 'app-addnote',
   templateUrl: './addnote.component.html',
@@ -20,6 +21,9 @@ export class AddnoteComponent implements OnInit {
   createNotePath = 'note';
   private notes;
   private noteColor: string;
+  pin = false;
+  archive = false;
+  trash = false;
 
 
   constructor(
@@ -36,42 +40,64 @@ export class AddnoteComponent implements OnInit {
     this.noteColor = $event;
   }
 
+  pinNote() {
+    this.pin = this.pin ? false : true;
+  }
+
   showHidddenContent() {
     this.showContent = this.showContent ? false : true;
   }
+
 
   createNote() {
 
     this.noteData = {
       title: this.title.value,
       description: this.description.value,
-      noteColor: this.noteColor
+      noteColor: this.noteColor,
+      pin: this.pin
+
+
+
 
     };
 
-    this.noteService.createNote( this.noteData) .subscribe(
+    if (this.noteData.title != null || this.noteData.description != null) {
+      this.addNote();
+
+      this.title.reset();
+      this.description.reset();
+      this.noteColor = '#ffffff';
+    }
+  }
+
+  addNote() {
+    this.noteService.createNote(this.noteData).subscribe(
       response => {
-       this.snackBar.open('Note created successfully', 'close')._dismissAfter(2000);
-       this.getNotes();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+        this.getNotes();
       },
       error => {
-        return this.snackBar.open('Note creation failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
   }
 
   getNotes() {
-    this.noteService.getNotes().subscribe(
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
         this.data.changeNotes(this.notes);
       },
       error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+        this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
 
   }
+
+
+
 
 
 

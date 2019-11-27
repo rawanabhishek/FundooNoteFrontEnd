@@ -13,10 +13,11 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
 
-  get({ path, emailIdToken }: { path; emailIdToken; }): Observable<any> {
-    console.log('email=>', emailIdToken);
+  get( path, emailIdToken , pin , archive , trash ): Observable<any> {
+    console.log('pin - archive - trash', pin , archive , trash);
     return this.http.get<any>(this.baseUrl + path, {
-      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('pin' , pin).append('archive' , archive).append('trash' , trash)
     });
   }
 
@@ -42,6 +43,14 @@ export class HttpService {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', id)
     });
+  }
+
+  updateReminder( getNotePath, reminder, emailIdToken, noteId): Observable<any> {
+    return this.http.post<any>(this.baseUrl + getNotePath, null, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+      , params: new HttpParams().append('noteId', noteId).append('date', reminder)
+    });
+
   }
 
 

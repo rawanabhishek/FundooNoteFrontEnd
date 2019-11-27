@@ -6,8 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DataService {
 
-  private noteSource = new BehaviorSubject<any>('default message');
-  private labelSource = new BehaviorSubject<any>('default message');
+  private noteSource = new BehaviorSubject<any>(null);
+  private labelSource = new BehaviorSubject<any>(null);
   currentNote = this.noteSource.asObservable();
   currentLabel = this.labelSource.asObservable();
 

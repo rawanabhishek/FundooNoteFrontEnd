@@ -59,3 +59,23 @@ $border-color: rgb(175,175,175);
     margin: 5px;
     word-break: break-all;
 }
+
+
+mat-card{
+    width: 22vw;
+}
+
+
+@media only screen and (max-width:599px)
+{
+   
+ 
+
+    mat-card {
+        width: 25vw;
+        flex-direction: column;
+    
+    }
+    
+}
+

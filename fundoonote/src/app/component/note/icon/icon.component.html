@@ -1,10 +1,10 @@
 
-    <div class="create-note-icon" fxLayoutAlign="space-between center"   >
-        <button mat-button  matTooltip="Remind me"  > <img src="/assets/img/remindme.svg" alt="Remind me" ></button>
-        <button mat-button matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></button>
-        <button mat-button matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></button>
-        <button mat-button matTooltip="Archive" (click)="archiveNote()"> <img src="/assets/img/archive.svg" alt="Archive" ></button>
-        <button mat-button mat-button [matMenuTriggerFor]="more" matTooltip="More"> <img src="/assets/img/more.svg" alt="More" ></button>
+    <div class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center"   >
+        <span   matTooltip="Remind me" [matMenuTriggerFor]="reminder" > <img src="/assets/img/remindme.svg" alt="Remind me" ></span>
+        <span  matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
+        <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
+        <span  matTooltip="Archive" (click)="archiveNote()"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
+        <span  mat-button [matMenuTriggerFor]="more" matTooltip="More"> <img src="/assets/img/more.svg" alt="More" ></span>
 
     </div>
 
@@ -14,6 +14,10 @@
   <button mat-menu-item >Add label</button>
 </mat-menu>
 
+<mat-menu #reminder="matMenu" >
+  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime" (ngModelChange)="onChange($event)">
+  <owl-date-time #dt1></owl-date-time>
+</mat-menu>
 
 <mat-menu #color="matMenu" >
    
