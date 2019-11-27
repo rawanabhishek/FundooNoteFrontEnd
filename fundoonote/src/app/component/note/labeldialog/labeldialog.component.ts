@@ -40,14 +40,17 @@ export class LabeldialogComponent implements OnInit {
       name: this.name.value
     };
 
-    this.noteService.createLabels(this.getLabelsPath, this.data, this.token).subscribe(
-      result => {
-        this.snackBar.open('Label created successfully', 'close')._dismissAfter(2000);
-        this.getLabels();
-      },
-      error => { this.snackBar.open('Label creation failed', 'close')._dismissAfter(2000); }
+    if (this.data.name != null) {
+      this.noteService.createLabels(this.getLabelsPath, this.data, this.token).subscribe(
+        result => {
+          this.snackBar.open('Label created successfully', 'close')._dismissAfter(2000);
+          this.getLabels();
+        },
+        error => { this.snackBar.open('Label creation failed', 'close')._dismissAfter(2000); }
 
-    );
+      );
+      this.name.reset();
+    }
   }
 
 
@@ -88,14 +91,15 @@ export class LabeldialogComponent implements OnInit {
     this.data = {
       name: this.updatedName.value
     };
+    if (this.data.name !== '') {
+      this.noteService.updateLabel(this.getLabelsPath, this.data, labelId, this.token).subscribe(
+        result => {
+          this.snackBar.open('Label updated successfully', 'close')._dismissAfter(2000);
+          this.getLabels();
 
-    this.noteService.updateLabel(this.getLabelsPath, this.data, labelId, this.token).subscribe(
-      result => {
-        this.snackBar.open('Label updated successfully', 'close')._dismissAfter(2000);
-        this.getLabels();
-
-      },
-      error => { this.snackBar.open('Label updation failed', 'close')._dismissAfter(2000); }
-    );
+        },
+        error => { this.snackBar.open('Label updation failed', 'close')._dismissAfter(2000); }
+      );
+    }
   }
 }

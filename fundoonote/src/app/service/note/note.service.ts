@@ -97,15 +97,7 @@ export class NoteService {
 
   updateNote(data, id) {
 
-    this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id })
-      .subscribe(
-        response => {
-          this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-        },
-        error => {
-          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-        }
-      );
+   return  this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id });
   }
 
   createNote(data) {
