@@ -4,6 +4,9 @@ import { MatSnackBar } from '@angular/material';
 
 import { DataService } from 'src/app/service/data/data.service';
 
+
+
+
 @Component({
   selector: 'app-icon',
   templateUrl: './icon.component.html',
@@ -24,7 +27,7 @@ export class IconComponent implements OnInit {
   archive = false;
   trash = false;
 
-  reminder: Date;
+  reminder: string;
 
 
 
@@ -33,7 +36,8 @@ export class IconComponent implements OnInit {
   constructor(
     private noteService: NoteService,
     private snackBar: MatSnackBar,
-    private data: DataService) {
+    private data: DataService
+    ) {
 
   }
 
@@ -87,8 +91,9 @@ export class IconComponent implements OnInit {
     );
   }
 
-  onChange(reminder): void {
-    this.noteService.addReminder(reminder, this.noteId);
+  onChange(data): void {
+
+    this.noteService.addReminder(this.reminder , this.noteId);
   }
 
 }

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { DataService } from 'src/app/service/data/data.service';
 import { MatSnackBar } from '@angular/material';
+import { ActivatedRoute } from '@angular/router';
 
 
 
@@ -26,7 +27,7 @@ export class NotesComponent implements OnInit {
   pin = false;
   archive = false;
   trash = false;
-
+  typeOfNote = '';
 
 
 
@@ -36,18 +37,31 @@ export class NotesComponent implements OnInit {
     private noteService: NoteService,
     private dialog: MatDialog,
     private data: DataService,
-    private snackBar: MatSnackBar
-  ) { }
+    private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
+  ) {
+    console.log('im in constructor');
+  }
 
   ngOnInit() {
-
+    this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
+    console.log('type', this.typeOfNote);
 
     this.getNotes();
     this.data.currentNote.subscribe(note => this.notes = note);
   }
 
   getNotes() {
-    this.noteService.getNotes(this.pin , this.archive , this.trash).subscribe(
+    if (this.typeOfNote === 'trash') {
+      this.trash = true;
+    } else if (this.typeOfNote === 'archive') {
+      this.archive = true;
+
+    } else if (this.typeOfNote === 'note') {
+      this.pin = true;
+    }
+
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
         this.data.changeNotes(this.notes);

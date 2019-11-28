@@ -1,9 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
 import { MatDialog } from '@angular/material';
 import { LabeldialogComponent } from '../labeldialog/labeldialog.component';
+
+import { Observable } from 'rxjs';
+import { log } from 'util';
 
 
 @Component({
@@ -25,14 +28,25 @@ export class DashboardComponent implements OnInit {
   message: any;
   toggle = true;
   status = 'Enable';
+  typeOfNote = '';
+
+  selectedId: any;
 
   constructor(
     private router: Router,
     private noteService: NoteService,
     private dialog: MatDialog,
-    private data: DataService) { }
+    private data: DataService,
+    private activatedRoute: ActivatedRoute
+  ) { }
 
   ngOnInit() {
+    this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
+    console.log(this.typeOfNote);
+
+
+
+
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.getLabels();
 
@@ -58,6 +72,23 @@ export class DashboardComponent implements OnInit {
     localStorage.removeItem('email');
     this.router.navigate(['/login']);
 
+  }
+
+  archive() {
+    console.log('archive');
+
+    this.router.navigate(['/dashboard/notes/archive']);
+
+  }
+
+  notes() {
+    console.log('note click');
+    this.router.navigate(['/dashboard/notes/note']);
+  }
+
+  trash() {
+    console.log('trash click');
+    this.router.navigate(['/dashboard/notes/trash']);
   }
 
   showHidddenContent() {

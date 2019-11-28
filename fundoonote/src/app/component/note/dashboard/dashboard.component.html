@@ -1,3 +1,5 @@
+
+
 <mat-toolbar style="position: inherit;">
 
 
@@ -84,27 +86,27 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
     <mat-nav-list class="button1">
 
-      <button  mat-list-item >
+      <button  mat-list-item  (click)="notes()"  class="anchor" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
-      <button mat-list-item >
+      <a mat-list-item  routerLinkActive="active" class="anchor">
         <img src="/assets/img/remindersidenav.svg" alt="Reminders">
 
-        Reminders</button>
+        Reminders</a>
 
 
       <hr>
       <small class="small">LABELS</small>
 
-      <button mat-list-item   *ngFor="let label of labels">
+      <a mat-list-item   *ngFor="let label of labels" class="anchor">
         <img src="/assets/img/label.svg" alt="Label">
         {{label.name}}
-      </button>
+      </a>
 
     
 
 
-    <button mat-list-item  (click)="openDialogLabel()"  >
+    <button mat-list-item  (click)="openDialogLabel()" class="anchor" >
     <img src="assets/img/editlabels.svg" alt="">
     <span >Edit labels</span></button>
 
@@ -112,12 +114,12 @@
 
 
       <hr>
-      <button mat-list-item >
+      <button mat-list-item   (click)="archive()" class="anchor">
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
 
-      <button mat-list-item  fxLayoutGap="20px">
+      <button mat-list-item  (click)="trash()"  class="anchor">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 
@@ -129,10 +131,13 @@
 
   <mat-sidenav-content>
     <app-addnote></app-addnote>
+    <app-notes>
+     </app-notes>
+    
   </mat-sidenav-content>
+ 
 
-
-
+  <router-outlet></router-outlet>
 
 
 
@@ -161,3 +166,4 @@
   </div>
 
 </mat-menu>
+

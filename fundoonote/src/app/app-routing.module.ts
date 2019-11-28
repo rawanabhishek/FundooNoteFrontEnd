@@ -11,7 +11,8 @@ import { NotesComponent } from './component/note/notes/notes.component';
 import { LoginComponent } from './component/user/login/login.component';
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { AuthGuard } from './auth.guard';
-import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
+
+
 
 
 const routes: Routes = [
@@ -19,10 +20,21 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'forgot', component: ForgotpasswordComponent },
   { path: 'setpassword', component: SetpasswordComponent },
-  { path: 'verify', component: VerifyComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'addnote', component: AddnoteComponent },
-  {path: 'notes' , component: NotesComponent},
+  { path: 'verify', component: VerifyComponent }
+
+  ,
+  {
+    path: 'dashboard', component: DashboardComponent,
+    children: [
+      { path: 'notes/:type', component: NotesComponent },
+      { path: 'addnote', component: AddnoteComponent }
+
+
+
+    ], canActivate: [AuthGuard]
+
+  },
+
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 ];

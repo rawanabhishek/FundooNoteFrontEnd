@@ -15,7 +15,8 @@
 </mat-menu>
 
 <mat-menu #reminder="matMenu" >
-  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime" (ngModelChange)="onChange($event)">
+  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime"
+   (ngModelChange)="onChange($event)">
   <owl-date-time #dt1></owl-date-time>
 </mat-menu>
 
