@@ -1,20 +1,41 @@
-
-<div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center start" >
+<div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center start">
     <div class="notes" *ngFor="let note of notes">
-        <mat-card  [ngStyle]="{'background-color': note.noteColor}">
+        <mat-card [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">
                 <p> {{ note.title }}</p>
             </div>
             <div id="card-title" (click)="openDialog(note)">
                 <p> {{ note.description }}</p>
             </div>
-            <div>
-                <app-icon  (messageEvent)="receiveColor($event,note.noteId)" [noteId]="note.noteId" ></app-icon>
-            </div>
-            
-        </mat-card>
+            <div fxLayout="row">
+                <div *ngIf="note.reminder">
+                    <mat-chip-list #chipList>
+                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
 
+                            {{note.reminder | date:'M/d, h:mm a'}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <div *ngIf="note.labels">
+                    <mat-chip-list #chipList *ngFor="let label of note.labels">
+                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
+
+                            {{label.name}}
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+
+   
+
+    <div>
+        <app-icon (messageEvent)="receiveMessage($event,note.noteId)" [noteId]="note.noteId"></app-icon>
     </div>
+
+    </mat-card>
 
 </div>
 
+</div>

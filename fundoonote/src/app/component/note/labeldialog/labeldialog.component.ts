@@ -56,7 +56,7 @@ export class LabeldialogComponent implements OnInit {
 
 
   getLabels() {
-    this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
+    this.noteService.getLabels().subscribe(
       result => {
         this.labels = result.data;
         this.dataService.changeLabel(this.labels);

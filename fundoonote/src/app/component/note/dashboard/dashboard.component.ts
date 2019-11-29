@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit {
   showClear = true;
   showView = true;
   labels;
-  getLabelsPath = 'label';
+
   message: any;
   toggle = true;
   status = 'Enable';
@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getLabels() {
-    this.noteService.getLabels(this.getLabelsPath, this.token).subscribe(
+    this.noteService.getLabels().subscribe(
       result => {
         this.labels = result.data;
 
@@ -77,18 +77,18 @@ export class DashboardComponent implements OnInit {
   archive() {
     console.log('archive');
 
-    this.router.navigate(['/dashboard/notes/archive']);
+    this.router.navigate(['/dashboard/archive']);
 
   }
 
   notes() {
     console.log('note click');
-    this.router.navigate(['/dashboard/notes/note']);
+    this.router.navigate(['/dashboard/note']);
   }
 
   trash() {
     console.log('trash click');
-    this.router.navigate(['/dashboard/notes/trash']);
+    this.router.navigateByUrl('/dashboard/trash');
   }
 
   showHidddenContent() {

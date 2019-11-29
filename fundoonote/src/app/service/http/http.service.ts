@@ -13,11 +13,11 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
 
-  get( path, emailIdToken , pin , archive , trash ): Observable<any> {
-    console.log('pin - archive - trash', pin , archive , trash);
+  get(path, emailIdToken, pin, archive, trash): Observable<any> {
+    console.log('pin - archive - trash', pin, archive, trash);
     return this.http.get<any>(this.baseUrl + path, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken),
-      params: new HttpParams().append('pin' , pin).append('archive' , archive).append('trash' , trash)
+      params: new HttpParams().append('pin', pin).append('archive', archive).append('trash', trash)
     });
   }
 
@@ -45,12 +45,20 @@ export class HttpService {
     });
   }
 
-  updateReminder( getNotePath, reminder, emailIdToken, noteId): Observable<any> {
+  updateReminder(getNotePath, reminder, emailIdToken, noteId): Observable<any> {
     return this.http.post<any>(this.baseUrl + getNotePath, null, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', noteId).append('date', reminder)
     });
 
+  }
+
+  addLabel(getNotePath, emailIdToken, noteId, labelId): Observable<any> {
+    return this.http.put<any>(this.baseUrl + getNotePath, null, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('noteId', noteId).append('labelId', labelId)
+
+    });
   }
 
 

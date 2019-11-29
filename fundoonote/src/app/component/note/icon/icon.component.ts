@@ -7,6 +7,8 @@ import { DataService } from 'src/app/service/data/data.service';
 
 
 
+
+
 @Component({
   selector: 'app-icon',
   templateUrl: './icon.component.html',
@@ -26,8 +28,10 @@ export class IconComponent implements OnInit {
   pin = false;
   archive = false;
   trash = false;
+  showAddLabel = false;
 
   reminder: string;
+  labels: any;
 
 
 
@@ -37,64 +41,61 @@ export class IconComponent implements OnInit {
     private noteService: NoteService,
     private snackBar: MatSnackBar,
     private data: DataService
-    ) {
+
+  ) {
 
   }
 
   ngOnInit() {
-    this.data.currentNote.subscribe(note => this.notes = note);
+
+  this.getLabels();
+    // this.data.currentNote.subscribe(note => this.notes = note);
   }
 
-  getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+  // getNotes() {
+  //   this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+  //     result => {
+  //       this.notes = result.data;
+  //       this.data.changeNotes(this.notes);
+  //     },
+  //     error => {
+  //       this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+  //     }
+  //   );
+  // }
+
+  getLabels() {
+    this.noteService.getLabels().subscribe(
       result => {
-        this.notes = result.data;
-        this.data.changeNotes(this.notes);
+        this.labels = result.data;
+        this.data.changeLabel(this.labels);
       },
       error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+        this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
   }
 
-
-
-
-  deleteNote() {
-    this.noteService.trashNote(this.noteId).subscribe(
-      response => {
-        this.getNotes();
-        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-      },
-      error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      }
-    );
-
-  }
-
-  changeColor(color: string): void {
-    this.messageEvent.emit(color);
-
+  showAddLabels() {
+    this.showAddLabel = this.showAddLabel ? false : true;
   }
 
 
-  archiveNote() {
-    this.noteService.archiveNotes(this.getNotePathArchive, this.token, this.noteId).subscribe(
-      response => {
-        this.getNotes();
-        this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
-      },
-      error => {
-        return this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
+  onChange(data) {
+    console.log('data is => ', data);
+
+    this.messageEvent.emit(data);
+
   }
 
-  onChange(data): void {
-
-    this.noteService.addReminder(this.reminder , this.noteId);
+  onEvent(event) {
+    event.stopPropagation();
   }
+
+
+
+
+
 
 }
 

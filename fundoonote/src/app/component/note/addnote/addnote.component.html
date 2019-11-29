@@ -22,12 +22,32 @@
         </div>
         <div><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description" ></textarea></div>
+            cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description" ></textarea>
+        </div>
+        <div *ngIf="reminder" >
+            <mat-chip-list #chipList>
+            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove()">
+      
+            {{reminder | date:'M/d, h:mm a'}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            </mat-chip-list>
+        </div>
+        <div *ngIf="labels" >
+            <mat-chip-list #chipList *ngFor="let label of labels">
+            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove()">
+      
+            {{label.name}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            </mat-chip-list>
+        </div>
+        
 
-<div fxLayout="row" fxLayoutAlign="space-between" >
+       <div fxLayout="row" fxLayoutAlign="space-between" >
 
         <div style="width: 60%;" >
-        <app-icon (messageEvent)="receiveColor($event)" ></app-icon>
+        <app-icon (messageEvent)="receiveMessage($event)" ></app-icon>
         </div>
 
        

@@ -1,4 +1,4 @@
-<div mat-dialog-container class="notes-container" [ngStyle]="{'background-color': noteColor}">
+<div mat-dialog-container class="notes-container" [ngStyle]="{'background-color': note.noteColor}">
 
            
     <div>
@@ -6,7 +6,7 @@
 
             <textarea cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1"  [formControl]="title"  value="{{data.title}}"  ></textarea>
+            cdkAutosizeMinRows="1"  [formControl]="title"  value="{{note.title}}"  ></textarea>
        
             <button mat-icon-button matTooltip="Pin note">
                 <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
@@ -15,15 +15,25 @@
         <div >
             <textarea cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1"   [formControl]="description" value="{{data.description}}">
+            cdkAutosizeMinRows="1"   [formControl]="description" value="{{note.description}}">
             </textarea>
         </div>
+        <div *ngIf="note.reminder" >
+            <mat-chip-list #chipList>
+            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
+      
+            {{note.reminder | date:'M/d, h:mm a'}}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+            </mat-chip>
+            </mat-chip-list>
+            </div>
+        <div>
 
 
         <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
             
             <div style="width: 60%;">
-            <app-icon (messageEvent)="receiveColor($event,data.noteId)"  [noteId]="noteId"></app-icon>
+            <app-icon (messageEvent)="receiveMessage($event,data.noteId)"  [noteId]="noteId"></app-icon>
         </div>
     
     

@@ -26,7 +26,7 @@ const routes: Routes = [
   {
     path: 'dashboard', component: DashboardComponent,
     children: [
-      { path: 'notes/:type', component: NotesComponent },
+      { path: ':type', component: NotesComponent },
       { path: 'addnote', component: AddnoteComponent }
 
 

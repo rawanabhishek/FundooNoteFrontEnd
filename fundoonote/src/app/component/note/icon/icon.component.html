@@ -3,37 +3,50 @@
         <span   matTooltip="Remind me" [matMenuTriggerFor]="reminder" > <img src="/assets/img/remindme.svg" alt="Remind me" ></span>
         <span  matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
         <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
-        <span  matTooltip="Archive" (click)="archiveNote()"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
+        <span  matTooltip="Archive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
         <span  mat-button [matMenuTriggerFor]="more" matTooltip="More"> <img src="/assets/img/more.svg" alt="More" ></span>
 
     </div>
 
     <!-- <button mat-button [matMenuTriggerFor]="menu">Menu</button> -->
 <mat-menu #more="matMenu" >
-  <button mat-menu-item (click)="deleteNote()">Delete note</button>
-  <button mat-menu-item >Add label</button>
+  <button mat-menu-item (click)="onChange('delete')" *ngIf="!showAddLabel">Delete note</button>
+  <button mat-menu-item   *ngIf="!showAddLabel" (click)="showAddLabels()">Add label</button>
+  <div *ngIf="showAddLabel" fxLayout="column" style="margin-left: 5px;" (click)="onEvent($event)" >
+    <div fxLayoutAlign="start center">
+        <p>Label note</p>
+    </div>
+     
+     <div  *ngFor="let label of labels">
+        <mat-checkbox (click)="onChange(label)">{{label.name}}</mat-checkbox>
+     </div>
+   </div>  
+    
 </mat-menu>
 
 <mat-menu #reminder="matMenu" >
-  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime"
-   (ngModelChange)="onChange($event)">
+  <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime">
+
   <owl-date-time #dt1></owl-date-time>
+   <button mat-button (click)="onChange(datetime )">save</button>
 </mat-menu>
 
 <mat-menu #color="matMenu" >
    
-    <button mat-mini-fab style="background-color: #ffffff;" matTooltip="Default" (click)="changeColor('#ffffff')"></button>
-    <button mat-mini-fab style="background-color: #f06060;" matTooltip="Red" (click)="changeColor('#f06060')"></button>
-    <button mat-mini-fab style="background-color: #e9a831;" matTooltip="Orange" (click)="changeColor('#e9a831')"></button>
-    <button mat-mini-fab style="background-color: #ecec57;" matTooltip="Yellow" (click)="changeColor('#ecec57')"></button>
+    <button mat-mini-fab style="background-color: #ffffff;" matTooltip="Default" (click)="onChange('#ffffff')"></button>
+    <button mat-mini-fab style="background-color: #f06060;" matTooltip="Red" (click)="onChange('#f06060')"></button>
+    <button mat-mini-fab style="background-color: #e9a831;" matTooltip="Orange" (click)="onChange('#e9a831')"></button>
+    <button mat-mini-fab style="background-color: #ecec57;" matTooltip="Yellow" (click)="onChange('#ecec57')"></button>
     <br>
-    <button mat-mini-fab style="background-color: #78f578;" matTooltip="Green" (click)="changeColor('#78f578')"></button>
-    <button mat-mini-fab style="background-color: #6fe2cf;" matTooltip="Teal" (click)="changeColor('#6fe2cf')"></button>
-    <button mat-mini-fab style="background-color: #8fe9f5;" matTooltip="Blue" (click)="changeColor('#8fe9f5')"></button>
-    <button mat-mini-fab style="background-color: #73ade2;" matTooltip="Dark blue" (click)="changeColor('#73ade2')"></button>
+    <button mat-mini-fab style="background-color: #78f578;" matTooltip="Green" (click)="onChange('#78f578')"></button>
+    <button mat-mini-fab style="background-color: #6fe2cf;" matTooltip="Teal" (click)="onChange('#6fe2cf')"></button>
+    <button mat-mini-fab style="background-color: #8fe9f5;" matTooltip="Blue" (click)="onChange('#8fe9f5')"></button>
+    <button mat-mini-fab style="background-color: #73ade2;" matTooltip="Dark blue" (click)="onChange('#73ade2')"></button>
     <br>
-    <button mat-mini-fab style="background-color: #e286e2;" matTooltip="Purple" (click)="changeColor('#e286e2')"></button>
-    <button mat-mini-fab style="background-color: #dd99a4;" matTooltip="Pink" (click)="changeColor('#dd99a4')"></button>
-    <button mat-mini-fab style="background-color: #f1a274d8;" matTooltip="Brown"(click)="changeColor('#f1a274d8')"></button>
+    <button mat-mini-fab style="background-color: #e286e2;" matTooltip="Purple" (click)="onChange('#e286e2')"></button>
+    <button mat-mini-fab style="background-color: #dd99a4;" matTooltip="Pink" (click)="onChange('#dd99a4')"></button>
+    <button mat-mini-fab style="background-color: #f1a274d8;" matTooltip="Brown"(click)="onChange('#f1a274d8')"></button>
    
  </mat-menu>
+
+

@@ -22,9 +22,9 @@ export class NoteService {
 
 
 
-  getLabels(getLabelPath, emailIdToken): Observable<any> {
-    return this.http.get<any>(this.baseUrl + getLabelPath, {
-      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+  getLabels(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'label', {
+      headers: new HttpHeaders().append('emailIdToken', this.emailIdToken)
     });
   }
 
@@ -46,14 +46,14 @@ export class NoteService {
 
   }
 
-  archiveNotes(getNotePath, emailIdToken, noteId): Observable<any> {
-    console.log('noteId =>', noteId);
-    console.log('emailIdToken =>', emailIdToken);
-    return this.http.put<any>(this.baseUrl + getNotePath, {}, {
-      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
-      , params: new HttpParams().append('noteId', noteId)
-    });
+
+
+  archiveNotes(id) {
+
+    return this.httpService.put({ path: 'note/archive', data: {}, emailIdToken: this.emailIdToken, id });
+
   }
+
 
 
 
@@ -82,6 +82,11 @@ export class NoteService {
     return this.httpService.get('note', this.emailIdToken, pin, archive, trash);
   }
 
+  addLabel(noteId, labelId) {
+    return this.httpService.addLabel('note/label', this.emailIdToken, noteId, labelId);
+
+  }
+
 
   deleteNote(id) {
     this.httpService.delete({ path: 'note', emailIdToken: this.emailIdToken, id }).subscribe(
@@ -97,7 +102,7 @@ export class NoteService {
 
   updateNote(data, id) {
 
-   return  this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id });
+    return this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id });
   }
 
   createNote(data) {
@@ -108,6 +113,10 @@ export class NoteService {
 
     return this.httpService.put({ path: 'note/trash', data: {}, emailIdToken: this.emailIdToken, id });
 
+  }
+
+  removeReminder(id) {
+    return this.httpService.put({ path: 'note/removeremainder', data: {}, emailIdToken: this.emailIdToken, id });
   }
 
   pinNote(id) {
@@ -124,12 +133,8 @@ export class NoteService {
   }
 
   addReminder(reminder, id) {
-    this.httpService.updateReminder('note/addreminder', reminder, this.emailIdToken, id
-    ).subscribe(
-      response => {
-        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-      },
-      error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
+    return this.httpService.updateReminder('note/addreminder', reminder, this.emailIdToken, id);
+
 
   }
 }

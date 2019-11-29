@@ -24,6 +24,11 @@ export class AddnoteComponent implements OnInit {
   pin = false;
   archive = false;
   trash = false;
+  reminder: Date;
+  labels = new Array<any>();
+  selectable = true;
+  removable = true;
+  labelId;
 
 
   constructor(
@@ -36,8 +41,26 @@ export class AddnoteComponent implements OnInit {
 
   }
 
-  receiveColor($event) {
-    this.noteColor = $event;
+  receiveMessage($event) {
+
+    if ($event === 'archive') {
+      this.archive = true;
+    } else if ($event === 'pin') {
+      this.pin = true;
+    } else if (typeof $event === 'string') {
+      this.noteColor = $event;
+    } else if (typeof $event === 'object') {
+      if ($event.labelId) {
+        this.labels.push($event);
+        console.log('label=> ', this.labels);
+
+      } else {
+        this.reminder = $event;
+
+
+
+      }
+    }
   }
 
   pinNote() {
@@ -55,8 +78,10 @@ export class AddnoteComponent implements OnInit {
       title: this.title.value,
       description: this.description.value,
       noteColor: this.noteColor,
-      pin: this.pin
-
+      pin: this.pin,
+      reminder: this.reminder,
+      archive: this.archive,
+      labels: this.labels
 
 
 
@@ -67,6 +92,7 @@ export class AddnoteComponent implements OnInit {
 
       this.title.reset();
       this.description.reset();
+      this.archive = false;
       this.noteColor = '#ffffff';
     }
   }
@@ -93,6 +119,12 @@ export class AddnoteComponent implements OnInit {
         this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
+
+  }
+
+
+  remove() {
+    this.reminder = null;
 
   }
 
