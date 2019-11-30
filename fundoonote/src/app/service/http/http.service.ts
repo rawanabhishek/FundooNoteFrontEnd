@@ -46,14 +46,14 @@ export class HttpService {
   }
 
   updateReminder(getNotePath, reminder, emailIdToken, noteId): Observable<any> {
-    return this.http.post<any>(this.baseUrl + getNotePath, null, {
+    return this.http.put<any>(this.baseUrl + getNotePath, null, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', noteId).append('date', reminder)
     });
 
   }
 
-  addLabel(getNotePath, emailIdToken, noteId, labelId): Observable<any> {
+  label(getNotePath, emailIdToken, noteId, labelId): Observable<any> {
     return this.http.put<any>(this.baseUrl + getNotePath, null, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken),
       params: new HttpParams().append('noteId', noteId).append('labelId', labelId)

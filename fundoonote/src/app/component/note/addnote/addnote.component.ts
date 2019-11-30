@@ -50,9 +50,22 @@ export class AddnoteComponent implements OnInit {
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
     } else if (typeof $event === 'object') {
+
       if ($event.labelId) {
-        this.labels.push($event);
-        console.log('label=> ', this.labels);
+        console.log('label=> ', $event.labelId);
+        if (!(this.labels.find((i) => i === $event)) || this.labels.length < 0) {
+          this.labels.push($event);
+          console.log('label=> ', this.labels);
+        } else {
+          for (const label of this.labels) {
+            if (label.labelId === $event.labelId) {
+              this.labels.splice(this.labels.indexOf(label), 1);
+              break;
+            }
+          }
+
+        }
+
 
       } else {
         this.reminder = $event;
@@ -123,8 +136,14 @@ export class AddnoteComponent implements OnInit {
   }
 
 
-  remove() {
+  removeReminder() {
     this.reminder = null;
+
+  }
+
+
+  removeLabels(index): void {
+    this.labels.splice(index, 1);
 
   }
 

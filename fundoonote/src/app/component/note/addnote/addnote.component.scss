@@ -53,9 +53,14 @@
     }
     }
 
+    .mat-standard-chip{
+        min-height: 20px;
+    }
+
+
 
     @media only screen and (max-width:599px)
-{
+  {
     .create-note{
       
     width: 80%;

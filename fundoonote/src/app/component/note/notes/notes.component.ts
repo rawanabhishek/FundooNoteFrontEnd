@@ -33,7 +33,7 @@ export class NotesComponent implements OnInit {
   removable = true;
   reminder: Date;
   labelId;
-  
+  labels = new Array<any>();
 
 
 
@@ -46,16 +46,13 @@ export class NotesComponent implements OnInit {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe
-  )
-
-  {
+  ) {
     console.log('im in constructor');
   }
 
   ngOnInit() {
     this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
     console.log('type', this.typeOfNote);
-
     this.getNotes();
     this.data.currentNote.subscribe(note => this.notes = note);
   }
@@ -85,30 +82,41 @@ export class NotesComponent implements OnInit {
   }
 
 
-  receiveMessage($event, noteId) {
+  receiveMessage($event, note) {
     if ($event === 'archive') {
       this.archive = true;
-      this.noteId = noteId;
+      this.noteId = note.noteId;
       this.archiveNote();
     } else if ($event === 'pin') {
       this.pin = true;
-      this.noteId = noteId;
+      this.noteId = note.noteId;
     } else if ($event === 'delete') {
       this.trash = true;
-      this.noteId = noteId;
+      this.noteId = note.noteId;
       this.deleteNote();
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
-      this.updateColor(this.noteColor, noteId);
+      this.updateColor(this.noteColor, note.noteId);
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
-        this.noteId = noteId;
+        this.noteId = note.noteId;
+       // this.labels = note.labels;
         this.labelId = $event.labelId;
-        console.log('labelId=> ', this.labelId);
-        this.addLabel(this.labelId);
+        console.log('note', note);
+        console.log('label=> ', $event);
+        console.log('sdsd', this.labels);
+        if (this.labels.filter((i) => i.labelId === $event.labelId) &&  this.labels.length > 0 ) {
+          console.log('remove=> ', this.labelId);
+          this.removeLabel(this.labelId, this.noteId);
+        } else {
+
+          console.log('add=> ', this.labelId);
+          this.addLabel(this.labelId);
+        }
+
       } else {
         this.reminder = $event;
-        this.noteId = noteId;
+        this.noteId = note.noteId;
         this.addReminder(this.reminder);
 
       }
@@ -148,7 +156,7 @@ export class NotesComponent implements OnInit {
 
   }
 
-  remove(note) {
+  removeReminder(note) {
 
     this.noteService.removeReminder(note.noteId)
       .subscribe(
@@ -160,6 +168,20 @@ export class NotesComponent implements OnInit {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
         }
       );
+  }
+
+  removeLabel(labelId, noteId) {
+    this.noteService.removeLabel(noteId, labelId)
+      .subscribe(
+        response => {
+          this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+          this.getNotes();
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+      );
+
   }
 
 

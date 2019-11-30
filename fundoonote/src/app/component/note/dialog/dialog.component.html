@@ -1,49 +1,62 @@
 <div mat-dialog-container class="notes-container" [ngStyle]="{'background-color': note.noteColor}">
 
-           
-    <div>
-        <div fxlayout="row"  fxLayoutAlign="space-between">
 
-            <textarea cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1"  [formControl]="title"  value="{{note.title}}"  ></textarea>
-       
+    <div>
+        <div fxlayout="row" fxLayoutAlign="space-between">
+
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" [formControl]="title"
+                value="{{note.title}}"></textarea>
+
             <button mat-icon-button matTooltip="Pin note">
-                <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
+                <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin">
             </button>
         </div>
-        <div >
-            <textarea cdkTextareaAutosize
-            #autosize="cdkTextareaAutosize"
-            cdkAutosizeMinRows="1"   [formControl]="description" value="{{note.description}}">
+        <div>
+            <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1"
+                [formControl]="description" value="{{note.description}}">
             </textarea>
         </div>
-        <div *ngIf="note.reminder" >
-            <mat-chip-list #chipList>
-            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
-      
-            {{note.reminder | date:'M/d, h:mm a'}}
-            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
-            </mat-chip>
-            </mat-chip-list>
-            </div>
         <div>
+            <div *ngIf="note.reminder">
+                <mat-chip-list #chipList>
+                    <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeReminder(note)">
+
+                        {{note.reminder | date:'M/d, h:mm a'}}
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
+            </div>
 
 
-        <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
-            
-            <div style="width: 60%;">
-            <app-icon (messageEvent)="receiveMessage($event,data.noteId)"  [noteId]="noteId"></app-icon>
-        </div>
-    
-    
-            <div class="create-note-close-button"  style="margin-top: 10px;">
-              <button mat-button (click)="onNoClick()" (click)="updateNote()">Close</button>
+            <div *ngIf="note.labels" fxLayout="row wrap">
+                <mat-chip-list #chipList *ngFor="let label of note.labels ">
+                    <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label.labelId )">
+
+                        {{label.name}}
+
+                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                    </mat-chip>
+                </mat-chip-list>
             </div>
         </div>
-       
-    </div>
+        <div>
+            <div>
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
+
+                    <div style="width: 60%;">
+                        <app-icon (messageEvent)="receiveMessage($event,data)" [noteId]="noteId"></app-icon>
+                    </div>
+
+
+                    <div class="create-note-close-button" style="margin-top: 10px;">
+                        <button mat-button (click)="onNoClick()" (click)="updateNote()">Close</button>
+                    </div>
+                </div>
+
+            </div>
 
 
 
-</div>
+        </div>

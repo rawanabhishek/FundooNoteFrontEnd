@@ -24,24 +24,26 @@
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1" placeholder="Take a note..." [formControl]="description" ></textarea>
         </div>
+        <div fxLayout="row wrap">
         <div *ngIf="reminder" >
             <mat-chip-list #chipList>
-            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove()">
+            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeReminder()">
       
             {{reminder | date:'M/d, h:mm a'}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
             </mat-chip-list>
         </div>
-        <div *ngIf="labels" >
-            <mat-chip-list #chipList *ngFor="let label of labels">
-            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove()">
+        <div *ngIf="labels" fxLayout="row wrap" >
+            <mat-chip-list #chipList *ngFor="let label of labels ; index as i">
+            <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabels(i)">
       
             {{label.name}}
             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
             </mat-chip>
             </mat-chip-list>
         </div>
+    </div>
         
 
        <div fxLayout="row" fxLayoutAlign="space-between" >

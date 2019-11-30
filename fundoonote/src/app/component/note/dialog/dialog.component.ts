@@ -28,6 +28,7 @@ export class DialogComponent implements OnInit {
   selectable = true;
   removable = true;
   notes;
+  labelId;
   labels = new Array<any>();
   reminder: Date;
   note: any;
@@ -51,6 +52,7 @@ export class DialogComponent implements OnInit {
 
     this.note = this.data;
     console.log('data->', this.note);
+    this.getNotes();
     this.dataService.currentNote.subscribe(note => this.notes = note);
   }
 
@@ -58,24 +60,39 @@ export class DialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  receiveMessage($event, noteId) {
+  receiveMessage($event, note) {
     if ($event === 'archive') {
       this.archive = true;
-      this.noteId = noteId;
+      this.noteId = note.noteId;
       this.archiveNote();
     } else if ($event === 'pin') {
       this.pin = true;
-      this.noteId = noteId;
+      this.noteId = note.noteId;
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
-    } else if ($event === Object) {
-      this.labels = $event;
-      this.noteId = noteId;
-    } else {
-      this.reminder = $event;
-      this.noteId = noteId;
-      this.addReminder(this.reminder);
+    } else if (typeof $event === 'object') {
+      if ($event.labelId) {
+        this.noteId = note.noteId;
+        this.labels = note.labels;
+        this.labelId = $event.labelId;
+        console.log('note', note);
+        console.log('label=> ', $event);
+        console.log('sdsd', this.labels);
+        if (this.labels.filter((i) => i.labelId === $event.labelId) && this.labels.length > 0) {
+          console.log('remove=> ', this.labelId);
+          this.removeLabel(this.labelId);
+        } else {
+
+          console.log('add=> ', this.labelId);
+          this.addLabel(this.labelId);
+        }
+      } else {
+        this.reminder = $event;
+        this.noteId = note.noteId;
+        this.addReminder(this.reminder);
+
+      }
     }
   }
 
@@ -123,7 +140,7 @@ export class DialogComponent implements OnInit {
     this.noteService.updateColor(this.getNotePathColor, noteColor, this.emailIdToken, this.note.noteId)
       .subscribe(
         response => {
-          this.noteColor = noteColor;
+          this.note.noteColor = noteColor;
           this.getNotes();
           this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
         },
@@ -135,12 +152,12 @@ export class DialogComponent implements OnInit {
   }
 
 
-  remove(note) {
+  removeReminder(note) {
 
     this.noteService.removeReminder(note.noteId)
       .subscribe(
         response => {
-          this.reminder = null;
+          this.note.reminder = null;
           this.getNotes();
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
         },
@@ -148,6 +165,23 @@ export class DialogComponent implements OnInit {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
         }
       );
+  }
+
+
+  removeLabel(labelId) {
+    this.noteService.removeLabel(this.note.noteId, labelId)
+      .subscribe(
+        response => {
+
+
+          this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+          this.getNotes();
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+      );
+
   }
 
 
@@ -168,7 +202,7 @@ export class DialogComponent implements OnInit {
   deleteNote() {
     this.noteService.trashNote(this.note.noteId).subscribe(
       response => {
-        this.trash = false;
+
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
         this.getNotes();
       },
@@ -186,7 +220,17 @@ export class DialogComponent implements OnInit {
 
     this.noteService.addReminder(date, this.note.noteId).subscribe(
       response => {
-        this.reminder = reminder;
+        this.note.reminder = reminder;
+        this.getNotes();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
+  }
+
+  addLabel(labelId) {
+    this.noteService.addLabel(this.noteId, labelId).subscribe(
+      response => {
+
         this.getNotes();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },

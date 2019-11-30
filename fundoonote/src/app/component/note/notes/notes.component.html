@@ -7,35 +7,37 @@
             <div id="card-title" (click)="openDialog(note)">
                 <p> {{ note.description }}</p>
             </div>
-            <div fxLayout="row">
+            <div fxLayout="row wrap">
+
                 <div *ngIf="note.reminder">
                     <mat-chip-list #chipList>
-                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
+                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeReminder(note)">
 
                             {{note.reminder | date:'M/d, h:mm a'}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
                 </div>
-                <div *ngIf="note.labels">
+                <div *ngIf="note.labels" fxLayout="row wrap">
                     <mat-chip-list #chipList *ngFor="let label of note.labels">
-                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="remove(note)">
+                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label.labelId ,note.noteId)">
 
                             {{label.name}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
                 </div>
+
             </div>
 
-   
 
-    <div>
-        <app-icon (messageEvent)="receiveMessage($event,note.noteId)" [noteId]="note.noteId"></app-icon>
+
+            <div>
+                <app-icon (messageEvent)="receiveMessage($event,note)" [noteId]="note.noteId"></app-icon>
+            </div>
+
+        </mat-card>
+
     </div>
-
-    </mat-card>
-
-</div>
 
 </div>

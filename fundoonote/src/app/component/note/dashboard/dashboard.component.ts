@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
     this.noteService.getLabels().subscribe(
       result => {
         this.labels = result.data;
+        console.log('labels list', this.labels);
 
       },
       err => { console.log('failed to load labels'); }

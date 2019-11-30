@@ -83,8 +83,12 @@ export class NoteService {
   }
 
   addLabel(noteId, labelId) {
-    return this.httpService.addLabel('note/label', this.emailIdToken, noteId, labelId);
+    return this.httpService.label('note/label', this.emailIdToken, noteId, labelId);
 
+  }
+
+  removeLabel(noteId, labelId) {
+    return this.httpService.label('note/removelabel', this.emailIdToken, noteId, labelId);
   }
 
 
@@ -119,6 +123,8 @@ export class NoteService {
     return this.httpService.put({ path: 'note/removeremainder', data: {}, emailIdToken: this.emailIdToken, id });
   }
 
+
+
   pinNote(id) {
 
     this.httpService.put({ path: 'note/pin', data: {}, emailIdToken: this.emailIdToken, id })
@@ -133,7 +139,7 @@ export class NoteService {
   }
 
   addReminder(reminder, id) {
-    return this.httpService.updateReminder('note/addreminder', reminder, this.emailIdToken, id);
+    return this.httpService.updateReminder('note/updatereminder', reminder, this.emailIdToken, id);
 
 
   }
