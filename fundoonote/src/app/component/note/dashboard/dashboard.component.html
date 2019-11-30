@@ -11,7 +11,7 @@
       <mat-icon class="icon" (click)="sidenav.toggle()" style="color: rgb(75, 72, 72);">menu</mat-icon>
     </button>
     <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px">
-      <div class="img" fxLayout="row" fxLayoutAlign="center" fxHide.xs="true">
+      <div class="img" fxLayout="row" fxLayoutAlign="center" fxHide.xs="true" >
         <img src="/assets/img/keepnote.svg" alt="FundooNote">
       </div>
       <div fxLayout="row" fxLayoutAlign="center">
@@ -86,7 +86,7 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
     <mat-nav-list class="button1">
 
-      <button  mat-list-item  (click)="notes()"  class="anchor" >
+      <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
       <a mat-list-item  routerLinkActive="active" class="anchor">
@@ -114,12 +114,12 @@
 
 
       <hr>
-      <button mat-list-item  (click)="archive()"  class="anchor">
+      <button mat-list-item  [routerLink]="['/dashboard/archive']" class="anchor">
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
 
-      <button mat-list-item (click)="trash()" class="anchor">
+      <button mat-list-item [routerLink]="['/dashboard/trash']" class="anchor">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 

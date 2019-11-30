@@ -74,7 +74,7 @@ export class DialogComponent implements OnInit {
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
         this.noteId = note.noteId;
-        this.labels = note.labels;
+        // this.labels = note.labels;
         this.labelId = $event.labelId;
         console.log('note', note);
         console.log('label=> ', $event);

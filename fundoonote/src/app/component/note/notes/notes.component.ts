@@ -51,10 +51,15 @@ export class NotesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-    console.log('type', this.typeOfNote);
-    this.getNotes();
-    this.data.currentNote.subscribe(note => this.notes = note);
+
+    this.activatedRoute.params.subscribe(val => {
+      this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
+      console.log('type', this.typeOfNote);
+      this.getNotes();
+      this.data.currentNote.subscribe(note => this.notes = note);
+
+    });
+
   }
 
 
@@ -63,11 +68,16 @@ export class NotesComponent implements OnInit {
   getNotes() {
     if (this.typeOfNote === 'trash') {
       this.trash = true;
+      this.archive = false;
     } else if (this.typeOfNote === 'archive') {
       this.archive = true;
+      this.trash = false;
+      this.pin = false;
 
     } else if (this.typeOfNote === 'note') {
-      this.pin = true;
+      this.archive = false;
+      this.pin = false;
+      this.trash = false;
     }
 
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
@@ -100,12 +110,12 @@ export class NotesComponent implements OnInit {
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
         this.noteId = note.noteId;
-       // this.labels = note.labels;
+        // this.labels = note.labels;
         this.labelId = $event.labelId;
         console.log('note', note);
         console.log('label=> ', $event);
         console.log('sdsd', this.labels);
-        if (this.labels.filter((i) => i.labelId === $event.labelId) &&  this.labels.length > 0 ) {
+        if (this.labels.filter((i) => i.labelId === $event.labelId) && this.labels.length > 0) {
           console.log('remove=> ', this.labelId);
           this.removeLabel(this.labelId, this.noteId);
         } else {

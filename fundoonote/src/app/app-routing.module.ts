@@ -27,11 +27,12 @@ const routes: Routes = [
     path: 'dashboard', component: DashboardComponent,
     children: [
       { path: ':type', component: NotesComponent },
+
       { path: 'addnote', component: AddnoteComponent }
 
 
 
-    ], canActivate: [AuthGuard]
+    ]
 
   },
 
