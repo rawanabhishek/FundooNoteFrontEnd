@@ -107,7 +107,7 @@ export class DialogComponent implements OnInit {
       description: this.description.value
     };
     if (this.updateData.title !== '' || this.updateData.description !== '') {
-      this.noteService.updateNote(this.updateData, this.noteId).subscribe(
+      this.noteService.updateNote(this.updateData, this.note.noteId).subscribe(
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();

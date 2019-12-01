@@ -27,7 +27,7 @@
     <button mat-icon-button matTooltip="Search" >
       <mat-icon>search</mat-icon>
     </button>
-    <input matTooltip="Search bar" class="input" placeholder="Search" name="search" fxHide.xs="true" (click)="clear()">
+    <input matTooltip="Search bar" [(ngModel)]="searchTerm" class="input" placeholder="Search" name="search" fxHide.xs="true" (click)="clear()">
     <button mat-icon-button *ngIf="!showClear" matTooltip="Clear search" fxHide.xs="true">
       <mat-icon>clear</mat-icon>
     </button>
@@ -149,10 +149,15 @@
 <mat-menu #menu="matMenu" class="notifications-dropdown">
 
 
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" style="width: 280px;">
-    <div class="imgMenu">
+  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" style="width:100%; ">
+    <div class="imgMenu" style="position: relative;">
       <img src="/assets/img/user.svg" alt="user">
-    </div>
+      <img style="width: 25px; height: 25px;" src="/assets/img/camera.svg" alt="user">
+       
+     
+    </div >
+   
+   
     <h4 class="h4">{{email}}</h4>
     <button mat-button routerLink="/login"> <svg class="gb_wb" enable-background="new 0 0 24 24" focusable="false"
         height="20" viewBox="0 0 24 24" width="20" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"

@@ -123,7 +123,7 @@ mat-sidenav-container {
 .h4{
     color: rgb(112, 110, 110);
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 15px;
+  
     justify-content: center;
     
 }
@@ -133,10 +133,10 @@ mat-sidenav-container {
 
   .mat-menu-panel.notifications-dropdown {
     max-width:none;
-    width: 22vw; 
+    width: 23vw; 
     margin-left: -8px;
     margin-top: 20px;
-    overflow: visible;
+    overflow: hidden;
 }
 
 

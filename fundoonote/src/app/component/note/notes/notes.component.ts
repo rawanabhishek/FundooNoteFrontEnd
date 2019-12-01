@@ -198,7 +198,6 @@ export class NotesComponent implements OnInit {
   archiveNote() {
     this.noteService.archiveNotes(this.noteId).subscribe(
       response => {
-        this.archive = false;
         this.getNotes();
         this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
       },
@@ -211,7 +210,6 @@ export class NotesComponent implements OnInit {
   deleteNote() {
     this.noteService.trashNote(this.noteId).subscribe(
       response => {
-        this.trash = false;
         this.getNotes();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },

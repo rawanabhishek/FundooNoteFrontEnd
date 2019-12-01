@@ -32,6 +32,9 @@ export class DashboardComponent implements OnInit {
 
   selectedId: any;
 
+
+  searchTerm: string;
+
   constructor(
     private router: Router,
     private noteService: NoteService,
