@@ -27,8 +27,15 @@
     <button mat-icon-button matTooltip="Search" >
       <mat-icon>search</mat-icon>
     </button>
-    <input matTooltip="Search bar" [(ngModel)]="searchTerm" class="input" placeholder="Search" name="search" fxHide.xs="true" (click)="clear()">
-    <button mat-icon-button *ngIf="!showClear" matTooltip="Clear search" fxHide.xs="true">
+    <input matTooltip="Search bar" [matAutocomplete]="auto" [formControl]="search" class="input" 
+    placeholder="Search" name="search" fxHide.xs="true"   (click)="activate()" 
+    (input)="searchByTitleDescription($event.target.value)">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+      <mat-option *ngFor="let note of filteredOptions | async " [value]="note">
+        {{note.title}}
+      </mat-option>
+    </mat-autocomplete>
+    <button mat-icon-button  matTooltip="Clear search" fxHide.xs="true" (click)="closeSearch()">
       <mat-icon>clear</mat-icon>
     </button>
 
@@ -130,7 +137,7 @@
 
 
   <mat-sidenav-content>
-    <app-addnote></app-addnote>
+    <app-addnote *ngIf="!searchActive"></app-addnote>
     <app-notes>
      </app-notes>
     
@@ -151,7 +158,7 @@
 
   <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" style="width:100%; ">
     <div class="imgMenu" style="position: relative;">
-      <img src="/assets/img/user.svg" alt="user">
+      <img [src]="profilePic" alt="user">
       <img style="width: 25px; height: 25px;" src="/assets/img/camera.svg" alt="user">
        
      

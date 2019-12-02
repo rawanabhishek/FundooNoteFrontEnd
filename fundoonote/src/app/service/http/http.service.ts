@@ -62,5 +62,18 @@ export class HttpService {
   }
 
 
+  searchByTitleDescription(getNotePath , searchValue): Observable<any> {
+    return this.http.get<any>(this.baseUrl + getNotePath , {
+      params: new HttpParams().append('searchString' , searchValue)
+    } );
+  }
+
+  getProfilePic(getProfilePath , emailIdToken): Observable<any> {
+    return this.http.get<any>(getProfilePath , {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+    });
+  }
+
+
 
 }

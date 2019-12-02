@@ -11,12 +11,19 @@
 
                 <div *ngIf="note.reminder">
                     <mat-chip-list #chipList>
-                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeReminder(note)">
+                        <mat-chip [selectable]="selectable" [removable]="removable" [matMenuTriggerFor]="reminder" (removed)="removeReminder(note)" 
+                       >
 
                             {{note.reminder | date:'M/d, h:mm a'}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
+                    <mat-menu #reminder="matMenu" >
+                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime">
+                      
+                        <owl-date-time #dt1></owl-date-time>
+                         <button mat-button  (click)="addReminder(datetime, note.noteId)">save</button>
+                      </mat-menu>
                 </div>
                 <div *ngIf="note.labels" fxLayout="row wrap">
                     <mat-chip-list #chipList *ngFor="let label of note.labels">

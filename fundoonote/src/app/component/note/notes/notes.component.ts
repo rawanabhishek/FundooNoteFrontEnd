@@ -57,6 +57,7 @@ export class NotesComponent implements OnInit {
       console.log('type', this.typeOfNote);
       this.getNotes();
       this.data.currentNote.subscribe(note => this.notes = note);
+      this.data.changeNotes(this.notes);
 
     });
 
@@ -127,7 +128,7 @@ export class NotesComponent implements OnInit {
       } else {
         this.reminder = $event;
         this.noteId = note.noteId;
-        this.addReminder(this.reminder);
+        this.addReminder(this.reminder , this.noteId);
 
       }
     }
@@ -221,11 +222,11 @@ export class NotesComponent implements OnInit {
   }
 
 
-  addReminder(reminder) {
+  addReminder(reminder , noteId) {
     console.log('reminder =>', reminder);
     const date: string = this.datePipe.transform(reminder, 'dd MMMM yyyy hh:mm:ss UTC');
 
-    this.noteService.addReminder(date, this.noteId).subscribe(
+    this.noteService.addReminder(date, noteId).subscribe(
       response => {
         this.getNotes();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);

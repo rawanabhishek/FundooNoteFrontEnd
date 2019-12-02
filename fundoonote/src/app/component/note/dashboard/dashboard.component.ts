@@ -2,11 +2,14 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { LabeldialogComponent } from '../labeldialog/labeldialog.component';
 
 import { Observable } from 'rxjs';
-import { log } from 'util';
+import { map, startWith } from 'rxjs/operators';
+
+import { FormControl } from '@angular/forms';
+
 
 
 @Component({
@@ -23,24 +26,36 @@ export class DashboardComponent implements OnInit {
   showContent = true;
   showClear = true;
   showView = true;
+
+  pin = false;
+  archive = false;
+  trash = false;
+
   labels;
+  notes;
+  profilePic: string;
 
   message: any;
   toggle = true;
   status = 'Enable';
   typeOfNote = '';
 
+
   selectedId: any;
+  searchActive = false;
+
+  search = new FormControl('');
+  filteredOptions: Observable<string[]>;
 
 
-  searchTerm: string;
 
   constructor(
     private router: Router,
     private noteService: NoteService,
     private dialog: MatDialog,
     private data: DataService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -48,22 +63,64 @@ export class DashboardComponent implements OnInit {
     console.log(this.typeOfNote);
 
 
-
-
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.getLabels();
 
     this.data.changeLabel(this.labels);
+    this.getNotes();
+
+
+  }
+
+  searching() {
+    this.getNotes();
+    this.filteredOptions = this.search.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+
+  }
+
+
+  displayFn(subject) {
+    return subject ? subject.name : undefined;
+  }
+
+  private _filter(value: string): any[] {
+    console.log('1234', this.notes);
+    if (value != null) {
+      const filterValue = value.toLowerCase();
+      return this.notes.filter(note => note.title.toLowerCase().includes(filterValue));
+
+    }
+
   }
 
   getLabels() {
     this.noteService.getLabels().subscribe(
       result => {
         this.labels = result.data;
-        console.log('labels list', this.labels);
+        console.log('labels list--->', this.labels);
 
       },
       err => { console.log('failed to load labels'); }
+
+    );
+  }
+
+  getNotes() {
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      result => {
+        this.notes = result.data;
+        this.data.changeNotes(this.notes);
+        console.log('list of notes', this.notes);
+
+
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
 
     );
   }
@@ -78,22 +135,9 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  archive() {
-    console.log('archive');
 
-    this.router.navigate(['/dashboard/archive']);
 
-  }
 
-  notes() {
-    console.log('note click');
-    this.router.navigate(['/dashboard/note']);
-  }
-
-  trash() {
-    console.log('trash click');
-    this.router.navigateByUrl('/dashboard/trash');
-  }
 
   showHidddenContent() {
     this.showContent = this.showContent ? false : true;
@@ -102,6 +146,17 @@ export class DashboardComponent implements OnInit {
   clear() {
     this.showClear = this.showClear ? false : true;
 
+  }
+
+  activate() {
+    this.searchActive = true;
+    this.searching();
+  }
+
+  closeSearch() {
+    this.searchActive = false;
+    this.getNotes();
+    this.search.reset();
   }
 
 
@@ -117,6 +172,41 @@ export class DashboardComponent implements OnInit {
       });
 
   }
+
+
+  searchByTitleDescription(search) {
+    this.noteService.searchByTitleDescription(search).subscribe(
+      response => {
+        this.data.changeNotes(response.data);
+        console.log('baot', response);
+      },
+      error => {
+        console.log('Operation failed');
+
+      }
+    );
+  }
+
+
+  getProfilePicPath() {
+    this.noteService.getProfilePic().subscribe(
+      response => {
+      this.profilePic = response.data;
+
+    },
+      error => {
+        console.log('Operation failed');
+
+      }
+    );
+
+  }
+
+
+
+
+
+
 
 
 }

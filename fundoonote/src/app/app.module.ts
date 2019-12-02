@@ -26,6 +26,7 @@ import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.c
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DatetimePipe } from './service/pipe/datetime.pipe';
 import { DatePipe } from '@angular/common';
+import { ProfiledialougeComponent } from './component/note/profiledialouge/profiledialouge.component';
 
 
 
@@ -46,6 +47,7 @@ import { DatePipe } from '@angular/common';
     DialogComponent,
     LabeldialogComponent,
     DatetimePipe,
+    ProfiledialougeComponent,
 
 
 

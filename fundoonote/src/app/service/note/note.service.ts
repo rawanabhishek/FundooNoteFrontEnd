@@ -143,4 +143,13 @@ export class NoteService {
 
 
   }
+
+
+  searchByTitleDescription(searchValue) {
+    return this.httpService.searchByTitleDescription('elastic/title/description', searchValue);
+  }
+
+  getProfilePic() {
+    return this.httpService.getProfilePic('http://localhost:8080/user/profilepic', this.emailIdToken);
+  }
 }
