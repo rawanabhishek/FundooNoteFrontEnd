@@ -1,0 +1,12 @@
+<mat-card>
+    <h2  fxLayoutAlign="center center" >Select profile photo </h2>
+    <input  type="file"  (change)="onChangeUpload($event)">
+    <img style="width: 300px; height: 250px;" [src]="imagePath" *ngIf="imagePath">
+    <hr>
+<div fxLayout="row" fxLayoutAlign="center center">
+    <button mat-raised-button color="primary" (click)="setProfilePic()">Set as profile photo </button>
+    <button mat-raised-button color="accent" (click)="removeProfilePic()"> Remove profile photo</button>
+</div>
+  
+    
+</mat-card>

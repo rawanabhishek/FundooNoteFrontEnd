@@ -1,4 +1,4 @@
-<div class="notes-container" fxLayout="row wrap" fxFlexWrap.xs="column" fxLayoutAlign="center start">
+<div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center">
     <div class="notes" *ngFor="let note of notes">
         <mat-card [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">
@@ -19,7 +19,7 @@
                         </mat-chip>
                     </mat-chip-list>
                     <mat-menu #reminder="matMenu" >
-                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1" placeholder="Date Time" [(ngModel)]="datetime">
+                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"  [(ngModel)]="datetime">
                       
                         <owl-date-time #dt1></owl-date-time>
                          <button mat-button  (click)="addReminder(datetime, note.noteId)">save</button>

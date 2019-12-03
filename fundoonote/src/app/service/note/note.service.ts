@@ -152,4 +152,13 @@ export class NoteService {
   getProfilePic() {
     return this.httpService.getProfilePic('http://localhost:8080/user/profilepic', this.emailIdToken);
   }
+
+  setProfilePic(profilePic) {
+    return this.httpService.setProfilePic('http://localhost:8080/user/updateprofilepic', this.emailIdToken, profilePic);
+
+  }
+
+  removeProfilePic() {
+    return this.httpService.removeProfilePic('http://localhost:8080/user/removeprofilepic' , this.emailIdToken);
+  }
 }

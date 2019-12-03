@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { NoteService } from 'src/app/service/note/note.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
@@ -33,7 +33,10 @@ export class NotesComponent implements OnInit {
   removable = true;
   reminder: Date;
   labelId;
+
   labels = new Array<any>();
+  @Input() view: any;
+
 
 
 
@@ -54,7 +57,7 @@ export class NotesComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(val => {
       this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-      console.log('type', this.typeOfNote);
+      console.log('typeOf note', this.typeOfNote);
       this.getNotes();
       this.data.currentNote.subscribe(note => this.notes = note);
       this.data.changeNotes(this.notes);
@@ -70,15 +73,20 @@ export class NotesComponent implements OnInit {
     if (this.typeOfNote === 'trash') {
       this.trash = true;
       this.archive = false;
+
+
     } else if (this.typeOfNote === 'archive') {
       this.archive = true;
       this.trash = false;
       this.pin = false;
 
+
     } else if (this.typeOfNote === 'note') {
       this.archive = false;
       this.pin = false;
       this.trash = false;
+
+
     }
 
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
@@ -128,7 +136,7 @@ export class NotesComponent implements OnInit {
       } else {
         this.reminder = $event;
         this.noteId = note.noteId;
-        this.addReminder(this.reminder , this.noteId);
+        this.addReminder(this.reminder, this.noteId);
 
       }
     }
@@ -222,7 +230,7 @@ export class NotesComponent implements OnInit {
   }
 
 
-  addReminder(reminder , noteId) {
+  addReminder(reminder, noteId) {
     console.log('reminder =>', reminder);
     const date: string = this.datePipe.transform(reminder, 'dd MMMM yyyy hh:mm:ss UTC');
 

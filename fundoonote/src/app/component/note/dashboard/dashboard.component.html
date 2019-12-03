@@ -49,14 +49,14 @@
         <mat-icon>refresh</mat-icon>
       </button>
     </div>
-    <div class="icon" *ngIf="showView" fxHide.xs="true">
-      <button mat-icon-button matTooltip="Grid view" (click)="view()">
+    <div class="icon" *ngIf="showView"  fxHide.xs="true">
+      <button mat-icon-button matTooltip="Grid view" (click)="view();changeView()">
         <img src="/assets/img/listview.svg" alt="List view">
       </button>
     </div>
 
-    <div class="icon" *ngIf="!showView" fxHide.xs="true">
-      <button mat-icon-button matTooltip="List view" (click)="view()">
+    <div class="icon" *ngIf="!showView"  fxHide.xs="true">
+      <button mat-icon-button matTooltip="List view" (click)="view();changeView()">
         <img src="/assets/img/gridview.svg" alt="Grid view">
       </button>
     </div>
@@ -75,9 +75,9 @@
   <div fxLayout="row" fxLayoutAlign=" center"  style="margin-left: 2%;">
 
 
-    <div class="img">
-      <img src="/assets/img/user.svg" alt="user" [matMenuTriggerFor]="menu" matTooltip="Profile">
-
+    <div class="profile" [matMenuTriggerFor]="menu">
+      <img  [src]="profilePic" *ngIf="profilePic; else default"  matTooltip="Profile">
+     
     </div>
   </div>
 
@@ -121,12 +121,12 @@
 
 
       <hr>
-      <button mat-list-item  [routerLink]="['/dashboard/archive']" class="anchor">
+      <button mat-list-item  [routerLink]="['/dashboard/archive']" routerLinkActive="hideAddNotes()" class="anchor">
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
 
-      <button mat-list-item [routerLink]="['/dashboard/trash']" class="anchor">
+      <button mat-list-item [routerLink]="['/dashboard/trash']" routerLinkActive="hideAddNotes()" class="anchor">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 
@@ -138,7 +138,7 @@
 
   <mat-sidenav-content>
     <app-addnote *ngIf="!searchActive"></app-addnote>
-    <app-notes>
+    <app-notes [view]="viewLayout"  >
      </app-notes>
     
   </mat-sidenav-content>
@@ -158,8 +158,9 @@
 
   <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" style="width:100%; ">
     <div class="imgMenu" style="position: relative;">
-      <img [src]="profilePic" alt="user">
-      <img style="width: 25px; height: 25px;" src="/assets/img/camera.svg" alt="user">
+      <img style=" border-radius: 50%;  width:100px; height: 100px;"
+       [src]="profilePic" alt="user" *ngIf="profilePic; else default">
+      <img style="width: 25px; height: 25px;" src="/assets/img/camera.svg" alt="user" (click)="openUploadDialog()">
        
      
     </div >
@@ -178,4 +179,9 @@
   </div>
 
 </mat-menu>
+
+
+<ng-template #default>
+  <img src="/assets/img/user.svg" >
+</ng-template>
 

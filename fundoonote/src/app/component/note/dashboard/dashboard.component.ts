@@ -2,13 +2,15 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog, MatSnackBar, MatDialogRef } from '@angular/material';
 import { LabeldialogComponent } from '../labeldialog/labeldialog.component';
 
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 import { FormControl } from '@angular/forms';
+import { ProfiledialogComponent } from '../profiledialog/profiledialog.component';
+import { getType } from '@angular/flex-layout/extended/typings/style/style-transforms';
 
 
 
@@ -39,6 +41,7 @@ export class DashboardComponent implements OnInit {
   toggle = true;
   status = 'Enable';
   typeOfNote = '';
+  viewLayout = 'row wrap';
 
 
   selectedId: any;
@@ -55,21 +58,44 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private data: DataService,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
+
+
     this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-    console.log(this.typeOfNote);
-
-
+    console.log('dashboard' , this.typeOfNote);
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.getLabels();
+    console.log('dashboard type ', this.typeOfNote);
 
     this.data.changeLabel(this.labels);
     this.getNotes();
+    this.getProfilePicPath();
 
 
+
+
+
+
+
+  }
+
+  receiveView(type) {
+    if (type === 'archive' || type === 'trash') {
+      console.log('dashbaord', type);
+
+      this.searchActive = true;
+    } else {
+      console.log('dashbaord', type);
+      this.searchActive = false;
+    }
+  }
+
+
+  hideAddNotes() {
+    this.searchActive = false;
   }
 
   searching() {
@@ -126,6 +152,19 @@ export class DashboardComponent implements OnInit {
   }
 
 
+  openUploadDialog() {
+    this.dialog.open(ProfiledialogComponent,
+      {
+        panelClass: 'myapp-no-padding-dialog',
+        width: '350px',
+      });
+    this.dialog.afterAllClosed.subscribe(
+      result => {
+        this.ngOnInit();
+      }
+    );
+
+  }
 
 
   signOut() {
@@ -162,6 +201,18 @@ export class DashboardComponent implements OnInit {
 
   view() {
     this.showView = this.showView ? false : true;
+    console.log('before', this.viewLayout);
+
+
+
+  }
+
+  changeView() {
+    if (this.viewLayout === 'row wrap') {
+      this.viewLayout = 'column';
+    } else {
+      this.viewLayout = 'row wrap';
+    }
   }
 
 
@@ -191,9 +242,11 @@ export class DashboardComponent implements OnInit {
   getProfilePicPath() {
     this.noteService.getProfilePic().subscribe(
       response => {
-      this.profilePic = response.data;
 
-    },
+        this.profilePic = response.data;
+
+
+      },
       error => {
         console.log('Operation failed');
 

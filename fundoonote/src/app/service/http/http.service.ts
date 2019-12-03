@@ -62,14 +62,27 @@ export class HttpService {
   }
 
 
-  searchByTitleDescription(getNotePath , searchValue): Observable<any> {
-    return this.http.get<any>(this.baseUrl + getNotePath , {
-      params: new HttpParams().append('searchString' , searchValue)
-    } );
+  searchByTitleDescription(getNotePath, searchValue): Observable<any> {
+    return this.http.get<any>(this.baseUrl + getNotePath, {
+      params: new HttpParams().append('searchString', searchValue)
+    });
   }
 
-  getProfilePic(getProfilePath , emailIdToken): Observable<any> {
-    return this.http.get<any>(getProfilePath , {
+  getProfilePic(getProfilePath, emailIdToken): Observable<any> {
+    return this.http.get<any>(getProfilePath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken)
+    });
+  }
+
+  setProfilePic(getProfilePath, emailIdToken, profilePic): Observable<any> {
+    return this.http.put<any>(getProfilePath, profilePic, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+
+    });
+  }
+
+  removeProfilePic(getProfilePath, emailIdToken): Observable<any> {
+    return this.http.put<any>(getProfilePath, {}, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
     });
   }
