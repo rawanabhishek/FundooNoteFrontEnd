@@ -8,8 +8,11 @@ export class DataService {
 
   private noteSource = new BehaviorSubject<any>(null);
   private labelSource = new BehaviorSubject<any>(null);
+  private screenSource = new BehaviorSubject<any>('home');
+
   currentNote = this.noteSource.asObservable();
   currentLabel = this.labelSource.asObservable();
+  currentScreen = this.screenSource.asObservable();
 
   constructor() { }
 
@@ -19,6 +22,13 @@ export class DataService {
 
   changeLabel(label: any) {
     this.labelSource.next(label);
+  }
+
+  changeScreen(screen: string): void {
+
+
+    this.screenSource.next(screen);
+
   }
 
 

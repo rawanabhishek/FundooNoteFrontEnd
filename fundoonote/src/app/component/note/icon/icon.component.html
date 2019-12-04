@@ -1,11 +1,17 @@
 
-    <div class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center"   >
+    <div class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center"  *ngIf="!trash" >
         <span   matTooltip="Remind me" [matMenuTriggerFor]="reminder" > <img src="/assets/img/remindme.svg" alt="Remind me" ></span>
         <span  matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
         <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
-        <span  matTooltip="Archive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
+        <span  matTooltip="Archive"  *ngIf="!unarchive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
+        <span  matTooltip="Unarchive" *ngIf="unarchive" (click)="onChange('unArchive')"> <img src="/assets/img/unarchive.svg" alt="Archive" ></span>
         <span  mat-button [matMenuTriggerFor]="more" matTooltip="More"> <img src="/assets/img/more.svg" alt="More" ></span>
 
+    </div>
+
+    <div *ngIf="trash"  class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center">
+      <span matTooltip="Delete forever" (click)="onChange('deleteforever')" ><img src="/assets/img/deleteforever.svg" alt="deleteforever" ></span>
+      <span matTooltip="Restore" (click)="onChange('restore')"><img src="/assets/img/restore.svg" alt="restore" ></span>
     </div>
 
    

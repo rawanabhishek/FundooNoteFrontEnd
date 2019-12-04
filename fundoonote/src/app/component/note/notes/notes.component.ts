@@ -33,6 +33,7 @@ export class NotesComponent implements OnInit {
   removable = true;
   reminder: Date;
   labelId;
+  screenType;
 
   labels = new Array<any>();
   @Input() view: any;
@@ -106,6 +107,12 @@ export class NotesComponent implements OnInit {
       this.archive = true;
       this.noteId = note.noteId;
       this.archiveNote();
+    } else if ($event === 'unarchive') {
+      this.unarchiveNotes(note.noteId);
+    } else if ($event === 'deleteforever') {
+      this.deleteForever(note.noteId);
+    } else if ($event === 'restore') {
+      this.restoreNote(note.noteId);
     } else if ($event === 'pin') {
       this.pin = true;
       this.noteId = note.noteId;
@@ -251,6 +258,44 @@ export class NotesComponent implements OnInit {
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
   }
+
+
+  deleteForever(noteId) {
+    this.noteService.deleteNote(noteId).subscribe(
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+  restoreNote(noteId) {
+    this.noteService.untrash(noteId).subscribe(
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+
+  unarchiveNotes(noteId) {
+    this.noteService.archiveNotes(noteId).subscribe(
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
+
+  }
+
+
 }
 
 

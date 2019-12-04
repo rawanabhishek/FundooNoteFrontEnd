@@ -10,7 +10,8 @@ import { map, startWith } from 'rxjs/operators';
 
 import { FormControl } from '@angular/forms';
 import { ProfiledialogComponent } from '../profiledialog/profiledialog.component';
-import { getType } from '@angular/flex-layout/extended/typings/style/style-transforms';
+
+
 
 
 
@@ -64,11 +65,17 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
 
 
-    this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-    console.log('dashboard' , this.typeOfNote);
+
+    // this.router.events.subscribe(event => {
+    //   this.typeOfNote = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
+    //   //  console.log(' dashboard route event', this.typeOfNote);
+    //   this.receiveView(this.typeOfNote);
+    // });
+
+
+
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.getLabels();
-    console.log('dashboard type ', this.typeOfNote);
 
     this.data.changeLabel(this.labels);
     this.getNotes();
@@ -82,16 +89,14 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  receiveView(type) {
-    if (type === 'archive' || type === 'trash') {
-      console.log('dashbaord', type);
+  // receiveView(type) {
+  //   if (type === 'archive' || type === 'trash') {
+  //     this.searchActive = true;
+  //   } else {
 
-      this.searchActive = true;
-    } else {
-      console.log('dashbaord', type);
-      this.searchActive = false;
-    }
-  }
+  //     this.searchActive = false;
+  //   }
+  // }
 
 
   hideAddNotes() {
@@ -103,23 +108,23 @@ export class DashboardComponent implements OnInit {
     this.filteredOptions = this.search.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.notes.slice())
       );
 
   }
 
 
-  displayFn(subject) {
-    return subject ? subject.name : undefined;
+  displayFn(user?: any): string | undefined {
+    return user ? user.title : undefined;
   }
 
-  private _filter(value: string): any[] {
-    console.log('1234', this.notes);
-    if (value != null) {
-      const filterValue = value.toLowerCase();
-      return this.notes.filter(note => note.title.toLowerCase().includes(filterValue));
+  private _filter(name: string): any[] {
 
-    }
+    const filterValue = name.toLowerCase();
+    return this.notes.filter(note => note.title.toLowerCase().includes(filterValue));
+
+
 
   }
 
@@ -195,7 +200,7 @@ export class DashboardComponent implements OnInit {
   closeSearch() {
     this.searchActive = false;
     this.getNotes();
-    this.search.reset();
+    this.search.setValue('');
   }
 
 
@@ -224,12 +229,24 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  changeScreen(screenType) {
+    if (screenType === 'archive' || screenType === 'trash') {
+      this.searchActive = true;
+    } else {
+      this.searchActive = false;
+    }
+
+    this.data.changeScreen(screenType);
+    console.log('dashboard screen ', screenType);
+
+
+  }
+
 
   searchByTitleDescription(search) {
     this.noteService.searchByTitleDescription(search).subscribe(
       response => {
         this.data.changeNotes(response.data);
-        console.log('baot', response);
       },
       error => {
         console.log('Operation failed');

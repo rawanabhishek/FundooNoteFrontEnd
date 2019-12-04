@@ -3,6 +3,8 @@ import { NoteService } from 'src/app/service/note/note.service';
 import { MatSnackBar } from '@angular/material';
 
 import { DataService } from 'src/app/service/data/data.service';
+import { Router, ActivatedRoute } from '@angular/router';
+
 
 
 
@@ -29,9 +31,14 @@ export class IconComponent implements OnInit {
   archive = false;
   trash = false;
   showAddLabel = false;
+  unarchive = false;
 
   reminder: string;
   labels: any;
+  typeOfNote: any;
+  screens: string;
+
+
 
 
 
@@ -48,21 +55,45 @@ export class IconComponent implements OnInit {
 
   ngOnInit() {
 
-  this.getLabels();
+    this.data.currentScreen.subscribe(screenType => {
+      console.log('icon screen', screenType);
+      this.screens = screenType.data;
+
+      if (screenType === 'home') {
+        this.trash = false;
+        this.unarchive = false;
+      } else if (screenType === 'archive') {
+
+
+        this.trash = false;
+        this.unarchive = true;
+      } else if (screenType === 'trash') {
+
+        this.trash = true;
+        this.unarchive = false;
+      }
+    });
+
+    this.getLabels();
     // this.data.currentNote.subscribe(note => this.notes = note);
   }
 
-  // getNotes() {
-  //   this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-  //     result => {
-  //       this.notes = result.data;
-  //       this.data.changeNotes(this.notes);
-  //     },
-  //     error => {
-  //       this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-  //     }
-  //   );
-  // }
+
+  getNotes() {
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      result => {
+        this.notes = result.data;
+        this.data.changeNotes(this.notes);
+      },
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+
+
+
 
   getLabels() {
     this.noteService.getLabels().subscribe(

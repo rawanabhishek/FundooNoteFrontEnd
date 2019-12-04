@@ -19,7 +19,7 @@
                         </mat-chip>
                     </mat-chip-list>
                     <mat-menu #reminder="matMenu" >
-                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"  [(ngModel)]="datetime">
+                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"  [(ngModel)]="datetime" placeholder="Date time">
                       
                         <owl-date-time #dt1></owl-date-time>
                          <button mat-button  (click)="addReminder(datetime, note.noteId)">save</button>
@@ -40,7 +40,7 @@
 
 
             <div>
-                <app-icon (messageEvent)="receiveMessage($event,note)" [noteId]="note.noteId"></app-icon>
+                <app-icon (messageEvent)="receiveMessage($event,note)" [noteId]="note.noteId" ></app-icon>
             </div>
 
         </mat-card>

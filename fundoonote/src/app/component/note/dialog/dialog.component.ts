@@ -65,7 +65,13 @@ export class DialogComponent implements OnInit {
       this.archive = true;
       this.noteId = note.noteId;
       this.archiveNote();
-    } else if ($event === 'pin') {
+    } else if ($event === 'unarchive') {
+      this.unarchiveNotes();
+    } else if ($event === 'deleteforever') {
+       this.deleteForever();
+    } else if ($event === 'restore') {
+        this.restoreNote();
+    }  else if ($event === 'pin') {
       this.pin = true;
       this.noteId = note.noteId;
     } else if (typeof $event === 'string') {
@@ -236,6 +242,42 @@ export class DialogComponent implements OnInit {
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
   }
+
+  deleteForever() {
+    this.noteService.deleteNote(this.note.noteId).subscribe(
+     response => {
+       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+     },
+     error => {
+       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+     }
+   );
+ }
+
+ restoreNote() {
+   this.noteService.untrash(this.note.noteId).subscribe(
+     response => {
+       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+     },
+     error => {
+       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+     }
+   );
+ }
+
+
+ unarchiveNotes() {
+   this.noteService.archiveNotes(this.note.noteId).subscribe(
+     response => {
+       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+     },
+     error => {
+       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+     }
+   );
+
+ }
+
 
 
 

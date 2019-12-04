@@ -29,7 +29,7 @@ export class HttpService {
     });
   }
 
-  put({ path, data, emailIdToken, id }: { path; data; emailIdToken; id; }): Observable<any> {
+  put( path, data, emailIdToken, id ): Observable<any> {
     return this.http.put<any>(this.baseUrl + path, data, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', id)
@@ -38,7 +38,7 @@ export class HttpService {
 
 
 
-  delete({ path, emailIdToken, id }: { path; emailIdToken; id; }): Observable<any> {
+  delete(path, emailIdToken, id): Observable<any> {
     return this.http.delete<any>(this.baseUrl + path, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', id)
@@ -62,8 +62,9 @@ export class HttpService {
   }
 
 
-  searchByTitleDescription(getNotePath, searchValue): Observable<any> {
+  searchByTitleDescription(getNotePath, searchValue, emailIdToken): Observable<any> {
     return this.http.get<any>(this.baseUrl + getNotePath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
       params: new HttpParams().append('searchString', searchValue)
     });
   }

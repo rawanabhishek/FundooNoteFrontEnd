@@ -50,7 +50,7 @@ export class NoteService {
 
   archiveNotes(id) {
 
-    return this.httpService.put({ path: 'note/archive', data: {}, emailIdToken: this.emailIdToken, id });
+    return this.httpService.put( 'note/archive',  {},  this.emailIdToken, id );
 
   }
 
@@ -93,20 +93,13 @@ export class NoteService {
 
 
   deleteNote(id) {
-    this.httpService.delete({ path: 'note', emailIdToken: this.emailIdToken, id }).subscribe(
-      response => {
-        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-      },
-      error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      }
-    );
+   return  this.httpService.delete( 'note', this.emailIdToken, id );
   }
 
 
   updateNote(data, id) {
 
-    return this.httpService.put({ path: 'note', data, emailIdToken: this.emailIdToken, id });
+    return this.httpService.put( 'note', data,  this.emailIdToken, id );
   }
 
   createNote(data) {
@@ -115,19 +108,19 @@ export class NoteService {
 
   trashNote(id) {
 
-    return this.httpService.put({ path: 'note/trash', data: {}, emailIdToken: this.emailIdToken, id });
+    return this.httpService.put( 'note/trash',  {},  this.emailIdToken, id );
 
   }
 
   removeReminder(id) {
-    return this.httpService.put({ path: 'note/removeremainder', data: {}, emailIdToken: this.emailIdToken, id });
+    return this.httpService.put( 'note/removeremainder', {}, this.emailIdToken, id );
   }
 
 
 
   pinNote(id) {
 
-    this.httpService.put({ path: 'note/pin', data: {}, emailIdToken: this.emailIdToken, id })
+    this.httpService.put('note/pin', {},  this.emailIdToken, id )
       .subscribe(
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
@@ -146,7 +139,7 @@ export class NoteService {
 
 
   searchByTitleDescription(searchValue) {
-    return this.httpService.searchByTitleDescription('elastic/title/description', searchValue);
+    return this.httpService.searchByTitleDescription('note/title/description', searchValue , this.emailIdToken);
   }
 
   getProfilePic() {
@@ -161,4 +154,13 @@ export class NoteService {
   removeProfilePic() {
     return this.httpService.removeProfilePic('http://localhost:8080/user/removeprofilepic' , this.emailIdToken);
   }
+
+  untrash(noteId) {
+    return this.httpService.put( 'note/trash',  {} ,  this.emailIdToken, noteId );
+  }
+
+
+
+
+
 }

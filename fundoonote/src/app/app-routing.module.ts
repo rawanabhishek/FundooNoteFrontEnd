@@ -11,6 +11,7 @@ import { NotesComponent } from './component/note/notes/notes.component';
 import { LoginComponent } from './component/user/login/login.component';
 import { AddnoteComponent } from './component/note/addnote/addnote.component';
 import { AuthGuard } from './auth.guard';
+import { IconComponent } from './component/note/icon/icon.component';
 
 
 
@@ -26,9 +27,17 @@ const routes: Routes = [
   {
     path: 'dashboard', component: DashboardComponent,
     children: [
-      { path: ':type', component: NotesComponent },
+      {
+        path: ':type', component: NotesComponent, children: [
+          { path: 'icon', component: IconComponent }
+        ]
+      },
 
-      { path: 'addnote', component: AddnoteComponent }
+      {
+        path: 'addnote', component: AddnoteComponent, children: [
+          { path: 'icon', component: IconComponent }
+        ]
+      }
 
 
 

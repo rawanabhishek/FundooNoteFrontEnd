@@ -102,6 +102,7 @@ export class AddnoteComponent implements OnInit {
 
     if (this.noteData.title != null || this.noteData.description != null) {
       this.addNote();
+      console.log('title', this.noteData.title);
 
       this.title.reset();
       this.description.reset();

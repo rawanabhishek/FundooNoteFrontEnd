@@ -24,18 +24,20 @@
 
   <div fxLayout="row" fxFlex.xs="20" fxFlex="70" class="search">
 
-    <button mat-icon-button matTooltip="Search" >
+    <button mat-icon-button matTooltip="Search" fxHide.xs="true" >
       <mat-icon>search</mat-icon>
     </button>
+    <div style="width: 100%;">
     <input matTooltip="Search bar" [matAutocomplete]="auto" [formControl]="search" class="input" 
     placeholder="Search" name="search" fxHide.xs="true"   (click)="activate()" 
     (input)="searchByTitleDescription($event.target.value)">
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-      <mat-option *ngFor="let note of filteredOptions | async " [value]="note">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" >
+      <mat-option *ngFor="let note of filteredOptions | async " [value]="note" fxHide.xs="true">
         {{note.title}}
       </mat-option>
     </mat-autocomplete>
-    <button mat-icon-button  matTooltip="Clear search" fxHide.xs="true" (click)="closeSearch()">
+  </div>
+    <button  mat-icon-button  matTooltip="Clear search" fxHide.xs="true" (click)="closeSearch()">
       <mat-icon>clear</mat-icon>
     </button>
 
@@ -93,7 +95,7 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
     <mat-nav-list class="button1">
 
-      <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor" >
+      <button  mat-list-item  [routerLink]="['/dashboard/note']" (click)="changeScreen('home')" class="anchor" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
       <a mat-list-item  routerLinkActive="active" class="anchor">
@@ -121,12 +123,13 @@
 
 
       <hr>
-      <button mat-list-item  [routerLink]="['/dashboard/archive']" routerLinkActive="hideAddNotes()" class="anchor">
+      <button mat-list-item  [routerLink]="['/dashboard/archive']" 
+      (click)="changeScreen('archive')"  class="anchor">
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
 
-      <button mat-list-item [routerLink]="['/dashboard/trash']" routerLinkActive="hideAddNotes()" class="anchor">
+      <button mat-list-item [routerLink]="['/dashboard/trash']" (click)="changeScreen('trash')" class="anchor">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 
