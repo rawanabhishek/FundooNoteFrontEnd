@@ -66,11 +66,23 @@ export class DashboardComponent implements OnInit {
 
 
 
-    // this.router.events.subscribe(event => {
-    //   this.typeOfNote = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
-    //   //  console.log(' dashboard route event', this.typeOfNote);
-    //   this.receiveView(this.typeOfNote);
-    // });
+    this.router.events.subscribe(event => {
+      this.typeOfNote = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
+      //  console.log(' dashboard route event', this.typeOfNote);
+      this.receiveView(this.typeOfNote);
+    });
+
+    if (this.router.url.includes('/trash') || this.router.url.includes('/archive')) {
+      this.typeOfNote = 'trash';
+      console.log(this.router.url);
+      this.receiveView(this.typeOfNote);
+    } else if (this.router.url.includes('/note')) {
+      this.typeOfNote = 'note';
+      this.receiveView(this.typeOfNote);
+    }
+
+    console.log(this.router.url);
+
 
 
 
@@ -89,14 +101,14 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  // receiveView(type) {
-  //   if (type === 'archive' || type === 'trash') {
-  //     this.searchActive = true;
-  //   } else {
+  receiveView(type) {
+    if (type === 'archive' || type === 'trash') {
+      this.searchActive = true;
+    } else if (type === 'note') {
 
-  //     this.searchActive = false;
-  //   }
-  // }
+      this.searchActive = false;
+    }
+  }
 
 
   hideAddNotes() {

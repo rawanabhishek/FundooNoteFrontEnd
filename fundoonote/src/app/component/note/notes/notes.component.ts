@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '../dialog/dialog.component';
 import { DataService } from 'src/app/service/data/data.service';
 import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 
@@ -49,46 +49,102 @@ export class NotesComponent implements OnInit {
     private data: DataService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private router: Router
   ) {
     console.log('im in constructor');
   }
 
   ngOnInit() {
+    this.activatedRoute.url.subscribe(response => {
+      // this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
+      // console.log('typeOf note', this.typeOfNote);
+      // this.data.currentNote.subscribe(note => this.notes = note);
+      // this.data.changeNotes(this.notes);
 
-    this.activatedRoute.params.subscribe(val => {
-      this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-      console.log('typeOf note', this.typeOfNote);
+      if (this.router.url.includes('/trash')) {
+        this.trash = true;
+        this.archive = false;
+        this.pin = false;
+
+      }
+
+      if (this.router.url.includes('/archive')) {
+        this.trash = false;
+        this.archive = true;
+        this.pin = false;
+
+      }
+
+
+      if (this.router.url.includes('/note')) {
+        this.trash = false;
+        this.archive = false;
+        this.pin = false;
+
+      }
+
       this.getNotes();
       this.data.currentNote.subscribe(note => this.notes = note);
       this.data.changeNotes(this.notes);
 
+
     });
+
+    if (this.router.url.includes('/trash')) {
+      this.trash = true;
+      this.archive = false;
+      this.pin = false;
+
+    }
+
+    if (this.router.url.includes('/archive')) {
+      this.trash = false;
+      this.archive = true;
+      this.pin = false;
+
+    }
+
+
+    if (this.router.url.includes('/note')) {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+
+    }
+
+    this.getNotes();
+    this.data.currentNote.subscribe(note => this.notes = note);
+    this.data.changeNotes(this.notes);
+
+
+
 
   }
 
 
 
-
   getNotes() {
-    if (this.typeOfNote === 'trash') {
-      this.trash = true;
-      this.archive = false;
+
+    // if (this.typeOfNote === 'trash') {
+    //   this.trash = true;
+    //   this.archive = false;
+    //   this.pin = false;
 
 
-    } else if (this.typeOfNote === 'archive') {
-      this.archive = true;
-      this.trash = false;
-      this.pin = false;
+    // } else if (this.typeOfNote === 'archive') {
+    //   this.archive = true;
+    //   this.trash = false;
+    //   this.pin = false;
 
 
-    } else if (this.typeOfNote === 'note') {
-      this.archive = false;
-      this.pin = false;
-      this.trash = false;
+    // } else if (this.typeOfNote === 'note') {
+    //   this.archive = false;
+    //   this.pin = false;
+    //   this.trash = false;
 
 
-    }
+    // }
 
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
@@ -102,22 +158,34 @@ export class NotesComponent implements OnInit {
   }
 
 
+  get() {
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      result => {
+        this.notes = result.data;
+        this.data.changeNotes(this.notes);
+      },
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+
+
   receiveMessage($event, note) {
     if ($event === 'archive') {
-      this.archive = true;
       this.noteId = note.noteId;
       this.archiveNote();
     } else if ($event === 'unarchive') {
-      this.unarchiveNotes(note.noteId);
+      this.noteId = note.noteId;
+      this.unarchiveNotes();
     } else if ($event === 'deleteforever') {
       this.deleteForever(note.noteId);
     } else if ($event === 'restore') {
       this.restoreNote(note.noteId);
     } else if ($event === 'pin') {
-      this.pin = true;
       this.noteId = note.noteId;
     } else if ($event === 'delete') {
-      this.trash = true;
       this.noteId = note.noteId;
       this.deleteNote();
     } else if (typeof $event === 'string') {
@@ -173,7 +241,7 @@ export class NotesComponent implements OnInit {
       .subscribe(
         response => {
           this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
-          this.getNotes();
+          this.get();
         },
         error => {
           return this.snackBar.open('Note color updation failed', 'close')._dismissAfter(2000);
@@ -188,7 +256,7 @@ export class NotesComponent implements OnInit {
       .subscribe(
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-          this.getNotes();
+          this.get();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -201,7 +269,7 @@ export class NotesComponent implements OnInit {
       .subscribe(
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-          this.getNotes();
+          this.get();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -226,7 +294,7 @@ export class NotesComponent implements OnInit {
   deleteNote() {
     this.noteService.trashNote(this.noteId).subscribe(
       response => {
-        this.getNotes();
+        this.get();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -243,7 +311,7 @@ export class NotesComponent implements OnInit {
 
     this.noteService.addReminder(date, noteId).subscribe(
       response => {
-        this.getNotes();
+        this.get();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -253,7 +321,7 @@ export class NotesComponent implements OnInit {
   addLabel(labelId) {
     this.noteService.addLabel(this.noteId, labelId).subscribe(
       response => {
-        this.getNotes();
+        this.get();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -263,6 +331,8 @@ export class NotesComponent implements OnInit {
   deleteForever(noteId) {
     this.noteService.deleteNote(noteId).subscribe(
       response => {
+        console.log('deleteforever', this.pin, this.archive, this.trash);
+        this.get();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -274,6 +344,7 @@ export class NotesComponent implements OnInit {
   restoreNote(noteId) {
     this.noteService.untrash(noteId).subscribe(
       response => {
+        this.get();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -283,13 +354,16 @@ export class NotesComponent implements OnInit {
   }
 
 
-  unarchiveNotes(noteId) {
-    this.noteService.archiveNotes(noteId).subscribe(
+  unarchiveNotes() {
+    this.noteService.archiveNotes(this.noteId).subscribe(
       response => {
-        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+        // this.archive = true;
+        // this.trash = false;
+        this.get();
+        this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
       },
       error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        return this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
       }
     );
 

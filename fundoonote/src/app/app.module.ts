@@ -27,7 +27,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 import { DatetimePipe } from './service/pipe/datetime.pipe';
 import { DatePipe } from '@angular/common';
 import { ProfiledialogComponent } from './component/note/profiledialog/profiledialog.component';
-
+import { NgxMasonryModule } from 'ngx-masonry';
 
 
 
@@ -64,7 +64,8 @@ import { ProfiledialogComponent } from './component/note/profiledialog/profiledi
     DemoMaterialModule,
     FlexLayoutModule,
     OwlDateTimeModule,
-    OwlNativeDateTimeModule
+    OwlNativeDateTimeModule,
+    NgxMasonryModule
   ],
   entryComponents: [DialogComponent, LabeldialogComponent , ProfiledialogComponent],
   providers: [UserService, DatePipe],

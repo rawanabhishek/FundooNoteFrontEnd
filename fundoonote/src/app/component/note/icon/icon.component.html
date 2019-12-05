@@ -4,7 +4,7 @@
         <span  matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
         <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
         <span  matTooltip="Archive"  *ngIf="!unarchive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
-        <span  matTooltip="Unarchive" *ngIf="unarchive" (click)="onChange('unArchive')"> <img src="/assets/img/unarchive.svg" alt="Archive" ></span>
+        <span  matTooltip="Unarchive" *ngIf="unarchive" (click)="onChange('unarchive')"> <img src="/assets/img/unarchive.svg" alt="Archive" ></span>
         <span  mat-button [matMenuTriggerFor]="more" matTooltip="More"> <img src="/assets/img/more.svg" alt="More" ></span>
 
     </div>
@@ -16,9 +16,9 @@
 
    
 <mat-menu #more="matMenu"  >
-  <button mat-menu-item (click)="onChange('delete')" *ngIf="!showAddLabel">Delete note</button>
-  <button mat-menu-item   *ngIf="!showAddLabel" (click)="showAddLabels()"   >Add label</button>
-  <div *ngIf="showAddLabel" fxLayout="column" style="margin-left: 5px;" (click)="onEvent($event)" >
+  <button mat-menu-item (click)="onChange('delete')" *ngIf="!showAddLabel" >Delete note</button>
+  <button mat-menu-item   *ngIf="!showAddLabel" (click)="showAddLabels($event)"   >Add label</button>
+  <div *ngIf="showAddLabel" fxLayout="column" style="margin-left: 5px;" (click)="$event.stopPropagation()" >
     <div fxLayoutAlign="start center">
         <p>Label note</p>
     </div>

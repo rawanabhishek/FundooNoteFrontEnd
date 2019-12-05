@@ -51,13 +51,13 @@
         <mat-icon>refresh</mat-icon>
       </button>
     </div>
-    <div class="icon" *ngIf="showView"  fxHide.xs="true">
+    <div class="icon" *ngIf="!showView"  fxHide.xs="true">
       <button mat-icon-button matTooltip="Grid view" (click)="view();changeView()">
         <img src="/assets/img/listview.svg" alt="List view">
       </button>
     </div>
 
-    <div class="icon" *ngIf="!showView"  fxHide.xs="true">
+    <div class="icon" *ngIf="showView"  fxHide.xs="true">
       <button mat-icon-button matTooltip="List view" (click)="view();changeView()">
         <img src="/assets/img/gridview.svg" alt="Grid view">
       </button>
@@ -95,7 +95,8 @@
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
     <mat-nav-list class="button1">
 
-      <button  mat-list-item  [routerLink]="['/dashboard/note']" (click)="changeScreen('home')" class="anchor" >
+      <!-- (click)="changeScreen('home')" -->
+      <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
       <a mat-list-item  routerLinkActive="active" class="anchor">
@@ -123,13 +124,14 @@
 
 
       <hr>
+      <!-- (click)="changeScreen('archive')" -->
       <button mat-list-item  [routerLink]="['/dashboard/archive']" 
-      (click)="changeScreen('archive')"  class="anchor">
+        class="anchor">
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
-
-      <button mat-list-item [routerLink]="['/dashboard/trash']" (click)="changeScreen('trash')" class="anchor">
+        <!-- (click)="changeScreen('trash')" -->
+      <button mat-list-item [routerLink]="['/dashboard/trash']"  class="anchor">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 

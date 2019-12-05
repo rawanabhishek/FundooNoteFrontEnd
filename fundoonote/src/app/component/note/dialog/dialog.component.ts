@@ -5,6 +5,7 @@ import { NoteService } from 'src/app/service/note/note.service';
 import { FormControl } from '@angular/forms';
 import { DataService } from 'src/app/service/data/data.service';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dialog',
@@ -22,9 +23,9 @@ export class DialogComponent implements OnInit {
   updateData: any;
   private noteColor: string;
   getNotePathColor = 'note/updatecolor';
-  pin = false;
-  archive = false;
-  trash = false;
+  pin: boolean;
+  archive: boolean;
+  trash: boolean;
   selectable = true;
   removable = true;
   notes;
@@ -46,13 +47,38 @@ export class DialogComponent implements OnInit {
     private dataService: DataService,
     private noteService: NoteService,
     private datePipe: DatePipe,
-    private snackBar: MatSnackBar) { }
+    private snackBar: MatSnackBar,
+    private router: Router
+    ) { }
 
   ngOnInit() {
 
+    console.log('note dialog inint');
+
+    if (this.router.url.includes('/trash')) {
+      this.trash = true;
+      this.archive = false;
+      this.pin = false;
+
+    }
+
+    if (this.router.url.includes('/archive')) {
+      this.trash = false;
+      this.archive = true;
+      this.pin = false;
+
+    }
+
+
+    if (this.router.url.includes('/note')) {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+
+    }
+
     this.note = this.data;
     console.log('data->', this.note);
-    this.getNotes();
     this.dataService.currentNote.subscribe(note => this.notes = note);
   }
 
@@ -62,7 +88,6 @@ export class DialogComponent implements OnInit {
 
   receiveMessage($event, note) {
     if ($event === 'archive') {
-      this.archive = true;
       this.noteId = note.noteId;
       this.archiveNote();
     } else if ($event === 'unarchive') {
@@ -72,8 +97,7 @@ export class DialogComponent implements OnInit {
     } else if ($event === 'restore') {
         this.restoreNote();
     }  else if ($event === 'pin') {
-      this.pin = true;
-      this.noteId = note.noteId;
+    this.noteId = note.noteId;
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
@@ -194,7 +218,6 @@ export class DialogComponent implements OnInit {
   archiveNote() {
     this.noteService.archiveNotes(this.note.noteId).subscribe(
       response => {
-        this.archive = false;
 
         this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
         this.getNotes();

@@ -35,10 +35,10 @@ export class IconComponent implements OnInit {
 
   reminder: string;
   labels: any;
-  typeOfNote: any;
-  screens: string;
 
+  // @Input() screens = '';
 
+  typeOfNote = '';
 
 
 
@@ -47,7 +47,8 @@ export class IconComponent implements OnInit {
   constructor(
     private noteService: NoteService,
     private snackBar: MatSnackBar,
-    private data: DataService
+    private data: DataService,
+    private router: Router
 
   ) {
 
@@ -55,28 +56,60 @@ export class IconComponent implements OnInit {
 
   ngOnInit() {
 
-    this.data.currentScreen.subscribe(screenType => {
-      console.log('icon screen', screenType);
-      this.screens = screenType.data;
-
-      if (screenType === 'home') {
-        this.trash = false;
-        this.unarchive = false;
-      } else if (screenType === 'archive') {
 
 
-        this.trash = false;
-        this.unarchive = true;
-      } else if (screenType === 'trash') {
 
-        this.trash = true;
-        this.unarchive = false;
-      }
-    });
+    if (this.router.url.includes('/archive')) {
+      this.trash = false;
+      this.unarchive = true;
+    } else if (this.router.url.includes('/trash')) {
+      this.trash = true;
+      this.unarchive = false;
+    } else {
+      this.trash = false;
+      this.unarchive = false;
+    }
+
+
+    // this.data.currentScreen.subscribe(screenType => {
+    //   console.log('icon screen', screenType);
+    //   this.screens = screenType.data;
+
+    //   if (screenType === 'home') {
+    //     this.trash = false;
+    //     this.unarchive = false;
+    //   } else if (screenType === 'archive') {
+
+
+    //     this.trash = false;
+    //     this.unarchive = true;
+    //   } else if (screenType === 'trash') {
+
+    //     this.trash = true;
+    //     this.unarchive = false;
+    //   }
+    // });
 
     this.getLabels();
-    // this.data.currentNote.subscribe(note => this.notes = note);
+    this.data.currentNote.subscribe(note => this.notes = note);
   }
+
+
+  // changeType(typeOfNote) {
+
+  //   if (typeOfNote === 'note') {
+  //     this.trash = false;
+  //     this.unarchive = false;
+  //   } else if (typeOfNote === 'archive') {
+  //     this.trash = false;
+  //     this.unarchive = true;
+  //   } else if (typeOfNote === 'trash') {
+  //     this.trash = true;
+  //     this.unarchive = false;
+  //   }
+
+  // }
+
 
 
   getNotes() {
@@ -107,7 +140,8 @@ export class IconComponent implements OnInit {
     );
   }
 
-  showAddLabels() {
+  showAddLabels($event) {
+    $event.stopPropagation();
     this.showAddLabel = this.showAddLabel ? false : true;
   }
 
@@ -119,9 +153,7 @@ export class IconComponent implements OnInit {
 
   }
 
-  onEvent(event) {
-    event.stopPropagation();
-  }
+
 
 
 

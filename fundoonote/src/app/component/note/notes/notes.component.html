@@ -1,5 +1,7 @@
+
 <div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center">
-    <div class="notes" *ngFor="let note of notes">
+        
+    <div class="notes" *ngFor="let note of notes ">
         <mat-card [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">
                 <p> {{ note.title }}</p>
@@ -40,7 +42,7 @@
 
 
             <div>
-                <app-icon (messageEvent)="receiveMessage($event,note)" [noteId]="note.noteId" ></app-icon>
+                <app-icon (messageEvent)="receiveMessage($event,note)"   ></app-icon>
             </div>
 
         </mat-card>
