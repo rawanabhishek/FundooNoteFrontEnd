@@ -10,6 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { FormControl } from '@angular/forms';
 import { ProfiledialogComponent } from '../profiledialog/profiledialog.component';
+import { isNgTemplate } from '@angular/compiler';
 
 
 
@@ -76,7 +77,7 @@ export class DashboardComponent implements OnInit {
       this.typeOfNote = 'trash';
       console.log(this.router.url);
       this.receiveView(this.typeOfNote);
-    } else if (this.router.url.includes('/note')) {
+    } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder') ) {
       this.typeOfNote = 'note';
       this.receiveView(this.typeOfNote);
     }
@@ -104,7 +105,7 @@ export class DashboardComponent implements OnInit {
   receiveView(type) {
     if (type === 'archive' || type === 'trash') {
       this.searchActive = true;
-    } else if (type === 'note') {
+    } else if (type === 'note' || type === 'reminder') {
 
       this.searchActive = false;
     }
@@ -167,6 +168,53 @@ export class DashboardComponent implements OnInit {
 
     );
   }
+
+  getNotesByReminder() {
+    {
+      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+        result => {
+          this.notes = result.data.filter(item => item.reminder);
+          this.data.changeNotes(this.notes);
+          console.log('list of notes', this.notes);
+
+
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+
+      );
+    }
+  }
+
+
+  // getNotesByLabel(label) {
+  //   {
+
+
+  //     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+  //       result => {
+  //         this.notes = result.data.filter((item) => {
+  //           item.forEach(element => {
+  //             console.log( element.labels);
+
+  //           });
+
+
+
+  //         }
+  //         );
+  //         this.data.changeNotes(this.notes);
+
+
+  //       },
+  //       error => {
+  //         return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+  //       }
+
+  //     );
+  //   }
+  // }
 
 
   openUploadDialog() {

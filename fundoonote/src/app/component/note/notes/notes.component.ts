@@ -66,25 +66,35 @@ export class NotesComponent implements OnInit {
         this.trash = true;
         this.archive = false;
         this.pin = false;
+        this.getNotes();
 
       }
-
       if (this.router.url.includes('/archive')) {
         this.trash = false;
         this.archive = true;
         this.pin = false;
+        this.getNotes();
 
       }
-
-
       if (this.router.url.includes('/note')) {
         this.trash = false;
         this.archive = false;
         this.pin = false;
+        this.getNotes();
 
       }
 
-      this.getNotes();
+      if (this.router.url.includes('/reminder')) {
+        this.trash = false;
+        this.archive = false;
+        this.pin = false;
+        this.getNotesByReminder();
+
+      }
+
+
+
+
       this.data.currentNote.subscribe(note => this.notes = note);
       this.data.changeNotes(this.notes);
 
@@ -95,25 +105,34 @@ export class NotesComponent implements OnInit {
       this.trash = true;
       this.archive = false;
       this.pin = false;
+      this.getNotes();
 
     }
-
     if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
       this.pin = false;
+      this.getNotes();
 
     }
-
-
     if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
       this.pin = false;
+      this.getNotes();
 
     }
 
-    this.getNotes();
+    if (this.router.url.includes('/reminder')) {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+      this.getNotesByReminder();
+
+    }
+
+
+
     this.data.currentNote.subscribe(note => this.notes = note);
     this.data.changeNotes(this.notes);
 
@@ -170,6 +189,25 @@ export class NotesComponent implements OnInit {
     );
   }
 
+  getNotesByReminder() {
+    {
+      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+        result => {
+          this.notes = result.data.filter(item => item.reminder);
+          this.data.changeNotes(this.notes);
+          console.log('list of notes', this.notes);
+
+
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+
+      );
+    }
+  }
+
+
 
 
   receiveMessage($event, note) {
@@ -194,18 +232,21 @@ export class NotesComponent implements OnInit {
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
         this.noteId = note.noteId;
-        // this.labels = note.labels;
         this.labelId = $event.labelId;
-        console.log('note', note);
+        console.log('note labels', note.labels);
         console.log('label=> ', $event);
         console.log('sdsd', this.labels);
-        if (this.labels.filter((i) => i.labelId === $event.labelId) && this.labels.length > 0) {
+        if (note.labels.some(i => i.labelId === $event.labelId)) {
           console.log('remove=> ', this.labelId);
           this.removeLabel(this.labelId, this.noteId);
+          // const index = note.labels.indexOf($event);
+          // note.labels.splice(index, 1);
         } else {
 
           console.log('add=> ', this.labelId);
+
           this.addLabel(this.labelId);
+
         }
 
       } else {

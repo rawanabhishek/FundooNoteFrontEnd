@@ -17,15 +17,15 @@
    
 <mat-menu #more="matMenu"  >
   <button mat-menu-item (click)="onChange('delete')" *ngIf="!showAddLabel" >Delete note</button>
-  <button mat-menu-item   *ngIf="!showAddLabel" (click)="showAddLabels($event)"   >Add label</button>
+  <button mat-menu-item   *ngIf="!showAddLabel" (click)="showAddLabels($event)"    >Add label</button>
   <div *ngIf="showAddLabel" fxLayout="column" style="margin-left: 5px;" (click)="$event.stopPropagation()" >
     <div fxLayoutAlign="start center">
         <p>Label note</p>
     </div>
      
-     <div  *ngFor="let label of labels">
+    <div *ngFor="let label of labels">
         <mat-checkbox (click)="onChange(label)" >{{label.name}}</mat-checkbox>
-     </div>
+    </div>
    </div>  
     
 </mat-menu>

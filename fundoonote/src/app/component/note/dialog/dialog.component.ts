@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { DataService } from 'src/app/service/data/data.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+import { $ } from 'protractor';
 
 @Component({
   selector: 'app-dialog',
@@ -23,9 +24,9 @@ export class DialogComponent implements OnInit {
   updateData: any;
   private noteColor: string;
   getNotePathColor = 'note/updatecolor';
-  pin: boolean;
-  archive: boolean;
-  trash: boolean;
+  pin = false;
+  archive = false;
+  trash = false;
   selectable = true;
   removable = true;
   notes;
@@ -49,7 +50,7 @@ export class DialogComponent implements OnInit {
     private datePipe: DatePipe,
     private snackBar: MatSnackBar,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit() {
 
@@ -77,7 +78,9 @@ export class DialogComponent implements OnInit {
 
     }
 
+
     this.note = this.data;
+    // this.labels = this.data.labels;
     console.log('data->', this.note);
     this.dataService.currentNote.subscribe(note => this.notes = note);
   }
@@ -93,29 +96,31 @@ export class DialogComponent implements OnInit {
     } else if ($event === 'unarchive') {
       this.unarchiveNotes();
     } else if ($event === 'deleteforever') {
-       this.deleteForever();
+      this.deleteForever();
     } else if ($event === 'restore') {
-        this.restoreNote();
-    }  else if ($event === 'pin') {
-    this.noteId = note.noteId;
+      this.restoreNote();
+    } else if ($event === 'pin') {
+      this.noteId = note.noteId;
+    } else if ($event === 'delete') {
+      this.noteId = note.noteId;
+      this.deleteNote();
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
         this.noteId = note.noteId;
-        // this.labels = note.labels;
         this.labelId = $event.labelId;
-        console.log('note', note);
-        console.log('label=> ', $event);
-        console.log('sdsd', this.labels);
-        if (this.labels.filter((i) => i.labelId === $event.labelId) && this.labels.length > 0) {
+        console.log('notes label ', note.labels);
+        console.log('label=>=> ', $event);
+        console.log('labelId', this.labelId);
+        if (this.note.labels.some((i) => i.labelId === this.labelId)) {
           console.log('remove=> ', this.labelId);
-          this.removeLabel(this.labelId);
+          this.removeLabel($event);
         } else {
 
           console.log('add=> ', this.labelId);
-          this.addLabel(this.labelId);
+          this.addLabel($event);
         }
       } else {
         this.reminder = $event;
@@ -198,11 +203,12 @@ export class DialogComponent implements OnInit {
   }
 
 
-  removeLabel(labelId) {
-    this.noteService.removeLabel(this.note.noteId, labelId)
+  removeLabel($event) {
+    this.noteService.removeLabel(this.note.noteId, $event.labelId)
       .subscribe(
         response => {
-
+          const index = this.note.labels.indexOf($event);
+          this.note.labels.splice(index, 1);
 
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
@@ -218,7 +224,7 @@ export class DialogComponent implements OnInit {
   archiveNote() {
     this.noteService.archiveNotes(this.note.noteId).subscribe(
       response => {
-
+        this.dialogRef.close();
         this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
         this.getNotes();
       },
@@ -231,7 +237,7 @@ export class DialogComponent implements OnInit {
   deleteNote() {
     this.noteService.trashNote(this.note.noteId).subscribe(
       response => {
-
+        this.dialogRef.close();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
         this.getNotes();
       },
@@ -256,10 +262,10 @@ export class DialogComponent implements OnInit {
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
   }
 
-  addLabel(labelId) {
-    this.noteService.addLabel(this.noteId, labelId).subscribe(
+  addLabel(label) {
+    this.noteService.addLabel(this.noteId, label.labelId).subscribe(
       response => {
-
+        this.note.labels.push(label);
         this.getNotes();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
@@ -268,38 +274,40 @@ export class DialogComponent implements OnInit {
 
   deleteForever() {
     this.noteService.deleteNote(this.note.noteId).subscribe(
-     response => {
-       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-     },
-     error => {
-       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-     }
-   );
- }
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
+  }
 
- restoreNote() {
-   this.noteService.untrash(this.note.noteId).subscribe(
-     response => {
-       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-     },
-     error => {
-       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-     }
-   );
- }
+  restoreNote() {
+    this.noteService.untrash(this.note.noteId).subscribe(
+      response => {
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
+  }
 
 
- unarchiveNotes() {
-   this.noteService.archiveNotes(this.note.noteId).subscribe(
-     response => {
-       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-     },
-     error => {
-       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-     }
-   );
+  unarchiveNotes() {
+    this.noteService.archiveNotes(this.note.noteId).subscribe(
+      response => {
+        this.dialogRef.close();
+        this.getNotes();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+    );
 
- }
+  }
 
 
 

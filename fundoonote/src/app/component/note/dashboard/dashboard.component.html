@@ -99,19 +99,20 @@
       <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
-      <a mat-list-item  routerLinkActive="active" class="anchor">
+      <button mat-list-item [routerLink]="['/dashboard/reminder']"   class="anchor" (click)="getNotesByReminder()">
         <img src="/assets/img/remindersidenav.svg" alt="Reminders">
 
-        Reminders</a>
+        Reminders</button>
 
 
       <hr>
       <small class="small">LABELS</small>
 
-      <a mat-list-item   *ngFor="let label of labels" class="anchor">
+      <button mat-list-item   *ngFor="let label of labels" class="anchor" 
+      (click)="getNotesByLabel(label)">
         <img src="/assets/img/label.svg" alt="Label">
         {{label.name}}
-      </a>
+      </button>
 
     
 

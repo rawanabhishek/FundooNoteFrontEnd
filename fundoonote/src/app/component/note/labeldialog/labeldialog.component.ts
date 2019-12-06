@@ -19,9 +19,9 @@ export class LabeldialogComponent implements OnInit {
   getLabelsPath = 'label';
   showDelete = false;
   labelId;
-  pin: boolean;
-  archive: boolean;
-  trash: boolean;
+  pin = false;
+  archive = false;
+  trash = false;
   name = new FormControl();
   updatedName = new FormControl();
 
@@ -43,22 +43,18 @@ export class LabeldialogComponent implements OnInit {
       this.pin = false;
 
     }
-
     if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
       this.pin = false;
 
     }
-
-
     if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
       this.pin = false;
 
     }
-
     this.getLabels();
     this.dataService.currentLabel.subscribe(label => this.labels = label);
   }
