@@ -134,7 +134,7 @@ export class NotesComponent implements OnInit {
 
 
     this.data.currentNote.subscribe(note => this.notes = note);
-    this.data.changeNotes(this.notes);
+    // this.data.changeNotes(this.notes);
 
 
 

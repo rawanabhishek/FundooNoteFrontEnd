@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
       this.typeOfNote = 'trash';
       console.log(this.router.url);
       this.receiveView(this.typeOfNote);
-    } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder') ) {
+    } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder')) {
       this.typeOfNote = 'note';
       this.receiveView(this.typeOfNote);
     }
@@ -175,8 +175,6 @@ export class DashboardComponent implements OnInit {
         result => {
           this.notes = result.data.filter(item => item.reminder);
           this.data.changeNotes(this.notes);
-          console.log('list of notes', this.notes);
-
 
         },
         error => {
@@ -188,33 +186,17 @@ export class DashboardComponent implements OnInit {
   }
 
 
-  // getNotesByLabel(label) {
-  //   {
+  getNotesByLabel(label) {
+    {
 
 
-  //     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-  //       result => {
-  //         this.notes = result.data.filter((item) => {
-  //           item.forEach(element => {
-  //             console.log( element.labels);
+      this.notes = label.notes.filter(item => item.trash === false);
+      console.log('aaaaaaa', this.notes);
 
-  //           });
+      this.data.changeNotes(this.notes);
 
-
-
-  //         }
-  //         );
-  //         this.data.changeNotes(this.notes);
-
-
-  //       },
-  //       error => {
-  //         return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-  //       }
-
-  //     );
-  //   }
-  // }
+    }
+  }
 
 
   openUploadDialog() {
