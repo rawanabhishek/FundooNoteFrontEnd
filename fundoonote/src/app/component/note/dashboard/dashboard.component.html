@@ -109,7 +109,7 @@
       <small class="small">LABELS</small>
 
       <button mat-list-item   *ngFor="let label of labels" class="anchor" 
-      (click)="getNotesByLabel(label)">
+      (click)="getNotesByLabel(label)" >
         <img src="/assets/img/label.svg" alt="Label">
         {{label.name}}
       </button>

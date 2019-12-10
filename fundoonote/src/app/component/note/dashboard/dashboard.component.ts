@@ -10,7 +10,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { FormControl } from '@angular/forms';
 import { ProfiledialogComponent } from '../profiledialog/profiledialog.component';
-import { isNgTemplate } from '@angular/compiler';
+
 
 
 
@@ -38,7 +38,7 @@ export class DashboardComponent implements OnInit {
   labels;
   notes;
   profilePic: string;
-
+   noteList;
   message: any;
   toggle = true;
   status = 'Enable';
@@ -60,7 +60,7 @@ export class DashboardComponent implements OnInit {
     private dialog: MatDialog,
     private data: DataService,
     private activatedRoute: ActivatedRoute,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -107,6 +107,8 @@ export class DashboardComponent implements OnInit {
       this.searchActive = true;
     } else if (type === 'note' || type === 'reminder') {
 
+      this.searchActive = false;
+    } else {
       this.searchActive = false;
     }
   }
@@ -183,6 +185,8 @@ export class DashboardComponent implements OnInit {
 
       );
     }
+
+
   }
 
 
@@ -190,12 +194,27 @@ export class DashboardComponent implements OnInit {
     {
 
 
-      this.notes = label.notes.filter(item => item.trash === false);
-      console.log('aaaaaaa', this.notes);
+      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+        result => {
+          this.notes = result.data.filter(item => item.labels.find(j => j.labelId === label.labelId));
+          this.data.changeNotes(this.notes);
 
-      this.data.changeNotes(this.notes);
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+
+      );
+
+      // this.router.navigate(['/dashboard/', label.labelId]);
+      // this.notes = label.notes.filter(item => item.trash === false);
+      // console.log('aaaaaaa', this.notes);
+
+      // this.data.changeNotes(this.notes);
 
     }
+
+
   }
 
 
@@ -207,7 +226,7 @@ export class DashboardComponent implements OnInit {
       });
     this.dialog.afterAllClosed.subscribe(
       result => {
-        this.ngOnInit();
+        this.getProfilePicPath();
       }
     );
 

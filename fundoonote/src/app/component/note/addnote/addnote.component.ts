@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
+import { ReversePipe } from 'src/app/service/pipe/ReversePipe.pipe';
 
 
 @Component({

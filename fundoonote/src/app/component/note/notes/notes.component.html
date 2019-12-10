@@ -1,7 +1,7 @@
 
 <div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center">
         
-    <div class="notes" *ngFor="let note of notes ">
+    <div class="notes" *ngFor="let note of notes">
         <mat-card [ngStyle]="{'background-color': note.noteColor}">
             <div (click)="openDialog(note)">
                 <p> {{ note.title }}</p>
@@ -21,20 +21,26 @@
                         </mat-chip>
                     </mat-chip-list>
                     <mat-menu #reminder="matMenu" >
-                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"  [(ngModel)]="datetime" placeholder="Date time">
                       
-                        <owl-date-time #dt1></owl-date-time>
+                        <input [owlDateTime]="dt1" [owlDateTimeTrigger]="dt1"  [(ngModel)]="datetime" placeholder="Select date and time">
+                        
+                        <owl-date-time #dt1 ></owl-date-time>
                          <button mat-button  (click)="addReminder(datetime, note.noteId)">save</button>
                       </mat-menu>
+                     
                 </div>
                 <div *ngIf="note.labels" fxLayout="row wrap">
                     <mat-chip-list #chipList *ngFor="let label of note.labels">
-                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label.labelId ,note.noteId)">
+                        <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label,note.noteId)">
 
                             {{label.name}}
                             <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
+                </div>
+
+                <div>
+                   <img [src]="profilePicCollab" *ngIf="profilePicCollab"  >
                 </div>
 
             </div>
@@ -50,3 +56,4 @@
     </div>
 
 </div>
+

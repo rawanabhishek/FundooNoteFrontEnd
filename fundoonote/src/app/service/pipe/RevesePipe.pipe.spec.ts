@@ -1,8 +1,8 @@
-import { DatetimePipe } from './datetime.pipe';
+import { ReversePipe } from './ReversePipe.pipe';
 
 describe('DatetimePipe', () => {
   it('create an instance', () => {
-    const pipe = new DatetimePipe();
+    const pipe = new ReversePipe();
     expect(pipe).toBeTruthy();
   });
 });

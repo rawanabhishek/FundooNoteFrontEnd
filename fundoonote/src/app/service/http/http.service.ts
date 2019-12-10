@@ -88,6 +88,15 @@ export class HttpService {
     });
   }
 
+  getNoteByLabel(getNotePath , emailIdToken , labelId ): Observable<any> {
+    return this.http.get<any> (this.baseUrl + getNotePath , {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken),
+      params: new HttpParams().append('labelId', labelId)
+
+    });
+  }
+
+
 
 
 }

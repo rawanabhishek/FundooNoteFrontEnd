@@ -79,7 +79,7 @@ export class NoteService {
   getNotes(pin, archive, trash) {
 
 
-    return this.httpService.get('note', this.emailIdToken, pin, archive, trash);
+    return this.httpService.get('note/date', this.emailIdToken, pin, archive, trash);
   }
 
   addLabel(noteId, labelId) {
@@ -157,6 +157,11 @@ export class NoteService {
 
   untrash(noteId) {
     return this.httpService.put( 'note/trash',  {} ,  this.emailIdToken, noteId );
+  }
+
+
+  getNoteByLabel(labelId) {
+    return this.httpService.getNoteByLabel('note/bylabel' , this.emailIdToken , labelId);
   }
 
 

@@ -24,7 +24,7 @@ import { DialogComponent } from './component/note/dialog/dialog.component';
 import { LabeldialogComponent } from './component/note/labeldialog/labeldialog.component';
 
 import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
-import { DatetimePipe } from './service/pipe/datetime.pipe';
+import { ReversePipe } from './service/pipe/ReversePipe.pipe';
 import { DatePipe } from '@angular/common';
 import { ProfiledialogComponent } from './component/note/profiledialog/profiledialog.component';
 import { NgxMasonryModule } from 'ngx-masonry';
@@ -47,7 +47,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
     NotesComponent,
     DialogComponent,
     LabeldialogComponent,
-    DatetimePipe,
+    ReversePipe,
     ProfiledialogComponent
 
 
@@ -68,7 +68,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
     NgxMasonryModule
   ],
   entryComponents: [DialogComponent, LabeldialogComponent , ProfiledialogComponent],
-  providers: [UserService, DatePipe],
+  providers: [UserService, DatePipe , ReversePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

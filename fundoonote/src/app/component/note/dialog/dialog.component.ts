@@ -30,6 +30,7 @@ export class DialogComponent implements OnInit {
   selectable = true;
   removable = true;
   notes;
+  labelParam;
   labelId;
   labels = new Array<any>();
   reminder: Date;
@@ -160,8 +161,42 @@ export class DialogComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-        this.notes = result.data;
+        if (this.router.url.includes(this.labelParam)) {
+          console.log('update color in labels', this.labelParam);
+          this.getNotesByLabel(this.labelParam);
+        } else if (this.router.url.includes('reminder')) {
+          this.getNotesByReminder();
+        } else {
+          this.notes = result.data;
+          this.dataService.changeNotes(this.notes);
+        }
+      },
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+  getNotesByReminder() {
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      result => {
+        this.notes = result.data.filter(item => item.reminder);
         this.dataService.changeNotes(this.notes);
+
+
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      }
+
+    );
+  }
+
+  getNotesByLabel(labelId) {
+    this.noteService.getNoteByLabel(labelId).subscribe(
+      result => {
+        this.notes = result.data;
+        this.data.changeNotes(this.notes);
       },
       error => {
         this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
@@ -209,7 +244,6 @@ export class DialogComponent implements OnInit {
         response => {
           const index = this.note.labels.indexOf($event);
           this.note.labels.splice(index, 1);
-
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
         },
@@ -267,6 +301,7 @@ export class DialogComponent implements OnInit {
       response => {
         this.note.labels.push(label);
         this.getNotes();
+
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
