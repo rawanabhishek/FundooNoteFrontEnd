@@ -15,9 +15,9 @@ import { $ } from 'protractor';
 })
 export class DialogComponent implements OnInit {
 
-  title = new FormControl(this.data.title);
+  title = new FormControl(this.data.note.title);
 
-  description = new FormControl(this.data.description);
+  description = new FormControl(this.data.note.description);
   updateNotePath = 'note';
   emailIdToken = localStorage.getItem('token');
   noteId: any;
@@ -35,6 +35,7 @@ export class DialogComponent implements OnInit {
   labels = new Array<any>();
   reminder: Date;
   note: any;
+  labelIdParam;
 
 
 
@@ -80,7 +81,11 @@ export class DialogComponent implements OnInit {
     }
 
 
-    this.note = this.data;
+    this.note = this.data.note;
+    this.noteId = this.data.note.noteId;
+    this.labelIdParam = this.data.labelParam;
+    console.log('labelId param dialogue', this.labelIdParam);
+
     // this.labels = this.data.labels;
     console.log('data->', this.note);
     this.dataService.currentNote.subscribe(note => this.notes = note);
@@ -90,9 +95,8 @@ export class DialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  receiveMessage($event, note) {
+  receiveMessage($event) {
     if ($event === 'archive') {
-      this.noteId = note.noteId;
       this.archiveNote();
     } else if ($event === 'unarchive') {
       this.unarchiveNotes();
@@ -101,18 +105,15 @@ export class DialogComponent implements OnInit {
     } else if ($event === 'restore') {
       this.restoreNote();
     } else if ($event === 'pin') {
-      this.noteId = note.noteId;
     } else if ($event === 'delete') {
-      this.noteId = note.noteId;
       this.deleteNote();
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
     } else if (typeof $event === 'object') {
       if ($event.labelId) {
-        this.noteId = note.noteId;
         this.labelId = $event.labelId;
-        console.log('notes label ', note.labels);
+        console.log('notes label ', this.noteId);
         console.log('label=>=> ', $event);
         console.log('labelId', this.labelId);
         if (this.note.labels.some((i) => i.labelId === this.labelId)) {
@@ -125,7 +126,6 @@ export class DialogComponent implements OnInit {
         }
       } else {
         this.reminder = $event;
-        this.noteId = note.noteId;
         this.addReminder(this.reminder);
 
       }
@@ -161,9 +161,9 @@ export class DialogComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-        if (this.router.url.includes(this.labelParam)) {
-          console.log('update color in labels', this.labelParam);
-          this.getNotesByLabel(this.labelParam);
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          this.getNotesByLabel(this.labelIdParam);
         } else if (this.router.url.includes('reminder')) {
           this.getNotesByReminder();
         } else {
@@ -193,15 +193,17 @@ export class DialogComponent implements OnInit {
   }
 
   getNotesByLabel(labelId) {
-    this.noteService.getNoteByLabel(labelId).subscribe(
+    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-        this.notes = result.data;
-        this.data.changeNotes(this.notes);
+
+        this.notes = result.data.filter(item => item.labels.find(j => j.labelId === labelId));
+        this.dataService.changeNotes(this.notes);
+
       },
       error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      });
+
   }
 
   updateColor(noteColor) {
@@ -242,10 +244,13 @@ export class DialogComponent implements OnInit {
     this.noteService.removeLabel(this.note.noteId, $event.labelId)
       .subscribe(
         response => {
+
           const index = this.note.labels.indexOf($event);
           this.note.labels.splice(index, 1);
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+
           this.getNotes();
+
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);

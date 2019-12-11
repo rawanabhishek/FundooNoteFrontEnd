@@ -20,8 +20,8 @@ export class AddnoteComponent implements OnInit {
 
   noteData: any;
   createNotePath = 'note';
-  private notes;
-  private noteColor: string;
+  notes;
+  noteColor: string;
   pin = false;
   archive = false;
   trash = false;

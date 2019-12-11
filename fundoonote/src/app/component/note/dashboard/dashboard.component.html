@@ -93,13 +93,14 @@
 
 <mat-sidenav-container class="mat-sidenav ">
   <mat-sidenav #sidenav mode="side" [(opened)]="opened" fxLayout="column" class="sidenav-div" >
-    <mat-nav-list class="button1">
+    <mat-nav-list >
 
       <!-- (click)="changeScreen('home')" -->
-      <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor" >
+      <button  mat-list-item  [routerLink]="['/dashboard/note']"  class="anchor"
+      [ngStyle]="{'background-color': typeOfNote === 'note' ? '#feefc3' : '#fff'}" >
         <img src="/assets/img/notesidenav.svg" alt="Notes">
         Notes</button>
-      <button mat-list-item [routerLink]="['/dashboard/reminder']"   class="anchor" (click)="getNotesByReminder()">
+      <button mat-list-item [routerLink]="['/dashboard/reminder']"  [ngStyle]="{'background-color': typeOfNote === 'reminder' ? '#feefc3' : '#fff'}"   class="anchor" (click)="getNotesByReminder()">
         <img src="/assets/img/remindersidenav.svg" alt="Reminders">
 
         Reminders</button>
@@ -109,9 +110,10 @@
       <small class="small">LABELS</small>
 
       <button mat-list-item   *ngFor="let label of labels" class="anchor" 
+      [ngStyle]="{'background-color': typeOfNote == label.labelId ? '#feefc3' : '#fff'}"
       (click)="getNotesByLabel(label)" >
         <img src="/assets/img/label.svg" alt="Label">
-        {{label.name}}
+        {{label.name}} 
       </button>
 
     
@@ -127,12 +129,14 @@
       <hr>
       <!-- (click)="changeScreen('archive')" -->
       <button mat-list-item  [routerLink]="['/dashboard/archive']" 
-        class="anchor">
+        class="anchor"  [ngStyle]="{'background-color': typeOfNote === 'archive' ? '#feefc3' : '#fff'}"
+        >
         <img src="/assets/img/archivenav.svg" alt="Archive">
         Archive</button>
 
         <!-- (click)="changeScreen('trash')" -->
-      <button mat-list-item [routerLink]="['/dashboard/trash']"  class="anchor">
+      <button mat-list-item [routerLink]="['/dashboard/trash']"  class="anchor"
+      [ngStyle]="{'background-color': typeOfNote === 'trash' ? '#feefc3' : '#fff'}">
         <img src="/assets/img/trash.svg" alt="Trash">
         Trash</button>
 
@@ -144,13 +148,13 @@
 
   <mat-sidenav-content>
     <app-addnote *ngIf="!searchActive"></app-addnote>
-    <app-notes [view]="viewLayout"  >
+    <app-notes [view]="viewLayout"  [labelIdParam]="labelIdParam" >
      </app-notes>
     
   </mat-sidenav-content>
  
 
-  <router-outlet></router-outlet>
+  <!-- <router-outlet></router-outlet> -->
 
 
 

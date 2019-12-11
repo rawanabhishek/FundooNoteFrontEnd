@@ -138,6 +138,14 @@ mat-sidenav-container {
     
 }
 
+mat-nav-list{
+
+    button{
+        border-top-right-radius: 50px;
+        border-bottom-right-radius: 50px;
+    }
+}
+
 
 
 
@@ -150,15 +158,7 @@ mat-sidenav-container {
 }
 
 
-.button1{
-    div:hover{
-        background-color: rgb(238, 232, 175);
-      
-        border-end-end-radius: 50px;
-        overflow: visible;
-    }
-  
-  }
+
 
   .mat-list-base .mat-list-item .mat-list-item-content, .mat-list-base .mat-list-option .mat-list-item-content {
     

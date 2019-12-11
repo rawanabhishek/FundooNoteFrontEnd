@@ -40,9 +40,10 @@ export class NotesComponent implements OnInit {
   screenType;
   profilePicCollab: string;
   labelParam;
-
+  datetime;
   labels = new Array<any>();
   @Input() view: any;
+  @Input() labelIdParam: any;
 
 
 
@@ -56,95 +57,60 @@ export class NotesComponent implements OnInit {
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
-    private router: Router,
-    private reversePipe: ReversePipe
+    private router: Router
   ) {
-    console.log('im in constructor');
+    console.log('im in notes constructor');
   }
 
   ngOnInit() {
+
+
     this.activatedRoute.url.subscribe(response => {
-      // this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-      // console.log('typeOf note', this.typeOfNote);
-      // this.data.currentNote.subscribe(note => this.notes = note);
-      // this.data.changeNotes(this.notes);
+
+      //   //   // this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
+      //   //   // console.log('typeOf note', this.typeOfNote);
+      //   //   // this.data.currentNote.subscribe(note => this.notes = note);
+      //   //   // this.data.changeNotes(this.notes);
 
       if (this.router.url.includes('/trash')) {
         this.trash = true;
         this.archive = false;
         this.pin = false;
-        this.getNotes();
 
-      }
-      if (this.router.url.includes('/archive')) {
+
+      } else if (this.router.url.includes('/archive')) {
         this.trash = false;
         this.archive = true;
         this.pin = false;
-        this.getNotes();
 
-      }
-      if (this.router.url.includes('/note')) {
+
+      } else if (this.router.url.includes('/note')) {
         this.trash = false;
         this.archive = false;
         this.pin = false;
-        this.getNotes();
 
-      }
 
-      if (this.router.url.includes('/reminder')) {
+      } else if (this.router.url.includes('/reminder')) {
         this.trash = false;
         this.archive = false;
         this.pin = false;
-        this.getNotesByReminder();
 
+
+      }  else {
+        this.trash = false;
+        this.archive = false;
+        this.pin = false;
+        this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
+
+        console.log('labelParam note', this.activatedRoute.snapshot.firstChild.paramMap.get('type'));
       }
 
-      this.labelParam = this.activatedRoute.snapshot.paramMap.get('type');
-      console.log('activated param value', this.labelParam);
 
+      this.getNotes();
       this.data.currentNote.subscribe(note => this.notes = note);
 
+
     });
-
-
-    // if (this.router.url.includes('/trash')) {
-    //   this.trash = true;
-    //   this.archive = false;
-    //   this.pin = false;
-    //   this.getNotes();
-
-    // }
-    // if (this.router.url.includes('/archive')) {
-    //   this.trash = false;
-    //   this.archive = true;
-    //   this.pin = false;
-    //   this.getNotes();
-
-    // }
-    // if (this.router.url.includes('/note')) {
-    //   this.trash = false;
-    //   this.archive = false;
-    //   this.pin = false;
-    //   this.getNotes();
-
-    // }
-
-    // if (this.router.url.includes('/reminder')) {
-    //   this.trash = false;
-    //   this.archive = false;
-    //   this.pin = false;
-    //   this.getNotesByReminder();
-
-    // }
-    // if (this.router.url.includes('/dashboard')) {
-    //   this.labelParam = this.activatedRoute.snapshot.paramMap.get('type');
-    // }
-
-
-
-    // this.data.currentNote.subscribe(note => this.notes = note);
-    // // this.data.changeNotes(this.notes);
-
 
 
 
@@ -157,9 +123,9 @@ export class NotesComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-        if (this.router.url.includes(this.labelParam)) {
-          console.log('update color in labels', this.labelParam);
-          this.getNotesByLabel(this.labelParam);
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          this.getNotesByLabel(this.labelIdParam);
         } else if (this.router.url.includes('reminder')) {
           this.getNotesByReminder();
         } else {
@@ -194,13 +160,17 @@ export class NotesComponent implements OnInit {
   getNotesByLabel(labelId) {
     this.noteService.getNoteByLabel(labelId).subscribe(
       result => {
+        console.log('label id get notes by label', labelId);
+
         this.notes = result.data;
         this.data.changeNotes(this.notes);
+        console.log('list of notes by label', this.notes);
+
       },
       error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      });
+
   }
 
 
@@ -263,7 +233,8 @@ export class NotesComponent implements OnInit {
       {
         panelClass: 'myapp-no-padding-dialog',
         width: '600px',
-        data: note,
+        data: { note, labelParam: this.labelIdParam }
+
       });
 
   }
@@ -332,8 +303,8 @@ export class NotesComponent implements OnInit {
   deleteNote() {
     this.noteService.trashNote(this.noteId).subscribe(
       response => {
-       this.getNotes();
-       this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+        this.getNotes();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
         return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);

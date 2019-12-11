@@ -30,7 +30,7 @@
 
             <div *ngIf="note.labels" fxLayout="row wrap">
                 <mat-chip-list #chipList *ngFor="let label of note.labels ">
-                    <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label.labelId )">
+                    <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label)">
 
                         {{label.name}}
 
@@ -46,7 +46,7 @@
                 <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
 
                     <div style="width: 60%;">
-                        <app-icon (messageEvent)="receiveMessage($event,data)" [noteId]="noteId"></app-icon>
+                        <app-icon (messageEvent)="receiveMessage($event)" [noteId]="noteId"></app-icon>
                     </div>
 
 

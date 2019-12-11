@@ -34,18 +34,18 @@ export class DashboardComponent implements OnInit {
   pin = false;
   archive = false;
   trash = false;
-
+  opened;
   labels;
   notes;
   profilePic: string;
-   noteList;
+  noteList;
   message: any;
   toggle = true;
   status = 'Enable';
   typeOfNote = '';
   viewLayout = 'row wrap';
-
-
+  screenType;
+  labelIdParam;
   selectedId: any;
   searchActive = false;
 
@@ -61,16 +61,21 @@ export class DashboardComponent implements OnInit {
     private data: DataService,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar
-  ) { }
+  ) {
+    console.log('dashboard constructor');
+
+  }
 
   ngOnInit() {
 
 
 
-    this.router.events.subscribe(event => {
+    this.activatedRoute.url.subscribe(response => {
       this.typeOfNote = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
-      //  console.log(' dashboard route event', this.typeOfNote);
+      console.log(' dashboard route event', this.typeOfNote);
       this.receiveView(this.typeOfNote);
+
+
     });
 
     if (this.router.url.includes('/trash') || this.router.url.includes('/archive')) {
@@ -78,8 +83,14 @@ export class DashboardComponent implements OnInit {
       console.log(this.router.url);
       this.receiveView(this.typeOfNote);
     } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder')) {
-      this.typeOfNote = 'note';
-      this.receiveView(this.typeOfNote);
+      if (this.router.url.includes('/reminder')) {
+        this.screenType = 'reminder';
+        console.log(this.screenType);
+
+      } else {
+        this.typeOfNote = 'note';
+        this.receiveView(this.typeOfNote);
+      }
     }
 
     console.log(this.router.url);
@@ -90,8 +101,6 @@ export class DashboardComponent implements OnInit {
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.getLabels();
 
-    this.data.changeLabel(this.labels);
-    this.getNotes();
     this.getProfilePicPath();
 
 
@@ -147,6 +156,7 @@ export class DashboardComponent implements OnInit {
     this.noteService.getLabels().subscribe(
       result => {
         this.labels = result.data;
+        this.data.changeLabel(this.labels);
         console.log('labels list--->', this.labels);
 
       },
@@ -196,6 +206,8 @@ export class DashboardComponent implements OnInit {
 
       this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
         result => {
+          this.labelIdParam = label.labelId;
+          this.router.navigate(['/dashboard/', label.labelId]);
           this.notes = result.data.filter(item => item.labels.find(j => j.labelId === label.labelId));
           this.data.changeNotes(this.notes);
 
