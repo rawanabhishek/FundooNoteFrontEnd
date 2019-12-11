@@ -91,6 +91,7 @@ export class IconComponent implements OnInit {
     // });
 
     this.getLabels();
+    this.data.currentLabel.subscribe(label => this.labels = label);
     this.data.currentNote.subscribe(note => this.notes = note);
   }
 

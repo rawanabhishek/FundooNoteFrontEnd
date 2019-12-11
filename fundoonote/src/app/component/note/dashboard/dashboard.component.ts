@@ -91,6 +91,8 @@ export class DashboardComponent implements OnInit {
         this.typeOfNote = 'note';
         this.receiveView(this.typeOfNote);
       }
+    } else {
+      this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
     }
 
     console.log(this.router.url);
@@ -297,10 +299,14 @@ export class DashboardComponent implements OnInit {
   openDialogLabel() {
     this.dialog.open(LabeldialogComponent,
       {
-        width: '22vw'
-      });
+        width: '22vw',
+        data: {labelIdParam: this.labelIdParam}
+      }
+     );
 
   }
+
+
 
   changeScreen(screenType) {
     if (screenType === 'archive' || screenType === 'trash') {

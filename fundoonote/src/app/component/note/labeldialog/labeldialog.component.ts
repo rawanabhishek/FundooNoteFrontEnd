@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NoteService } from 'src/app/service/note/note.service';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar, MatDialogRef } from '@angular/material';
+import { MatSnackBar, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DataService } from 'src/app/service/data/data.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -22,6 +22,7 @@ export class LabeldialogComponent implements OnInit {
   pin = false;
   archive = false;
   trash = false;
+  labelIdParam;
   name = new FormControl();
   updatedName = new FormControl();
 
@@ -30,7 +31,8 @@ export class LabeldialogComponent implements OnInit {
     private snackBar: MatSnackBar,
     private dataService: DataService,
     public dialogRef: MatDialogRef<LabeldialogComponent>,
-    private router: Router
+    @Inject(MAT_DIALOG_DATA) private dataLabel: any,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -42,19 +44,25 @@ export class LabeldialogComponent implements OnInit {
       this.archive = false;
       this.pin = false;
 
-    }
-    if (this.router.url.includes('/archive')) {
+    } else if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
       this.pin = false;
 
-    }
-    if (this.router.url.includes('/note')) {
+    } else if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
       this.pin = false;
 
+    } else {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
     }
+
+    this.labelIdParam = this.dataLabel.labelIdParam;
+    console.log('label dialog labelIdParam', this.labelIdParam);
+
     this.getLabels();
     this.dataService.currentLabel.subscribe(label => this.labels = label);
   }
@@ -134,12 +142,50 @@ export class LabeldialogComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-
-        this.dataService.changeNotes(result.data);
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          this.getNotesByLabel(this.labelIdParam);
+        } else if (this.router.url.includes('reminder')) {
+          this.getNotesByReminder();
+        } else {
+          this.dataService.changeNotes(result.data);
+        }
       },
       error => {
         this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
       }
     );
+  }
+
+
+
+  getNotesByReminder() {
+    {
+      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+        result => {
+          this.dataService.changeNotes(result.data.filter(item => item.reminder));
+
+
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+
+      );
+    }
+  }
+
+  getNotesByLabel(labelId) {
+    this.noteService.getNoteByLabel(labelId).subscribe(
+      result => {
+        console.log('label id get notes by label', labelId);
+
+        this.dataService.changeNotes(result.data);
+
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      });
+
   }
 }

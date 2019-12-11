@@ -28,6 +28,7 @@ import { ReversePipe } from './service/pipe/ReversePipe.pipe';
 import { DatePipe } from '@angular/common';
 import { ProfiledialogComponent } from './component/note/profiledialog/profiledialog.component';
 import { NgxMasonryModule } from 'ngx-masonry';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -65,7 +66,8 @@ import { NgxMasonryModule } from 'ngx-masonry';
     FlexLayoutModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
-    NgxMasonryModule
+    NgxMasonryModule,
+    MatDialogModule
   ],
   entryComponents: [DialogComponent, LabeldialogComponent , ProfiledialogComponent],
   providers: [UserService, DatePipe , ReversePipe],
