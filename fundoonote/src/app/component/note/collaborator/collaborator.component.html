@@ -1,0 +1,26 @@
+<h2>Collaborators</h2> 
+<hr>
+<div fxLayout="row" class="owner">
+        <img  [src]="collabOwnerProfilePic" *ngIf="collabOwnerProfilePic; else default"  matTooltip="Profile">
+          <p style="padding-left: 10px;">{{note.emailId}}(Owner)</p>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let collaborator of note.collaborators">
+    <p >{{collaborator.email}}</p>
+    <button mat-icon-button matTooltip="Remove collaborator" (click)="removeCollaborator()">
+            <mat-icon>clear</mat-icon>
+</button>
+</div>
+<div  fxLayout="row" class="addCollab">
+        <img  src="/assets/img/collaborator.svg"  matTooltip="Add collaborators">
+        <input placeholder="Person or email to share with" [formControl]="collaboratorEmailId">
+        <button mat-icon-button matTooltip="Add collaborator" (click)="addCollaborator()">
+                <mat-icon>done</mat-icon>
+    </button>
+</div>
+
+
+
+
+
+
+

@@ -13,7 +13,7 @@ import { ReversePipe } from 'src/app/service/pipe/ReversePipe.pipe';
 })
 export class AddnoteComponent implements OnInit {
   showContent = true;
-
+  pinShow = true;
   title = new FormControl();
   description = new FormControl();
   emailIdToken = localStorage.getItem('token');
@@ -79,6 +79,7 @@ export class AddnoteComponent implements OnInit {
 
   pinNote() {
     this.pin = this.pin ? false : true;
+    this.pinShow = this.pinShow ? false : true;
   }
 
   showHidddenContent() {

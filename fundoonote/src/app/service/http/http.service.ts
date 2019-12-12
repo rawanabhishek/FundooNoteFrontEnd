@@ -29,7 +29,7 @@ export class HttpService {
     });
   }
 
-  put( path, data, emailIdToken, id ): Observable<any> {
+  put(path, data, emailIdToken, id): Observable<any> {
     return this.http.put<any>(this.baseUrl + path, data, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken)
       , params: new HttpParams().append('noteId', id)
@@ -88,11 +88,27 @@ export class HttpService {
     });
   }
 
-  getNoteByLabel(getNotePath , emailIdToken , labelId ): Observable<any> {
-    return this.http.get<any> (this.baseUrl + getNotePath , {
+  getNoteByLabel(getNotePath, emailIdToken, labelId): Observable<any> {
+    return this.http.get<any>(this.baseUrl + getNotePath, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken),
       params: new HttpParams().append('labelId', labelId)
 
+    });
+  }
+
+
+  getCollabOwnerProfilePic(getNotePath, emailIdToken, noteId, collabEmail): Observable<any> {
+    console.log('inside collab owner http servie');
+    return this.http.get<any>(this.baseUrl + getNotePath, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken).append('emailIdCollaborator', collabEmail),
+      params: new HttpParams().append('noteId', noteId)
+    });
+  }
+
+  addCollaborator(getNotePath, emailIdToken, noteId, collabEmail): Observable<any> {
+    return this.http.put<any>(this.baseUrl + getNotePath, {}, {
+      headers: new HttpHeaders().append('emailIdToken', emailIdToken).append('collaboratorEmailId', collabEmail),
+      params: new HttpParams().append('noteId', noteId)
     });
   }
 

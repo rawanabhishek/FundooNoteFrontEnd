@@ -48,6 +48,7 @@ export class DashboardComponent implements OnInit {
   labelIdParam;
   selectedId: any;
   searchActive = false;
+  pinActive = false;
 
   search = new FormControl('');
   filteredOptions: Observable<string[]>;
@@ -75,20 +76,22 @@ export class DashboardComponent implements OnInit {
       console.log(' dashboard route event', this.typeOfNote);
       this.receiveView(this.typeOfNote);
 
-
     });
 
     if (this.router.url.includes('/trash') || this.router.url.includes('/archive')) {
       this.typeOfNote = 'trash';
+      this.pinActive = true;
       console.log(this.router.url);
       this.receiveView(this.typeOfNote);
     } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder')) {
       if (this.router.url.includes('/reminder')) {
-        this.screenType = 'reminder';
         console.log(this.screenType);
+        this.typeOfNote = 'reminder';
+        this.receiveView(this.typeOfNote);
 
       } else {
         this.typeOfNote = 'note';
+
         this.receiveView(this.typeOfNote);
       }
     } else {
@@ -116,9 +119,16 @@ export class DashboardComponent implements OnInit {
   receiveView(type) {
     if (type === 'archive' || type === 'trash') {
       this.searchActive = true;
+      this.pinActive = true;
     } else if (type === 'note' || type === 'reminder') {
+      if (type === 'note') {
+        this.searchActive = false;
+        this.pinActive = false;
+      } else {
+        this.searchActive = false;
+        this.pinActive = true;
+      }
 
-      this.searchActive = false;
     } else {
       this.searchActive = false;
     }
@@ -300,9 +310,9 @@ export class DashboardComponent implements OnInit {
     this.dialog.open(LabeldialogComponent,
       {
         width: '22vw',
-        data: {labelIdParam: this.labelIdParam}
+        data: { labelIdParam: this.labelIdParam }
       }
-     );
+    );
 
   }
 

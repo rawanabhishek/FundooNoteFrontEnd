@@ -15,9 +15,12 @@
             placeholder="Title"  style="font-size: 18px;"[formControl]="title">
            
         </textarea>
-        <button mat-icon-button matTooltip="Pin note" (click)="pinNote()">
+        <button mat-icon-button matTooltip="Pin note" (click)="pinNote()" *ngIf="pinShow">
             <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
         </button>
+        <button mat-icon-button  matTooltip="Unpin note" (click)="pinNote()" *ngIf="!pinShow">
+                <img style="width: 25px; height: 25px;" src="/assets/img/unpin.svg" alt="Pin" >
+            </button>
           
         </div>
         <div><textarea  cdkTextareaAutosize

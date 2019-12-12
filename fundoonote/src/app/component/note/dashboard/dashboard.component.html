@@ -148,7 +148,9 @@
 
 
   <mat-sidenav-content>
+   
     <app-addnote *ngIf="!searchActive"></app-addnote>
+    <app-pin  *ngIf="!pinActive"></app-pin>
     <app-notes [view]="viewLayout"  [labelIdParam]="labelIdParam" >
      </app-notes>
     

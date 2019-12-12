@@ -36,6 +36,8 @@ export class DialogComponent implements OnInit {
   reminder: Date;
   note: any;
   labelIdParam;
+  pinShow;
+  notesPin;
 
 
 
@@ -84,6 +86,7 @@ export class DialogComponent implements OnInit {
     this.note = this.data.note;
     this.noteId = this.data.note.noteId;
     this.labelIdParam = this.data.labelParam;
+    this.pinShow = this.note.pin;
     console.log('labelId param dialogue', this.labelIdParam);
 
     // this.labels = this.data.labels;
@@ -156,6 +159,37 @@ export class DialogComponent implements OnInit {
     }
 
 
+  }
+
+  pinUnpin() {
+   this.pinShow = this.pinShow ? false : true;
+   this.noteService.pinNote(this.note.noteId).subscribe(
+    response => {
+      this.getNotes();
+      this.getNotesPin();
+      this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+    },
+    error => {
+      return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+    }
+  );
+  }
+
+  getNotesPin() {
+    console.log('from pin', this.pin, this.archive, this.trash);
+
+    this.noteService.getNotes(true, false, false).subscribe(
+      result => {
+
+        this.notesPin = result.data;
+        this.dataService.chnagePinNote(this.notesPin);
+
+
+      },
+      error => {
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
   }
 
   getNotes() {
@@ -348,6 +382,7 @@ export class DialogComponent implements OnInit {
     );
 
   }
+
 
 
 

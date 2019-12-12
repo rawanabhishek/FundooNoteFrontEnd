@@ -29,6 +29,8 @@ import { DatePipe } from '@angular/common';
 import { ProfiledialogComponent } from './component/note/profiledialog/profiledialog.component';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PinComponent } from './component/note/pin/pin.component';
+import { CollaboratorComponent } from './component/note/collaborator/collaborator.component';
 
 
 
@@ -49,7 +51,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     DialogComponent,
     LabeldialogComponent,
     ReversePipe,
-    ProfiledialogComponent
+    ProfiledialogComponent,
+    PinComponent,
+    CollaboratorComponent
 
 
 
@@ -69,7 +73,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     NgxMasonryModule,
     MatDialogModule
   ],
-  entryComponents: [DialogComponent, LabeldialogComponent , ProfiledialogComponent],
+  entryComponents: [DialogComponent, LabeldialogComponent , ProfiledialogComponent , CollaboratorComponent],
   providers: [UserService, DatePipe , ReversePipe],
   bootstrap: [AppComponent]
 })

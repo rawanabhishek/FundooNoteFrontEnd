@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { NoteService } from 'src/app/service/note/note.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 import { DataService } from 'src/app/service/data/data.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CollaboratorComponent } from '../collaborator/collaborator.component';
 
 
 
@@ -26,6 +27,7 @@ export class IconComponent implements OnInit {
 
   emailIdToken = localStorage.getItem('token');
 
+  @Input() noteData: any;
   @Input() noteId: any;
   pin = false;
   archive = false;
@@ -48,7 +50,8 @@ export class IconComponent implements OnInit {
     private noteService: NoteService,
     private snackBar: MatSnackBar,
     private data: DataService,
-    private router: Router
+    private dialog: MatDialog,
+    private router: Router,
 
   ) {
 
@@ -70,46 +73,11 @@ export class IconComponent implements OnInit {
       this.unarchive = false;
     }
 
-
-    // this.data.currentScreen.subscribe(screenType => {
-    //   console.log('icon screen', screenType);
-    //   this.screens = screenType.data;
-
-    //   if (screenType === 'home') {
-    //     this.trash = false;
-    //     this.unarchive = false;
-    //   } else if (screenType === 'archive') {
-
-
-    //     this.trash = false;
-    //     this.unarchive = true;
-    //   } else if (screenType === 'trash') {
-
-    //     this.trash = true;
-    //     this.unarchive = false;
-    //   }
-    // });
-
     this.getLabels();
     this.data.currentLabel.subscribe(label => this.labels = label);
     this.data.currentNote.subscribe(note => this.notes = note);
   }
 
-
-  // changeType(typeOfNote) {
-
-  //   if (typeOfNote === 'note') {
-  //     this.trash = false;
-  //     this.unarchive = false;
-  //   } else if (typeOfNote === 'archive') {
-  //     this.trash = false;
-  //     this.unarchive = true;
-  //   } else if (typeOfNote === 'trash') {
-  //     this.trash = true;
-  //     this.unarchive = false;
-  //   }
-
-  // }
 
 
 
@@ -151,6 +119,25 @@ export class IconComponent implements OnInit {
     console.log('data is => ', data);
 
     this.messageEvent.emit(data);
+
+
+  }
+
+
+  openCollaboratorDialog() {
+    console.log('open collab dialog', this.noteData);
+
+    this.dialog.open(CollaboratorComponent,
+      {
+        panelClass: 'dialog-collaborator-padding',
+        width: '600px',
+        data: this.noteData
+      });
+    this.dialog.afterAllClosed.subscribe(
+      result => {
+        this.getNotes();
+      }
+    );
 
   }
 

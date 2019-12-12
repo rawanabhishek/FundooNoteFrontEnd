@@ -7,8 +7,11 @@
             <textarea cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMinRows="1" [formControl]="title"
                 value="{{note.title}}"></textarea>
 
-            <button mat-icon-button matTooltip="Pin note">
+            <button mat-icon-button matTooltip="Pin note" *ngIf="!pinShow" (click)="pinUnpin()">
                 <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin">
+            </button>
+            <button mat-icon-button matTooltip="Unpin note" *ngIf="pinShow" (click)="pinUnpin()">
+                    <img style="width: 25px; height: 25px;" src="/assets/img/unpin.svg" alt="Unpin">
             </button>
         </div>
         <div>
@@ -46,7 +49,7 @@
                 <div fxLayout="row" fxLayoutAlign="space-between" fxFlex.xs="30">
 
                     <div style="width: 60%;">
-                        <app-icon (messageEvent)="receiveMessage($event)" [noteId]="noteId"></app-icon>
+                        <app-icon (messageEvent)="receiveMessage($event)" [noteId]="noteId" [noteData]="note"></app-icon>
                     </div>
 
 

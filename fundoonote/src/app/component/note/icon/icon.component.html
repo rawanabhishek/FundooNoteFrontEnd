@@ -1,7 +1,7 @@
 
     <div class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center"  *ngIf="!trash" >
         <span   matTooltip="Remind me" [matMenuTriggerFor]="reminder" > <img src="/assets/img/remindme.svg" alt="Remind me" ></span>
-        <span  matTooltip="Collaborator"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
+        <span  matTooltip="Collaborator"  (click)="openCollaboratorDialog()"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
         <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
         <span  matTooltip="Archive"  *ngIf="!unarchive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
         <span  matTooltip="Unarchive" *ngIf="unarchive" (click)="onChange('unarchive')"> <img src="/assets/img/unarchive.svg" alt="Archive" ></span>

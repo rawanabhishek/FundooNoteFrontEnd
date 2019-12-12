@@ -50,7 +50,7 @@ export class NoteService {
 
   archiveNotes(id) {
 
-    return this.httpService.put( 'note/archive',  {},  this.emailIdToken, id );
+    return this.httpService.put('note/archive', {}, this.emailIdToken, id);
 
   }
 
@@ -93,13 +93,13 @@ export class NoteService {
 
 
   deleteNote(id) {
-   return  this.httpService.delete( 'note', this.emailIdToken, id );
+    return this.httpService.delete('note', this.emailIdToken, id);
   }
 
 
   updateNote(data, id) {
 
-    return this.httpService.put( 'note', data,  this.emailIdToken, id );
+    return this.httpService.put('note', data, this.emailIdToken, id);
   }
 
   createNote(data) {
@@ -108,27 +108,20 @@ export class NoteService {
 
   trashNote(id) {
 
-    return this.httpService.put( 'note/trash',  {},  this.emailIdToken, id );
+    return this.httpService.put('note/trash', {}, this.emailIdToken, id);
 
   }
 
   removeReminder(id) {
-    return this.httpService.put( 'note/removeremainder', {}, this.emailIdToken, id );
+    return this.httpService.put('note/removeremainder', {}, this.emailIdToken, id);
   }
 
 
 
   pinNote(id) {
 
-    this.httpService.put('note/pin', {},  this.emailIdToken, id )
-      .subscribe(
-        response => {
-          this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-        },
-        error => {
-          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-        }
-      );
+    return this.httpService.put('note/pin', {}, this.emailIdToken, id);
+
   }
 
   addReminder(reminder, id) {
@@ -139,7 +132,7 @@ export class NoteService {
 
 
   searchByTitleDescription(searchValue) {
-    return this.httpService.searchByTitleDescription('note/title/description', searchValue , this.emailIdToken);
+    return this.httpService.searchByTitleDescription('note/title/description', searchValue, this.emailIdToken);
   }
 
   getProfilePic() {
@@ -152,16 +145,25 @@ export class NoteService {
   }
 
   removeProfilePic() {
-    return this.httpService.removeProfilePic('http://localhost:8080/user/removeprofilepic' , this.emailIdToken);
+    return this.httpService.removeProfilePic('http://localhost:8080/user/removeprofilepic', this.emailIdToken);
   }
 
   untrash(noteId) {
-    return this.httpService.put( 'note/trash',  {} ,  this.emailIdToken, noteId );
+    return this.httpService.put('note/trash', {}, this.emailIdToken, noteId);
   }
 
 
   getNoteByLabel(labelId) {
-    return this.httpService.getNoteByLabel('note/bylabel' , this.emailIdToken , labelId);
+    return this.httpService.getNoteByLabel('note/bylabel', this.emailIdToken, labelId);
+  }
+
+  getCollabOwnerProfilePic(noteId, emailId) {
+    console.log('inside collab owner note servie');
+    return this.httpService.getCollabOwnerProfilePic('note/profilepic', this.emailIdToken, noteId, emailId);
+  }
+
+  addCollaborator(collaboratorEmail , noteId) {
+    return this.httpService.addCollaborator('note/addcollaborator' , this.emailIdToken , noteId , collaboratorEmail);
   }
 
 

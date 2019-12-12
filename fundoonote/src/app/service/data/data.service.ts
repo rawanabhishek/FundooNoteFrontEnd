@@ -9,10 +9,12 @@ export class DataService {
   private noteSource = new BehaviorSubject<any>(null);
   private labelSource = new BehaviorSubject<any>(null);
   private screenSource = new BehaviorSubject<any>('home');
+  private pinNoteSource = new BehaviorSubject<any>(null);
 
   currentNote = this.noteSource.asObservable();
   currentLabel = this.labelSource.asObservable();
   currentScreen = this.screenSource.asObservable();
+  currentPinNote = this.pinNoteSource.asObservable();
 
   constructor() { }
 
@@ -29,6 +31,10 @@ export class DataService {
 
     this.screenSource.next(screen);
 
+  }
+
+  chnagePinNote(note: any) {
+    this.pinNoteSource.next(note);
   }
 
 

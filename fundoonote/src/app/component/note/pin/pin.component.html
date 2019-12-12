@@ -3,11 +3,11 @@
         
     <div class="notes" *ngFor="let note of notes">
         <mat-card [ngStyle]="{'background-color': note.noteColor}">
-            <div  fxLayout="row" fxLayoutAlign="space-between center">
-                <p (click)="openDialog(note)"> {{ note.title }}</p>
-                <button mat-icon-button matTooltip="Pin note" (click)="pinNote(note.noteId)">
-                        <img style="width: 25px; height: 25px;" src="/assets/img/pin.svg" alt="Pin" >
-                </button>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <p (click)="openDialog(note)" > {{ note.title }}</p>
+                <button mat-icon-button matTooltip="Unpin note" (click)="pinNote(note.noteId)">
+                        <img style="width: 25px; height: 25px;" src="/assets/img/unpin.svg" alt="Unpin" >
+                    </button>
             </div>
             
             <div id="card-title" (click)="openDialog(note)">
@@ -38,7 +38,7 @@
                         <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label,note.noteId)">
 
                             {{label.name}}
-                            <mat-icon matChipRemove *ngIf="removable" >cancel</mat-icon>
+                            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
                         </mat-chip>
                     </mat-chip-list>
                 </div>
@@ -52,7 +52,7 @@
 
 
             <div>
-                <app-icon (messageEvent)="receiveMessage($event,note)"  [noteData]="note" ></app-icon>
+                <app-icon (messageEvent)="receiveMessage($event,note)" [noteData]="note"  ></app-icon>
             </div>
 
         </mat-card>
@@ -60,4 +60,5 @@
     </div>
 
 </div>
+
 
