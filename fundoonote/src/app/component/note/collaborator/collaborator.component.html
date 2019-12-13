@@ -1,26 +1,32 @@
-<h2>Collaborators</h2> 
+<h2>Collaborators</h2>
 <hr>
 <div fxLayout="row" class="owner">
-        <img  [src]="collabOwnerProfilePic" *ngIf="collabOwnerProfilePic; else default"  matTooltip="Profile">
-          <p style="padding-left: 10px;">{{note.emailId}}(Owner)</p>
+        <img [src]="collabOwnerProfilePic" *ngIf="collabOwnerProfilePic; else default" matTooltip="Owner profile photo">
+
+        <h4 style="padding-left: 10px;">{{note.emailId}} </h4>
+        <p style="padding-left: 10px;">(Owner)</p>
+
+
 </div>
-<div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let collaborator of note.collaborators">
-    <p >{{collaborator.email}}</p>
-    <button mat-icon-button matTooltip="Remove collaborator" (click)="removeCollaborator()">
-            <mat-icon>clear</mat-icon>
-</button>
+<div fxLayout="row" class="collab" *ngFor="let collaborator of note.collaborators">
+        <img *ngIf="collaborator.profilePic; else default"  [src]="collaborator.profilePic"   matTooltip="Collaborator profile photo ">
+        <div  fxLayout="row" style="width: 100%;" fxLayoutAlign="space-between center"  >
+                        <p style="padding-left: 10px;">{{collaborator.email}}</p>
+                        <button mat-icon-button matTooltip="Remove collaborator" (click)="removeCollaborator(collaborator)">
+                                <mat-icon>clear</mat-icon>
+                        </button>
+        </div>
+       
 </div>
-<div  fxLayout="row" class="addCollab">
-        <img  src="/assets/img/collaborator.svg"  matTooltip="Add collaborators">
+<div fxLayout="row" class="addCollab">
+        <img src="/assets/img/collaborator.svg" matTooltip="Add collaborators">
         <input placeholder="Person or email to share with" [formControl]="collaboratorEmailId">
         <button mat-icon-button matTooltip="Add collaborator" (click)="addCollaborator()">
                 <mat-icon>done</mat-icon>
-    </button>
+        </button>
 </div>
 
 
-
-
-
-
-
+<ng-template #default >
+                <img src="/assets/img/user.svg"  matTooltip="Collaborator profile photo " >
+</ng-template>

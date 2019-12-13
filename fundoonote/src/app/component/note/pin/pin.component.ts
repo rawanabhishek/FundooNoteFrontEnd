@@ -63,6 +63,22 @@ export class PinComponent implements OnInit {
       result => {
 
         this.notes = result.data;
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.data.chnagePinNote(this.notes);
 
       },

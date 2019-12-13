@@ -75,6 +75,12 @@ export class HttpService {
     });
   }
 
+  getCollaboratorProfilePic(getProfilePath, collaboratorEmailId): Observable<any> {
+    return this.http.get<any>(getProfilePath, {
+      headers: new HttpHeaders().append('collaboratorEmailId', collaboratorEmailId)
+    });
+  }
+
   setProfilePic(getProfilePath, emailIdToken, profilePic): Observable<any> {
     return this.http.put<any>(getProfilePath, profilePic, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken),
@@ -105,12 +111,20 @@ export class HttpService {
     });
   }
 
-  addCollaborator(getNotePath, emailIdToken, noteId, collabEmail): Observable<any> {
+  collaborator(getNotePath, emailIdToken, noteId, collabEmail): Observable<any> {
     return this.http.put<any>(this.baseUrl + getNotePath, {}, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken).append('collaboratorEmailId', collabEmail),
       params: new HttpParams().append('noteId', noteId)
     });
   }
+
+  getCollaborator(getNotePath, collabEmail): Observable<any> {
+    return this.http.get<any>(this.baseUrl + getNotePath , {
+      headers: new HttpHeaders().append('emailIdCollaborator', collabEmail)
+    });
+  }
+
+
 
 
 

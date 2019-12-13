@@ -65,6 +65,15 @@ $border-color: rgb(175,175,175);
    
 }
 
+.image{
+    padding-top: 5px;
+    img{
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+    }
+}
+
 
 mat-card{
     width: 22vw;

@@ -19,7 +19,7 @@
                 [formControl]="description" value="{{note.description}}">
             </textarea>
         </div>
-        <div>
+        <div style="padding-left: 10px;">
             <div *ngIf="note.reminder">
                 <mat-chip-list #chipList>
                     <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeReminder(note)">
@@ -31,7 +31,7 @@
             </div>
 
 
-            <div *ngIf="note.labels" fxLayout="row wrap">
+            <div *ngIf="note.labels" fxLayout="row wrap" >
                 <mat-chip-list #chipList *ngFor="let label of note.labels ">
                     <mat-chip [selectable]="selectable" [removable]="removable" (removed)="removeLabel(label)">
 
@@ -41,6 +41,11 @@
                     </mat-chip>
                 </mat-chip-list>
             </div>
+        </div>
+        <div fxLayout="row" style="padding-left: 10px;">
+                <div  *ngFor="let collaborator of note.collaborators" class="image" matTooltip="{{collaborator.email}}">
+                        <img [src]="collaborator.profilePic"  *ngIf="collaborator.profilePic; else default"  >
+                </div>
         </div>
         <div>
             <div>
@@ -63,3 +68,7 @@
 
 
         </div>
+
+        <ng-template #default>
+                <img src="/assets/img/user.svg" >
+        </ng-template>

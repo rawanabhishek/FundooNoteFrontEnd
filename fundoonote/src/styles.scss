@@ -9,8 +9,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 .myapp-no-padding-dialog .mat-dialog-container {
-    padding: 0;
+    padding: 0px;
     overflow: hidden;
+    border-radius: 10px;
    
   }
 

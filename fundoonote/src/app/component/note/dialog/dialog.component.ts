@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar, MatDialog } from '@angular/material';
 import { NoteService } from 'src/app/service/note/note.service';
 
 import { FormControl } from '@angular/forms';
@@ -7,6 +7,7 @@ import { DataService } from 'src/app/service/data/data.service';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { $ } from 'protractor';
+import { CollaboratorComponent } from '../collaborator/collaborator.component';
 
 @Component({
   selector: 'app-dialog',
@@ -52,6 +53,7 @@ export class DialogComponent implements OnInit {
     private dataService: DataService,
     private noteService: NoteService,
     private datePipe: DatePipe,
+    private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private router: Router
   ) { }
@@ -110,7 +112,9 @@ export class DialogComponent implements OnInit {
     } else if ($event === 'pin') {
     } else if ($event === 'delete') {
       this.deleteNote();
-    } else if (typeof $event === 'string') {
+    } else if ($event === 'collaborator') {
+      this.openCollaboratorDialog();
+   } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
     } else if (typeof $event === 'object') {
@@ -137,6 +141,8 @@ export class DialogComponent implements OnInit {
 
 
 
+
+
   updateNote() {
     console.log('this', this.title);
     console.log('description', this.updateData);
@@ -160,6 +166,23 @@ export class DialogComponent implements OnInit {
 
 
   }
+
+
+  openCollaboratorDialog() {
+    this.dialog.open(CollaboratorComponent,
+      {
+        panelClass: 'dialog-collaborator-padding',
+        width: '600px',
+        data: this.note
+      });
+    this.dialog.afterAllClosed.subscribe(
+      result => {
+        this.getNotes();
+      }
+    );
+
+  }
+
 
   pinUnpin() {
    this.pinShow = this.pinShow ? false : true;
@@ -202,6 +225,22 @@ export class DialogComponent implements OnInit {
           this.getNotesByReminder();
         } else {
           this.notes = result.data;
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
           this.dataService.changeNotes(this.notes);
         }
       },
@@ -215,6 +254,22 @@ export class DialogComponent implements OnInit {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data.filter(item => item.reminder);
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.dataService.changeNotes(this.notes);
 
 
@@ -231,6 +286,22 @@ export class DialogComponent implements OnInit {
       result => {
 
         this.notes = result.data.filter(item => item.labels.find(j => j.labelId === labelId));
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.dataService.changeNotes(this.notes);
 
       },

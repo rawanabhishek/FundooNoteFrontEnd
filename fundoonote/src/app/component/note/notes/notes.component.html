@@ -1,7 +1,7 @@
 
 <div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center">
         
-    <div class="notes" *ngFor="let note of notes">
+    <div class="notes" *ngFor="let note of notes" >
         <mat-card [ngStyle]="{'background-color': note.noteColor}">
             <div  fxLayout="row" fxLayoutAlign="space-between center">
                 <p (click)="openDialog(note)"> {{ note.title }}</p>
@@ -43,11 +43,14 @@
                     </mat-chip-list>
                 </div>
 
-                <div>
-                   <img [src]="profilePicCollab" *ngIf="profilePicCollab"  >
-                </div>
 
             </div>
+            <div fxLayout="row">
+                    <div  *ngFor="let collaborator of note.collaborators" class="image" matTooltip="{{collaborator.email}}">
+                            <img  *ngIf="collaborator.profilePic; else default"  [src]="collaborator.profilePic"  >
+                    </div>
+            </div>
+            
 
 
 
@@ -60,4 +63,9 @@
     </div>
 
 </div>
+
+
+<ng-template #default>
+        <img src="/assets/img/user.svg" >
+</ng-template>
 

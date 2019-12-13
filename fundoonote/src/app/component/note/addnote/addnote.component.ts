@@ -14,11 +14,14 @@ import { ReversePipe } from 'src/app/service/pipe/ReversePipe.pipe';
 export class AddnoteComponent implements OnInit {
   showContent = true;
   pinShow = true;
+  showCollab = true;
   title = new FormControl();
   description = new FormControl();
-  emailIdToken = localStorage.getItem('token');
+  collaboratorEmailId = new FormControl();
 
-  noteData: any;
+  emailIdToken = localStorage.getItem('token');
+  emailId;
+
   createNotePath = 'note';
   notes;
   noteColor: string;
@@ -29,7 +32,25 @@ export class AddnoteComponent implements OnInit {
   labels = new Array<any>();
   selectable = true;
   removable = true;
+  collaborators = new Array<any>();
+  collaborator;
   labelId;
+  ownerProfilePic;
+  noteInfo;
+
+  noteData = {
+    title: this.title.value,
+    description: this.description.value,
+    noteColor: this.noteColor,
+    pin: this.pin,
+    reminder: this.reminder,
+    archive: this.archive,
+    collaborators: this.collaborator
+
+
+
+  };
+
 
 
   constructor(
@@ -40,6 +61,8 @@ export class AddnoteComponent implements OnInit {
 
   ngOnInit() {
 
+    this.getOwnerProfilePic();
+    this.emailId = localStorage.getItem('email');
   }
 
   receiveMessage($event) {
@@ -48,6 +71,8 @@ export class AddnoteComponent implements OnInit {
       this.archive = true;
     } else if ($event === 'pin') {
       this.pin = true;
+    } else if ($event === 'collaborator') {
+      this.showCollabContent();
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
     } else if (typeof $event === 'object') {
@@ -86,10 +111,14 @@ export class AddnoteComponent implements OnInit {
     this.showContent = this.showContent ? false : true;
   }
 
+  showCollabContent() {
+    this.showCollab = this.showCollab ? false : true;
+  }
+
 
   createNote() {
 
-    this.noteData = {
+    this.noteInfo = {
       title: this.title.value,
       description: this.description.value,
       noteColor: this.noteColor,
@@ -102,9 +131,9 @@ export class AddnoteComponent implements OnInit {
 
     };
 
-    if (this.noteData.title != null || this.noteData.description != null) {
+    if (this.noteInfo.title != null || this.noteInfo.description != null) {
       this.addNote();
-      console.log('title', this.noteData.title);
+      console.log('title', this.noteInfo.title);
 
       this.title.reset();
       this.description.reset();
@@ -147,6 +176,53 @@ export class AddnoteComponent implements OnInit {
 
   removeLabels(index): void {
     this.labels.splice(index, 1);
+
+  }
+
+
+  getOwnerProfilePic() {
+    this.noteService.getProfilePic().subscribe(
+      response => {
+
+        this.ownerProfilePic = response.data;
+
+
+      },
+      error => {
+        console.log('Operation failed');
+
+      }
+    );
+
+  }
+
+
+  addCollaborator() {
+    console.log('collab email value', this.collaboratorEmailId.value);
+
+    this.noteService.getcollaborator(this.collaboratorEmailId.value).subscribe(
+      response => {
+        this.collaborator = response.data;
+        this.collaborators.push(this.collaborator);
+        this.noteService.getCollaboratorProfilePic(this.collaborator.email).subscribe(result => {
+          this.collaborator.profilePic = result.data;
+        }, error => {
+          return this.snackBar.open(error, 'close')._dismissAfter(2000);
+        }
+        );
+        this.collaboratorEmailId.reset();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
+
+      },
+      error => {
+        return this.snackBar.open(error, 'close')._dismissAfter(2000);
+      }
+    );
+  }
+
+
+  removeCollaborator(index) {
+    this.collaborators.splice(index, 1);
 
   }
 

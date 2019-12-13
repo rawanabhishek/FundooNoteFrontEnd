@@ -139,6 +139,10 @@ export class NoteService {
     return this.httpService.getProfilePic('http://localhost:8080/user/profilepic', this.emailIdToken);
   }
 
+  getCollaboratorProfilePic(emailId) {
+    return this.httpService.getCollaboratorProfilePic('http://localhost:8080/user/collaboratorprofilepic', emailId);
+  }
+
   setProfilePic(profilePic) {
     return this.httpService.setProfilePic('http://localhost:8080/user/updateprofilepic', this.emailIdToken, profilePic);
 
@@ -162,8 +166,16 @@ export class NoteService {
     return this.httpService.getCollabOwnerProfilePic('note/profilepic', this.emailIdToken, noteId, emailId);
   }
 
-  addCollaborator(collaboratorEmail , noteId) {
-    return this.httpService.addCollaborator('note/addcollaborator' , this.emailIdToken , noteId , collaboratorEmail);
+  addCollaborator(collaboratorEmail, noteId) {
+    return this.httpService.collaborator('note/addcollaborator', this.emailIdToken, noteId, collaboratorEmail);
+  }
+
+  removeCollaborator(collaboratorEmail, noteId) {
+    return this.httpService.collaborator('note/removecollaborator', this.emailIdToken, noteId, collaboratorEmail);
+  }
+
+  getcollaborator(collaboratorEmail) {
+    return this.httpService.getCollaborator('note/getcollaborator', collaboratorEmail);
   }
 
 

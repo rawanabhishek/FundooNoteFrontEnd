@@ -7,7 +7,7 @@
     </mat-card>
 
 
-    <mat-card *ngIf="!showContent" class="create-note" fxFlex.xs="30" fxLayout="column"  [ngStyle]="{'background-color': noteColor}">
+    <mat-card *ngIf="!showContent && showCollab"   class="create-note" fxFlex.xs="30" fxLayout="column"  [ngStyle]="{'background-color': noteColor}">
 
         <div fxLayout="row"><textarea  cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
@@ -52,7 +52,7 @@
        <div fxLayout="row" fxLayoutAlign="space-between" >
 
         <div style="width: 60%;" >
-        <app-icon (messageEvent)="receiveMessage($event)" ></app-icon>
+        <app-icon (messageEvent)="receiveMessage($event)"  [noteData]=""></app-icon>
         </div>
 
        
@@ -61,13 +61,57 @@
         </div>
     </div>
     </mat-card>
+ <!-- --------------------------- -->
+    <mat-card *ngIf="!showCollab"    class="create-note" fxFlex.xs="30" fxLayout="column" >
+        <h2>Collaborators</h2>
+    <hr>
+    <div fxLayout="row" class="owner">
+            <img [src]="ownerProfilePic" *ngIf="ownerProfilePic; else default" matTooltip="Owner profile photo">
+    
+            <h4 style="padding-left: 10px;">{{emailId}} </h4>
+            <p style="padding-left: 10px;">(Owner)</p>
+    
+    
+    </div>
+    <div fxLayout="row" class="collab" *ngFor="let collaborator of collaborators; index as i">
+        <img *ngIf="collaborator.profilePic; else default"  [src]="collaborator.profilePic"   matTooltip="Collaborator profile photo ">
+            <div  fxLayout="row" style="width: 100%;" fxLayoutAlign="space-between center"  >
+                            <p style="padding-left: 10px;">{{collaborator.email}}</p>
+                            <button mat-icon-button matTooltip="Remove collaborator" (click)="removeCollaborator(i)">
+                                    <mat-icon>clear</mat-icon>
+                            </button>
+            </div>
+           
+    </div>
+
+    <div fxLayout="row" class="addCollab">
+            <img src="/assets/img/collaborator.svg" matTooltip="Add collaborators">
+            <input placeholder="Person or email to share with" [formControl]="collaboratorEmailId">
+            <button mat-icon-button matTooltip="Add collaborator" (click)="addCollaborator()">
+            <mat-icon>done</mat-icon>
+            </button>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end center" >
+        <h3 (click)="showCollabContent()">Close</h3>
+    </div>
+    
+    </mat-card>
+
+
 </div>
 
-
+<!-- --------------------------------------------------------------------------------------- -->
         
 
 </div>
 
+
+
+
+
+<ng-template #default >
+    <img src="/assets/img/user.svg"  matTooltip="Collaborator profile photo " >
+</ng-template>
 
 
 

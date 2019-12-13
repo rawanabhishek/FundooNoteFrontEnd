@@ -7,6 +7,8 @@ import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { ReversePipe } from 'src/app/service/pipe/ReversePipe.pipe';
+import { of } from 'rxjs';
+import { CollaboratorComponent } from '../collaborator/collaborator.component';
 
 
 
@@ -132,6 +134,22 @@ export class NotesComponent implements OnInit {
           this.getNotesByReminder();
         } else {
           this.notes = result.data;
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
           this.data.changeNotes(this.notes);
         }
       },
@@ -148,6 +166,22 @@ export class NotesComponent implements OnInit {
       result => {
 
         this.notesPin = result.data;
+        this.notesPin.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.data.chnagePinNote(this.notesPin);
 
 
@@ -163,6 +197,22 @@ export class NotesComponent implements OnInit {
       this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
         result => {
           this.notes = result.data.filter(item => item.reminder);
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
           this.data.changeNotes(this.notes);
           console.log('list of notes', this.notes);
 
@@ -183,6 +233,22 @@ export class NotesComponent implements OnInit {
 
         this.notes = result.data;
         this.data.changeNotes(this.notes);
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         console.log('list of notes by label', this.notes);
 
       },
@@ -211,6 +277,8 @@ export class NotesComponent implements OnInit {
     } else if ($event === 'delete') {
       this.noteId = note.noteId;
       this.deleteNote();
+    } else if ($event === 'collaborator') {
+       this.openCollaboratorDialog(note);
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor, note.noteId);
@@ -241,6 +309,21 @@ export class NotesComponent implements OnInit {
 
       }
     }
+  }
+
+  openCollaboratorDialog(note) {
+    this.dialog.open(CollaboratorComponent,
+      {
+        panelClass: 'dialog-collaborator-padding',
+        width: '600px',
+        data: note
+      });
+    this.dialog.afterAllClosed.subscribe(
+      result => {
+        this.getNotes();
+      }
+    );
+
   }
 
 
@@ -382,20 +465,20 @@ export class NotesComponent implements OnInit {
   }
 
 
-  getProfilePicCollab() {
-    this.noteService.getProfilePic().subscribe(
-      response => {
+  getAllCollabProfilePic(note) {
+    note.collaborators.forEach(element => {
+      this.noteService.getCollabOwnerProfilePic(note.noteId, element.email).subscribe(
 
-        this.profilePicCollab = response.data;
+        response => {
+          console.log('in collab profile pic response');
+          element.profilePic = response.data;
+        },
+        error => {
+          console.log(error.error);
+        }
+      );
 
-
-      },
-      error => {
-        console.log('Operation failed');
-
-      }
-    );
-
+    });
   }
 
 

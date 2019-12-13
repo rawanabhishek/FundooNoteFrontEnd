@@ -181,6 +181,22 @@ export class DashboardComponent implements OnInit {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.data.changeNotes(this.notes);
         console.log('list of notes', this.notes);
 
@@ -198,6 +214,22 @@ export class DashboardComponent implements OnInit {
       this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
         result => {
           this.notes = result.data.filter(item => item.reminder);
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
           this.data.changeNotes(this.notes);
 
         },
@@ -221,6 +253,22 @@ export class DashboardComponent implements OnInit {
           this.labelIdParam = label.labelId;
           this.router.navigate(['/dashboard/', label.labelId]);
           this.notes = result.data.filter(item => item.labels.find(j => j.labelId === label.labelId));
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
           this.data.changeNotes(this.notes);
 
         },

@@ -21,6 +21,17 @@
     border-radius: 10px;
     color: rgb(151, 151, 151);
     overflow: visible;
+
+    input
+    {
+             width: 100%; 
+             font-size: 20px;
+             border: none !important;
+             background-color: rgba(255, 248, 248, 0.856); 
+             outline: none;
+             margin-top: 7px;
+             
+    }
     
     textarea{
     border: none;
@@ -40,6 +51,9 @@
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
+
+   
+
     img{
     width: 20px;
     height: 20px;
@@ -56,6 +70,50 @@
     .mat-standard-chip{
         min-height: 20px;
     }
+
+
+
+.owner{
+  img{
+ 
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      
+  }
+}
+
+.addCollab{
+  img{
+      width: 40px;
+      height: 40px;
+     
+      }
+}
+
+
+.collab{
+  img{
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      }
+
+
+}
+
+.collaborator{
+  input
+{
+         width: 100%; 
+         font-size: 20px;
+         border: none !important;
+         background-color: rgba(255, 248, 248, 0.856); 
+         outline: none;
+         margin-top: 7px;
+         
+}
+}
 
 
 

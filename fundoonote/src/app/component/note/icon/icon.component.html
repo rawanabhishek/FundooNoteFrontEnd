@@ -1,7 +1,7 @@
 
     <div class="create-note-icon" fxLayout="row" fxLayoutAlign="space-around center"  *ngIf="!trash" >
         <span   matTooltip="Remind me" [matMenuTriggerFor]="reminder" > <img src="/assets/img/remindme.svg" alt="Remind me" ></span>
-        <span  matTooltip="Collaborator"  (click)="openCollaboratorDialog()"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
+        <span  matTooltip="Collaborator"  (click)="onChange('collaborator')"> <img src="/assets/img/collaborator.svg" alt="Collaborator" ></span>
         <span matTooltip="Change color" [matMenuTriggerFor]="color"> <img src="/assets/img/changecolor.svg" alt="Change color" ></span>
         <span  matTooltip="Archive"  *ngIf="!unarchive" (click)="onChange('archive')"> <img src="/assets/img/archive.svg" alt="Archive" ></span>
         <span  matTooltip="Unarchive" *ngIf="unarchive" (click)="onChange('unarchive')"> <img src="/assets/img/unarchive.svg" alt="Archive" ></span>
@@ -51,7 +51,7 @@
     <br>
     <button mat-mini-fab style="background-color: #e286e2;" matTooltip="Purple" (click)="onChange('#e286e2')"></button>
     <button mat-mini-fab style="background-color: #dd99a4;" matTooltip="Pink" (click)="onChange('#dd99a4')"></button>
-    <button mat-mini-fab style="background-color: #f1a274d8;" matTooltip="Brown"(click)="onChange('#f1a274d8')"></button>
+    <button mat-mini-fab style="background-color: #d3cccd;" matTooltip="Brown"(click)="onChange('#d3cccd')"></button>
    
  </mat-menu>
 

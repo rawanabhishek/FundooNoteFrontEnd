@@ -27,7 +27,7 @@ export class IconComponent implements OnInit {
 
   emailIdToken = localStorage.getItem('token');
 
-  @Input() noteData: any;
+  @Input() noteData: '';
   @Input() noteId: any;
   pin = false;
   archive = false;
@@ -37,6 +37,7 @@ export class IconComponent implements OnInit {
   datetime;
   reminder: string;
   labels: any;
+  labelIdParam;
 
   // @Input() screens = '';
 
@@ -52,6 +53,7 @@ export class IconComponent implements OnInit {
     private data: DataService,
     private dialog: MatDialog,
     private router: Router,
+    private activatedRoute: ActivatedRoute
 
   ) {
 
@@ -62,15 +64,37 @@ export class IconComponent implements OnInit {
 
 
 
-    if (this.router.url.includes('/archive')) {
-      this.trash = false;
-      this.unarchive = true;
-    } else if (this.router.url.includes('/trash')) {
+    if (this.router.url.includes('/trash')) {
       this.trash = true;
+      this.archive = false;
+      this.pin = false;
       this.unarchive = false;
+
+    } else if (this.router.url.includes('/archive')) {
+      this.trash = false;
+      this.archive = true;
+      this.pin = false;
+      this.unarchive = true;
+
+    } else if (this.router.url.includes('/note')) {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+      this.unarchive = false;
+
+    } else if (this.router.url.includes('/reminder')) {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+      this.unarchive = false;
+
     } else {
       this.trash = false;
+      this.archive = false;
+      this.pin = false;
       this.unarchive = false;
+      this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
+
     }
 
     this.getLabels();
@@ -84,13 +108,105 @@ export class IconComponent implements OnInit {
   getNotes() {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
-        this.notes = result.data;
-        this.data.changeNotes(this.notes);
-      },
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          this.getNotesByLabel(this.labelIdParam);
+        } else if (this.router.url.includes('reminder')) {
+          this.getNotesByReminder();
+        } else {
+          this.notes = result.data;
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
+          this.data.changeNotes(this.notes);
+        }
+
+      }
+      ,
       error => {
         this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
       }
     );
+  }
+
+
+  getNotesByReminder() {
+    {
+      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+        result => {
+          this.notes = result.data.filter(item => item.reminder);
+          this.notes.forEach(element => {
+            element.collaborators.forEach(element2 => {
+              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+                response => {
+                  console.log('in collab profile pic response');
+                  element2.profilePic = response.data;
+                },
+                error => {
+                  console.log(error.error);
+                }
+              );
+            });
+
+
+          });
+          this.data.changeNotes(this.notes);
+          console.log('list of notes', this.notes);
+
+
+        },
+        error => {
+          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        }
+
+      );
+    }
+  }
+
+  getNotesByLabel(labelId) {
+    this.noteService.getNoteByLabel(labelId).subscribe(
+      result => {
+        console.log('label id get notes by label', labelId);
+
+        this.notes = result.data;
+        this.data.changeNotes(this.notes);
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
+        console.log('list of notes by label', this.notes);
+
+      },
+      error => {
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+      });
+
   }
 
 
@@ -124,22 +240,6 @@ export class IconComponent implements OnInit {
   }
 
 
-  openCollaboratorDialog() {
-    console.log('open collab dialog', this.noteData);
-
-    this.dialog.open(CollaboratorComponent,
-      {
-        panelClass: 'dialog-collaborator-padding',
-        width: '600px',
-        data: this.noteData
-      });
-    this.dialog.afterAllClosed.subscribe(
-      result => {
-        this.getNotes();
-      }
-    );
-
-  }
 
 
 

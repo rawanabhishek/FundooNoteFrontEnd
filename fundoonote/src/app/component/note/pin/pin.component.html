@@ -48,7 +48,11 @@
                 </div>
 
             </div>
-
+            <div fxLayout="row">
+                    <div  *ngFor="let collaborator of note.collaborators" class="image" matTooltip="{{collaborator.email}}">
+                            <img *ngIf="collaborator.profilePic; else default"  [src]="collaborator.profilePic"   >
+                    </div>
+            </div>
 
 
             <div>
@@ -60,5 +64,9 @@
     </div>
 
 </div>
+
+<ng-template #default>
+        <img src="/assets/img/user.svg" >
+</ng-template>
 
 
