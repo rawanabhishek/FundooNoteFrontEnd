@@ -25,7 +25,6 @@ export class DialogComponent implements OnInit {
   updateData: any;
   private noteColor: string;
   getNotePathColor = 'note/updatecolor';
-  pin = false;
   archive = false;
   trash = false;
   selectable = true;
@@ -66,22 +65,18 @@ export class DialogComponent implements OnInit {
     if (this.router.url.includes('/trash')) {
       this.trash = true;
       this.archive = false;
-      this.pin = false;
-
     } else if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
-      this.pin = false;
+
 
     } else if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
 
     } else {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
       this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
     }
 
@@ -115,7 +110,7 @@ export class DialogComponent implements OnInit {
       this.deleteNote();
     } else if ($event === 'collaborator') {
       this.openCollaboratorDialog();
-   } else if (typeof $event === 'string') {
+    } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor);
     } else if (typeof $event === 'object') {
@@ -186,66 +181,49 @@ export class DialogComponent implements OnInit {
 
 
   pinUnpin() {
-   this.pinShow = this.pinShow ? false : true;
-   this.noteService.pinNote(this.note.noteId).subscribe(
-    response => {
-      this.getNotes();
-      this.getNotesPin();
-      this.snackBar.open(response.message, 'close')._dismissAfter(2000);
-    },
-    error => {
-      return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-    }
-  );
-  }
-
-  getNotesPin() {
-    console.log('from pin', this.pin, this.archive, this.trash);
-
-    this.noteService.getNotes(true, false, false).subscribe(
-      result => {
-
-        this.notesPin = result.data;
-        this.dataService.chnagePinNote(this.notesPin);
-
-
+    this.pinShow = this.pinShow ? false : true;
+    this.noteService.pinNote(this.note.noteId).subscribe(
+      response => {
+        this.getNotes();
+        this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
       }
     );
   }
+
+
 
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes(this.archive, this.trash).subscribe(
       result => {
+        this.notes = result.data;
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         if (this.router.url.includes(this.labelIdParam)) {
           console.log('update color in labels', this.labelIdParam);
-          this.getNotesByLabel(this.labelIdParam);
+          // tslint:disable-next-line: triple-equals
+          this.notes = this.notes.filter(i => i.labels.find(j => j.labelId == this.labelIdParam));
         } else if (this.router.url.includes('reminder')) {
-          console.log('update color in reminder');
-          this.getNotesByReminder();
-        } else {
-          console.log('update color in note');
-          this.notes = result.data;
-          this.notes.forEach(element => {
-            element.collaborators.forEach(element2 => {
-              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-                response => {
-                  console.log('in collab profile pic response');
-                  element2.profilePic = response.data;
-                },
-                error => {
-                  console.log(error.error);
-                }
-              );
-            });
-
-
-          });
-          this.dataService.changeNotes(this.notes);
+          this.notes = this.notes.filter(i => i.reminder);
         }
+        this.dataService.changeNotes(this.notes);
+
       },
       error => {
         this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
@@ -253,67 +231,9 @@ export class DialogComponent implements OnInit {
     );
   }
 
-  getNotesByReminder() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-      result => {
-        this.notes = result.data.filter(item => item.reminder);
-        this.notes.forEach(element => {
-          element.collaborators.forEach(element2 => {
-            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-              response => {
-                console.log('in collab profile pic response');
-                element2.profilePic = response.data;
-              },
-              error => {
-                console.log(error.error);
-              }
-            );
-          });
 
 
-        });
-        this.dataService.changeNotes(this.notes);
 
-
-      },
-      error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      }
-
-    );
-  }
-
-  getNotesByLabel(labelId) {
-    this.noteService.getNoteByLabel(labelId).subscribe(
-      result => {
-
-        this.notes = result.data;
-        console.log('label notes in dialog', this.notes);
-        this.notes.forEach(element => {
-          element.collaborators.forEach(element2 => {
-            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-              response => {
-                console.log('in collab profile pic response');
-                element2.profilePic = response.data;
-              },
-              error => {
-                console.log(error.error);
-              }
-            );
-          });
-
-
-        });
-        this.dataService.changeNotes(this.notes);
-
-      },
-      error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      });
-
-  }
 
   updateColor(noteColor) {
 

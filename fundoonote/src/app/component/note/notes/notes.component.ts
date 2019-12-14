@@ -30,7 +30,7 @@ export class NotesComponent implements OnInit {
   getNotePathColor = 'note/updatecolor';
   private noteColor: string;
   noteId: any;
-  pin = false;
+
   archive = false;
   trash = false;
   typeOfNote = '';
@@ -41,7 +41,7 @@ export class NotesComponent implements OnInit {
   noteList;
   screenType;
   profilePicCollab: string;
-  labelParam;
+  labelParam: any;
   datetime;
   notesPin;
   showPinNotes = false;
@@ -71,45 +71,41 @@ export class NotesComponent implements OnInit {
 
     this.activatedRoute.url.subscribe(response => {
 
-      //   //   // this.typeOfNote = this.activatedRoute.snapshot.paramMap.get('type');
-      //   //   // console.log('typeOf note', this.typeOfNote);
-      //   //   // this.data.currentNote.subscribe(note => this.notes = note);
-      //   //   // this.data.changeNotes(this.notes);
 
       if (this.router.url.includes('/trash')) {
         this.trash = true;
         this.archive = false;
-        this.pin = false;
+
         this.showPinNotes = false;
 
 
       } else if (this.router.url.includes('/archive')) {
         this.trash = false;
         this.archive = true;
-        this.pin = false;
+
         this.showPinNotes = false;
 
 
       } else if (this.router.url.includes('/note')) {
         this.trash = false;
         this.archive = false;
-        this.pin = false;
+
         this.showPinNotes = true;
-        this.getNotesPin() ;
 
 
       } else if (this.router.url.includes('/reminder')) {
         this.trash = false;
         this.archive = false;
-        this.pin = false;
-        this.showPinNotes = false;
+
+        this.showPinNotes = true;
+
 
 
       } else {
         this.trash = false;
         this.archive = false;
-        this.pin = false;
-        this.showPinNotes = false;
+        this.showPinNotes = true;
+
         this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
 
         console.log('labelParam note', this.activatedRoute.snapshot.firstChild.paramMap.get('type'));
@@ -128,124 +124,15 @@ export class NotesComponent implements OnInit {
   }
 
 
-
-
-
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes(this.archive, this.trash).subscribe(
       result => {
-        if (this.router.url.includes(this.labelIdParam)) {
-          console.log('update color in labels', this.labelIdParam);
-          this.getNotesByLabel(this.labelIdParam);
-        } else if (this.router.url.includes('reminder')) {
-          this.getNotesByReminder();
-        } else {
-          this.notes = result.data;
-          this.notes.forEach(element => {
-            element.collaborators.forEach(element2 => {
-              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-                response => {
-                  console.log('in collab profile pic response');
-                  element2.profilePic = response.data;
-                },
-                error => {
-                  console.log(error.error);
-                }
-              );
-            });
-
-
-          });
-          this.data.changeNotes(this.notes);
-        }
-      },
-      error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
-  }
-
-  getNotesPin() {
-    console.log('from pin', this.pin, this.archive, this.trash);
-
-    this.noteService.getNotes(true, false, false).subscribe(
-      result => {
-
-        this.notesPin = result.data;
-        this.notesPin.forEach(element => {
-          element.collaborators.forEach(element2 => {
-            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-              response => {
-                console.log('in collab profile pic response');
-                element2.profilePic = response.data;
-              },
-              error => {
-                console.log(error.error);
-              }
-            );
-          });
-
-
-        });
-        this.data.chnagePinNote(this.notesPin);
-
-
-      },
-      error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
-  }
-
-  getNotesByReminder() {
-    {
-      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-        result => {
-          this.notes = result.data.filter(item => item.reminder);
-          this.notes.forEach(element => {
-            element.collaborators.forEach(element2 => {
-              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-                response => {
-                  console.log('in collab profile pic response');
-                  element2.profilePic = response.data;
-                },
-                error => {
-                  console.log(error.error);
-                }
-              );
-            });
-
-
-          });
-          this.data.changeNotes(this.notes);
-          console.log('list of notes', this.notes);
-
-
-        },
-        error => {
-          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-        }
-
-      );
-    }
-  }
-
-  getNotesByLabel(labelId) {
-    this.noteService.getNoteByLabel(labelId).subscribe(
-      result => {
-        console.log('label id get notes by label', labelId);
 
         this.notes = result.data;
-        this.data.changeNotes(this.notes);
         this.notes.forEach(element => {
           element.collaborators.forEach(element2 => {
             this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
               response => {
-                console.log('in collab profile pic response');
                 element2.profilePic = response.data;
               },
               error => {
@@ -253,19 +140,24 @@ export class NotesComponent implements OnInit {
               }
             );
           });
-
-
         });
-        console.log('list of notes by label', this.notes);
+
+
+        if (this.router.url.includes(this.labelIdParam)) {
+          // tslint:disable-next-line: triple-equals
+          this.notes = this.notes.filter(i => i.labels.find(j => j.labelId == this.labelIdParam));
+        } else if (this.router.url.includes('reminder')) {
+          console.log('add by reminder', this.notes);
+          this.notes = this.notes.filter(i => i.reminder);
+        }
+        this.data.changeNotes(this.notes);
 
       },
       error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      });
-
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
   }
-
-
 
 
   receiveMessage($event, note) {
@@ -285,7 +177,7 @@ export class NotesComponent implements OnInit {
       this.noteId = note.noteId;
       this.deleteNote();
     } else if ($event === 'collaborator') {
-       this.openCollaboratorDialog(note);
+      this.openCollaboratorDialog(note);
     } else if (typeof $event === 'string') {
       this.noteColor = $event;
       this.updateColor(this.noteColor, note.noteId);
@@ -328,7 +220,6 @@ export class NotesComponent implements OnInit {
     this.dialog.afterAllClosed.subscribe(
       result => {
         this.getNotes();
-        this.getNotesPin();
       }
     );
 
@@ -361,7 +252,6 @@ export class NotesComponent implements OnInit {
           this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
           console.log('label param value', this.labelParam);
           this.getNotes();
-          this.getNotesPin();
         },
         error => {
           return this.snackBar.open('Note color updation failed', 'close')._dismissAfter(2000);
@@ -377,7 +267,6 @@ export class NotesComponent implements OnInit {
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
-          this.getNotesPin();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -391,7 +280,6 @@ export class NotesComponent implements OnInit {
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
-          this.getNotesPin();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -405,7 +293,6 @@ export class NotesComponent implements OnInit {
     this.noteService.archiveNotes(this.noteId).subscribe(
       response => {
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
       },
       error => {
@@ -418,7 +305,6 @@ export class NotesComponent implements OnInit {
     this.noteService.trashNote(this.noteId).subscribe(
       response => {
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -436,7 +322,6 @@ export class NotesComponent implements OnInit {
     this.noteService.addReminder(date, noteId).subscribe(
       response => {
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -447,7 +332,6 @@ export class NotesComponent implements OnInit {
     this.noteService.addLabel(this.noteId, labelId).subscribe(
       response => {
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -457,9 +341,8 @@ export class NotesComponent implements OnInit {
   deleteForever(noteId) {
     this.noteService.deleteNote(noteId).subscribe(
       response => {
-        console.log('deleteforever', this.pin, this.archive, this.trash);
+        console.log('deleteforever', this.archive, this.trash);
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -518,7 +401,6 @@ export class NotesComponent implements OnInit {
     this.noteService.pinNote(noteId).subscribe(
       response => {
         this.getNotes();
-        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {

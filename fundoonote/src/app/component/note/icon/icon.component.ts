@@ -29,7 +29,7 @@ export class IconComponent implements OnInit {
 
   @Input() noteData: '';
   @Input() noteId: any;
-  pin = false;
+
   archive = false;
   trash = false;
   showAddLabel = false;
@@ -67,31 +67,31 @@ export class IconComponent implements OnInit {
     if (this.router.url.includes('/trash')) {
       this.trash = true;
       this.archive = false;
-      this.pin = false;
+
       this.unarchive = false;
 
     } else if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
-      this.pin = false;
+
       this.unarchive = true;
 
     } else if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
+
       this.unarchive = false;
 
     } else if (this.router.url.includes('/reminder')) {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
+
       this.unarchive = false;
 
     } else {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
+
       this.unarchive = false;
       this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
 
@@ -106,84 +106,10 @@ export class IconComponent implements OnInit {
 
 
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes(this.archive, this.trash).subscribe(
       result => {
-        if (this.router.url.includes(this.labelIdParam)) {
-          console.log('update color in labels', this.labelIdParam);
-          this.getNotesByLabel(this.labelIdParam);
-        } else if (this.router.url.includes('reminder')) {
-          this.getNotesByReminder();
-        } else {
-          this.notes = result.data;
-          this.notes.forEach(element => {
-            element.collaborators.forEach(element2 => {
-              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-                response => {
-                  console.log('in collab profile pic response');
-                  element2.profilePic = response.data;
-                },
-                error => {
-                  console.log(error.error);
-                }
-              );
-            });
-
-
-          });
-          this.data.changeNotes(this.notes);
-        }
-
-      }
-      ,
-      error => {
-        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
-      }
-    );
-  }
-
-
-  getNotesByReminder() {
-    {
-      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-        result => {
-          this.notes = result.data.filter(item => item.reminder);
-          this.notes.forEach(element => {
-            element.collaborators.forEach(element2 => {
-              this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
-
-                response => {
-                  console.log('in collab profile pic response');
-                  element2.profilePic = response.data;
-                },
-                error => {
-                  console.log(error.error);
-                }
-              );
-            });
-
-
-          });
-          this.data.changeNotes(this.notes);
-          console.log('list of notes', this.notes);
-
-
-        },
-        error => {
-          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-        }
-
-      );
-    }
-  }
-
-  getNotesByLabel(labelId) {
-    this.noteService.getNoteByLabel(labelId).subscribe(
-      result => {
-        console.log('label id get notes by label', labelId);
 
         this.notes = result.data;
-        this.data.changeNotes(this.notes);
         this.notes.forEach(element => {
           element.collaborators.forEach(element2 => {
             this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
@@ -200,14 +126,91 @@ export class IconComponent implements OnInit {
 
 
         });
-        console.log('list of notes by label', this.notes);
 
-      },
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          // tslint:disable-next-line: triple-equals
+          this.notes = this.notes.filter(i => i.labels.find(j => j.labelId == this.labelIdParam));
+        } else if (this.router.url.includes('reminder')) {
+          this.notes = this.notes.filter(i => i.reminder);
+        }
+        this.data.changeNotes(this.notes);
+      }
+
+
+      ,
       error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      });
-
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
+      }
+    );
   }
+
+
+  // getNotesByReminder() {
+  //   {
+  //     this.noteService.getNotes(this.archive, this.trash).subscribe(
+  //       result => {
+  //         this.notes = result.data.filter(item => item.reminder);
+  //         this.notes.forEach(element => {
+  //           element.collaborators.forEach(element2 => {
+  //             this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+  //               response => {
+  //                 console.log('in collab profile pic response');
+  //                 element2.profilePic = response.data;
+  //               },
+  //               error => {
+  //                 console.log(error.error);
+  //               }
+  //             );
+  //           });
+
+
+  //         });
+  //         this.data.changeNotes(this.notes);
+  //         console.log('list of notes', this.notes);
+
+
+  //       },
+  //       error => {
+  //         return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+  //       }
+
+  //     );
+  //   }
+  // }
+
+  // getNotesByLabel(labelId) {
+  //   this.noteService.getNoteByLabel(labelId).subscribe(
+  //     result => {
+  //       console.log('label id get notes by label', labelId);
+
+  //       this.notes = result.data;
+  //       this.data.changeNotes(this.notes);
+  //       this.notes.forEach(element => {
+  //         element.collaborators.forEach(element2 => {
+  //           this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+  //             response => {
+  //               console.log('in collab profile pic response');
+  //               element2.profilePic = response.data;
+  //             },
+  //             error => {
+  //               console.log(error.error);
+  //             }
+  //           );
+  //         });
+
+
+  //       });
+  //       console.log('list of notes by label', this.notes);
+
+  //     },
+  //     error => {
+  //       return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+  //     });
+
+  // }
 
 
 

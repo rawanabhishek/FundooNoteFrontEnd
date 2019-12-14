@@ -31,6 +31,7 @@ import { NgxMasonryModule } from 'ngx-masonry';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { CollaboratorComponent } from './component/note/collaborator/collaborator.component';
+import { PinPipe } from './service/pipe/pin.pipe';
 
 
 
@@ -52,7 +53,8 @@ import { CollaboratorComponent } from './component/note/collaborator/collaborato
     LabeldialogComponent,
     ReversePipe,
     ProfiledialogComponent,
-    CollaboratorComponent
+    CollaboratorComponent,
+    PinPipe
 
 
 

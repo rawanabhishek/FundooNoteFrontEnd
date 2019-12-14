@@ -1,8 +1,7 @@
 $border-color: rgb(175,175,175);
 .notes-container {
-    margin-top: 30px;
-  
-    margin-bottom: 100px;
+    margin-top: 20px;
+    margin-bottom: 80px;
    
     }
     
@@ -73,6 +72,11 @@ $border-color: rgb(175,175,175);
         height: 30px;
         border-radius: 50%;
     }
+}
+
+.changeWidth{
+
+    width: 45vw;
 }
 
 

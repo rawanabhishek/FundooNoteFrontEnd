@@ -76,10 +76,10 @@ export class NoteService {
 
 
 
-  getNotes(pin, archive, trash) {
+  getNotes(archive, trash) {
 
 
-    return this.httpService.get('note/date', this.emailIdToken, pin, archive, trash);
+    return this.httpService.get('note/date', this.emailIdToken, archive, trash);
   }
 
   addLabel(noteId, labelId) {
@@ -162,7 +162,6 @@ export class NoteService {
   }
 
   getCollabOwnerProfilePic(noteId, emailId) {
-    console.log('inside collab owner note servie');
     return this.httpService.getCollabOwnerProfilePic('note/profilepic', this.emailIdToken, noteId, emailId);
   }
 

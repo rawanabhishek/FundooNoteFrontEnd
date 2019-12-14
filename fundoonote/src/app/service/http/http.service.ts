@@ -13,11 +13,11 @@ export class HttpService {
   constructor(private http: HttpClient) { }
 
 
-  get(path, emailIdToken, pin, archive, trash): Observable<any> {
-    console.log('pin - archive - trash', pin, archive, trash);
+  get(path, emailIdToken,  archive, trash): Observable<any> {
+    console.log('pin - archive - trash',  archive, trash);
     return this.http.get<any>(this.baseUrl + path, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken),
-      params: new HttpParams().append('pin', pin).append('archive', archive).append('trash', trash)
+      params: new HttpParams().append('archive', archive).append('trash', trash)
     });
   }
 
@@ -104,7 +104,6 @@ export class HttpService {
 
 
   getCollabOwnerProfilePic(getNotePath, emailIdToken, noteId, collabEmail): Observable<any> {
-    console.log('inside collab owner http servie');
     return this.http.get<any>(this.baseUrl + getNotePath, {
       headers: new HttpHeaders().append('emailIdToken', emailIdToken).append('emailIdCollaborator', collabEmail),
       params: new HttpParams().append('noteId', noteId)

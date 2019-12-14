@@ -16,10 +16,10 @@ export class LabeldialogComponent implements OnInit {
   token = localStorage.getItem('token');
   labels;
   data: any;
+  notes;
   getLabelsPath = 'label';
   showDelete = false;
   labelId;
-  pin = false;
   archive = false;
   trash = false;
   labelIdParam;
@@ -42,22 +42,21 @@ export class LabeldialogComponent implements OnInit {
     if (this.router.url.includes('/trash')) {
       this.trash = true;
       this.archive = false;
-      this.pin = false;
+
 
     } else if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
-      this.pin = false;
+
 
     } else if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
+
 
     } else {
       this.trash = false;
       this.archive = false;
-      this.pin = false;
     }
 
     this.labelIdParam = this.dataLabel.labelIdParam;
@@ -140,16 +139,38 @@ export class LabeldialogComponent implements OnInit {
 
 
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes(this.archive, this.trash).subscribe(
       result => {
+
+        this.notes = result.data;
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         if (this.router.url.includes(this.labelIdParam)) {
           console.log('update color in labels', this.labelIdParam);
-          this.getNotesByLabel(this.labelIdParam);
+          // tslint:disable-next-line: triple-equals
+          this.notes = this.notes.filter(i => i.labels.find(j => j.labelId == this.labelIdParam));
         } else if (this.router.url.includes('reminder')) {
-          this.getNotesByReminder();
-        } else {
-          this.dataService.changeNotes(result.data);
+          this.notes = this.notes.filter(i => i.reminder);
         }
+
+        this.dataService.changeNotes(this.notes);
+
+
+
       },
       error => {
         this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
@@ -157,35 +178,4 @@ export class LabeldialogComponent implements OnInit {
     );
   }
 
-
-
-  getNotesByReminder() {
-    {
-      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
-        result => {
-          this.dataService.changeNotes(result.data.filter(item => item.reminder));
-
-
-        },
-        error => {
-          return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-        }
-
-      );
-    }
-  }
-
-  getNotesByLabel(labelId) {
-    this.noteService.getNoteByLabel(labelId).subscribe(
-      result => {
-        console.log('label id get notes by label', labelId);
-
-        this.dataService.changeNotes(result.data);
-
-      },
-      error => {
-        return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
-      });
-
-  }
 }

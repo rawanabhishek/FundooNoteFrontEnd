@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NoteService } from 'src/app/service/note/note.service';
 import { DataService } from 'src/app/service/data/data.service';
 import { ReversePipe } from 'src/app/service/pipe/ReversePipe.pipe';
+import { Router, ActivatedRoute } from '@angular/router';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class AddnoteComponent implements OnInit {
   labelId;
   ownerProfilePic;
   noteInfo;
+  labelIdParam;
 
 
 
@@ -44,10 +46,40 @@ export class AddnoteComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private noteService: NoteService,
-    private data: DataService
+    private data: DataService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
+
+
+    if (this.router.url.includes('/trash')) {
+      this.trash = true;
+      this.archive = false;
+
+
+    } else if (this.router.url.includes('/archive')) {
+      this.trash = false;
+      this.archive = true;
+    } else if (this.router.url.includes('/note')) {
+      this.trash = false;
+      this.archive = false;
+
+    } else if (this.router.url.includes('/reminder')) {
+      this.trash = false;
+      this.archive = false;
+
+    } else {
+      this.trash = false;
+      this.archive = false;
+
+      this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
+
+      console.log('labelParam note', this.activatedRoute.snapshot.firstChild.paramMap.get('type'));
+    }
+
+
 
     this.getOwnerProfilePic();
     this.emailId = localStorage.getItem('email');
@@ -91,7 +123,6 @@ export class AddnoteComponent implements OnInit {
   }
 
   pinNote() {
-    this.pin = this.pin ? false : true;
     this.pinShow = this.pinShow ? false : true;
   }
 
@@ -144,7 +175,7 @@ export class AddnoteComponent implements OnInit {
   }
 
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes(this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
         this.notes.forEach(element => {
@@ -163,13 +194,20 @@ export class AddnoteComponent implements OnInit {
 
 
         });
+        if (this.router.url.includes(this.labelIdParam)) {
+          console.log('update color in labels', this.labelIdParam);
+          // tslint:disable-next-line: triple-equals
+          this.notes = this.notes.filter(i => i.labels.find(j => j.labelId == this.labelIdParam));
+        } else if (this.router.url.includes('reminder')) {
+          this.notes = this.notes.filter(i => i.reminder);
+        }
         this.data.changeNotes(this.notes);
+
       },
       error => {
-        this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
+        this.snackBar.open('Operation  failed', 'close')._dismissAfter(2000);
       }
     );
-
   }
 
 

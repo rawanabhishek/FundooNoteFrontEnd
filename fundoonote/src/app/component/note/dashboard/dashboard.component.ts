@@ -31,7 +31,6 @@ export class DashboardComponent implements OnInit {
   showClear = true;
   showView = true;
 
-  pin = false;
   archive = false;
   trash = false;
   opened;
@@ -178,7 +177,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getNotes() {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNotes( this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
         this.notes.forEach(element => {
@@ -211,7 +210,7 @@ export class DashboardComponent implements OnInit {
 
   getNotesByReminder() {
     {
-      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      this.noteService.getNotes( this.archive, this.trash).subscribe(
         result => {
           this.notes = result.data.filter(item => item.reminder);
           this.notes.forEach(element => {
@@ -248,7 +247,7 @@ export class DashboardComponent implements OnInit {
     {
 
 
-      this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+      this.noteService.getNotes( this.archive, this.trash).subscribe(
         result => {
           this.labelIdParam = label.labelId;
           this.router.navigate(['/dashboard/', label.labelId]);

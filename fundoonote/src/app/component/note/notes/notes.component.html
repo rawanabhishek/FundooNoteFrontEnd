@@ -1,7 +1,15 @@
-<div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center" *ngIf="showPinNotes">
-        
-    <div class="notes" *ngFor="let note of notesPin">
-        <mat-card [ngStyle]="{'background-color': note.noteColor}">
+
+<!-- <div  fxLayoutAlign="start center" *ngIf="showPinNotes" >
+    <p style="padding-left: 24%;">PINNED</p>
+</div> -->
+<div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center" >
+
+    
+    <div class="notes" *ngFor="let note of notes |  pin:true" fxLayout={{view}} >
+       
+        <mat-card [ngStyle]="{'background-color': note.noteColor}" 
+        [ngClass]="{'changeWidth': view == 'column'}"
+        >
             <div fxLayout="row" fxLayoutAlign="space-between center">
                 <p (click)="openDialog(note)" > {{ note.title }}</p>
                 <button mat-icon-button matTooltip="Unpin note" (click)="pinNote(note.noteId)">
@@ -61,13 +69,16 @@
         </mat-card>
 
     </div>
+   
 
 </div>
+
 <!-- --------------------------------------------------------------------- -->
+
 <div class="notes-container" fxLayout={{view}} fxFlexWrap.xs="column" fxLayoutAlign="center center">
         
-    <div class="notes" *ngFor="let note of notes" >
-        <mat-card [ngStyle]="{'background-color': note.noteColor}">
+    <div class="notes" *ngFor="let note of notes | pin:false" >
+        <mat-card [ngStyle]="{'background-color': note.noteColor}"  [ngClass]="{'changeWidth': view == 'column'}">
             <div  fxLayout="row" fxLayoutAlign="space-between center">
                 <p (click)="openDialog(note)"> {{ note.title }}</p>
                 <button mat-icon-button matTooltip="Pin note" (click)="pinNote(note.noteId)">
