@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   labelIdParam;
   selectedId: any;
   searchActive = false;
-  pinActive = false;
+
 
   search = new FormControl('');
   filteredOptions: Observable<string[]>;
@@ -80,7 +80,7 @@ export class DashboardComponent implements OnInit {
 
     if (this.router.url.includes('/trash') || this.router.url.includes('/archive')) {
       this.typeOfNote = 'trash';
-      this.pinActive = true;
+
       console.log(this.router.url);
       this.receiveView(this.typeOfNote);
     } else if (this.router.url.includes('/note') || this.router.url.includes('/reminder')) {
@@ -119,14 +119,14 @@ export class DashboardComponent implements OnInit {
   receiveView(type) {
     if (type === 'archive' || type === 'trash') {
       this.searchActive = true;
-      this.pinActive = true;
+
     } else if (type === 'note' || type === 'reminder') {
       if (type === 'note') {
         this.searchActive = false;
-        this.pinActive = false;
+
       } else {
         this.searchActive = false;
-        this.pinActive = true;
+
       }
 
     } else {

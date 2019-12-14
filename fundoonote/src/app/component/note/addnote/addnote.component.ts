@@ -38,18 +38,6 @@ export class AddnoteComponent implements OnInit {
   ownerProfilePic;
   noteInfo;
 
-  noteData = {
-    title: this.title.value,
-    description: this.description.value,
-    noteColor: this.noteColor,
-    pin: this.pin,
-    reminder: this.reminder,
-    archive: this.archive,
-    collaborators: this.collaborator
-
-
-
-  };
 
 
 
@@ -125,7 +113,8 @@ export class AddnoteComponent implements OnInit {
       pin: this.pin,
       reminder: this.reminder,
       archive: this.archive,
-      labels: this.labels
+      labels: this.labels,
+      collaborators: this.collaborators
 
 
 
@@ -143,7 +132,7 @@ export class AddnoteComponent implements OnInit {
   }
 
   addNote() {
-    this.noteService.createNote(this.noteData).subscribe(
+    this.noteService.createNote(this.noteInfo).subscribe(
       response => {
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
         this.getNotes();
@@ -158,6 +147,22 @@ export class AddnoteComponent implements OnInit {
     this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
       result => {
         this.notes = result.data;
+        this.notes.forEach(element => {
+          element.collaborators.forEach(element2 => {
+            this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(
+
+              response => {
+                console.log('in collab profile pic response');
+                element2.profilePic = response.data;
+              },
+              error => {
+                console.log(error.error);
+              }
+            );
+          });
+
+
+        });
         this.data.changeNotes(this.notes);
       },
       error => {

@@ -44,6 +44,7 @@ export class NotesComponent implements OnInit {
   labelParam;
   datetime;
   notesPin;
+  showPinNotes = false;
   labels = new Array<any>();
   @Input() view: any;
   @Input() labelIdParam: any;
@@ -79,30 +80,36 @@ export class NotesComponent implements OnInit {
         this.trash = true;
         this.archive = false;
         this.pin = false;
+        this.showPinNotes = false;
 
 
       } else if (this.router.url.includes('/archive')) {
         this.trash = false;
         this.archive = true;
         this.pin = false;
+        this.showPinNotes = false;
 
 
       } else if (this.router.url.includes('/note')) {
         this.trash = false;
         this.archive = false;
         this.pin = false;
+        this.showPinNotes = true;
+        this.getNotesPin() ;
 
 
       } else if (this.router.url.includes('/reminder')) {
         this.trash = false;
         this.archive = false;
         this.pin = false;
+        this.showPinNotes = false;
 
 
       } else {
         this.trash = false;
         this.archive = false;
         this.pin = false;
+        this.showPinNotes = false;
         this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
 
         console.log('labelParam note', this.activatedRoute.snapshot.firstChild.paramMap.get('type'));
@@ -321,6 +328,7 @@ export class NotesComponent implements OnInit {
     this.dialog.afterAllClosed.subscribe(
       result => {
         this.getNotes();
+        this.getNotesPin();
       }
     );
 
@@ -353,6 +361,7 @@ export class NotesComponent implements OnInit {
           this.snackBar.open('Note color updated successfully', 'close')._dismissAfter(2000);
           console.log('label param value', this.labelParam);
           this.getNotes();
+          this.getNotesPin();
         },
         error => {
           return this.snackBar.open('Note color updation failed', 'close')._dismissAfter(2000);
@@ -368,6 +377,7 @@ export class NotesComponent implements OnInit {
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
+          this.getNotesPin();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -381,6 +391,7 @@ export class NotesComponent implements OnInit {
         response => {
           this.snackBar.open(response.message, 'close')._dismissAfter(2000);
           this.getNotes();
+          this.getNotesPin();
         },
         error => {
           return this.snackBar.open(error.error.message, 'close')._dismissAfter(2000);
@@ -394,6 +405,7 @@ export class NotesComponent implements OnInit {
     this.noteService.archiveNotes(this.noteId).subscribe(
       response => {
         this.getNotes();
+        this.getNotesPin();
         this.snackBar.open('Note has been added to archive successfully', 'close')._dismissAfter(2000);
       },
       error => {
@@ -406,6 +418,7 @@ export class NotesComponent implements OnInit {
     this.noteService.trashNote(this.noteId).subscribe(
       response => {
         this.getNotes();
+        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {
@@ -423,6 +436,7 @@ export class NotesComponent implements OnInit {
     this.noteService.addReminder(date, noteId).subscribe(
       response => {
         this.getNotes();
+        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -433,6 +447,7 @@ export class NotesComponent implements OnInit {
     this.noteService.addLabel(this.noteId, labelId).subscribe(
       response => {
         this.getNotes();
+        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => { this.snackBar.open(error.error.message, 'close')._dismissAfter(2000); });
@@ -444,6 +459,7 @@ export class NotesComponent implements OnInit {
       response => {
         console.log('deleteforever', this.pin, this.archive, this.trash);
         this.getNotes();
+        this.getNotesPin();
         this.snackBar.open(response.message, 'close')._dismissAfter(2000);
       },
       error => {

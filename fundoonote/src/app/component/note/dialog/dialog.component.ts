@@ -5,7 +5,7 @@ import { NoteService } from 'src/app/service/note/note.service';
 import { FormControl } from '@angular/forms';
 import { DataService } from 'src/app/service/data/data.service';
 import { DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { $ } from 'protractor';
 import { CollaboratorComponent } from '../collaborator/collaborator.component';
 
@@ -55,7 +55,8 @@ export class DialogComponent implements OnInit {
     private datePipe: DatePipe,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -67,21 +68,21 @@ export class DialogComponent implements OnInit {
       this.archive = false;
       this.pin = false;
 
-    }
-
-    if (this.router.url.includes('/archive')) {
+    } else if (this.router.url.includes('/archive')) {
       this.trash = false;
       this.archive = true;
       this.pin = false;
 
-    }
-
-
-    if (this.router.url.includes('/note')) {
+    } else if (this.router.url.includes('/note')) {
       this.trash = false;
       this.archive = false;
       this.pin = false;
 
+    } else {
+      this.trash = false;
+      this.archive = false;
+      this.pin = false;
+      this.labelIdParam = this.activatedRoute.snapshot.firstChild.paramMap.get('type');
     }
 
 
@@ -222,8 +223,10 @@ export class DialogComponent implements OnInit {
           console.log('update color in labels', this.labelIdParam);
           this.getNotesByLabel(this.labelIdParam);
         } else if (this.router.url.includes('reminder')) {
+          console.log('update color in reminder');
           this.getNotesByReminder();
         } else {
+          console.log('update color in note');
           this.notes = result.data;
           this.notes.forEach(element => {
             element.collaborators.forEach(element2 => {
@@ -282,10 +285,11 @@ export class DialogComponent implements OnInit {
   }
 
   getNotesByLabel(labelId) {
-    this.noteService.getNotes(this.pin, this.archive, this.trash).subscribe(
+    this.noteService.getNoteByLabel(labelId).subscribe(
       result => {
 
-        this.notes = result.data.filter(item => item.labels.find(j => j.labelId === labelId));
+        this.notes = result.data;
+        console.log('label notes in dialog', this.notes);
         this.notes.forEach(element => {
           element.collaborators.forEach(element2 => {
             this.noteService.getCollabOwnerProfilePic(element.noteId, element2.email).subscribe(

@@ -29,7 +29,7 @@ import { DatePipe } from '@angular/common';
 import { ProfiledialogComponent } from './component/note/profiledialog/profiledialog.component';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PinComponent } from './component/note/pin/pin.component';
+
 import { CollaboratorComponent } from './component/note/collaborator/collaborator.component';
 
 
@@ -52,7 +52,6 @@ import { CollaboratorComponent } from './component/note/collaborator/collaborato
     LabeldialogComponent,
     ReversePipe,
     ProfiledialogComponent,
-    PinComponent,
     CollaboratorComponent
 
 
